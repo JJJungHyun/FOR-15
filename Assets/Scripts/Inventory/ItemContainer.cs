@@ -1,0 +1,78 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+public abstract class ItemContainer : MonoBehaviour, IItemContainer
+{
+    public List<ItemSlot> itemSlots = new List<ItemSlot>();
+    public event Action OnItemsChanged;
+
+    public virtual bool AddItem(Item item)
+    {
+        // 기존 스택에 추가
+        foreach (var slot in itemSlots)
+        {
+            if (slot.Item != null && slot.Item.ID == item.ID && slot.Amount < item.MaximumStacks)
+            {
+                slot.Amount++;
+                slot.UpdateSlot();
+                OnItemsChanged?.Invoke();
+                return true;
+            }
+        }
+        // 빈 슬롯에 추가
+        foreach (var slot in itemSlots)
+        {
+            if (slot.Item == null)
+            {
+                slot.Item = item.GetCopy();
+                slot.Amount = 1;
+                slot.UpdateSlot();
+                OnItemsChanged?.Invoke();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public virtual bool RemoveItem(Item item)
+    {
+        foreach (var slot in itemSlots)
+        {
+            if (slot.Item == item)
+            {
+                slot.Amount--;
+                if (slot.Amount <= 0)
+                {
+                    slot.Item.Destroy();
+                    slot.Item = null;
+                }
+                slot.UpdateSlot();
+                OnItemsChanged?.Invoke();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public virtual bool IsFull() => itemSlots.Find(slot => slot.Item == null) == null;
+
+    public virtual int ItemCount(string itemID)
+    {
+        int count = 0;
+        foreach (var slot in itemSlots)
+            if (slot.Item != null && slot.Item.ID == itemID) count += slot.Amount;
+        return count;
+    }
+
+    public virtual void Clear()
+    {
+        foreach (var slot in itemSlots)
+        {
+            if (slot.Item != null) slot.Item.Destroy();
+            slot.Item = null;
+            slot.Amount = 0;
+            slot.UpdateSlot();
+        }
+    }
+}
