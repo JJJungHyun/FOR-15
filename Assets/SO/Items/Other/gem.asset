@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c353b82625f13bb4d89ead419af98f07, type: 3}
+  m_Name: gem
+  m_EditorClassIdentifier: Assembly-CSharp::Item
+  id: 19cd552790ef5374cb229371c1c584d9
+  ItemName: gem
+  Icon: {fileID: -5726572761916440628, guid: 1fce60f04c89e514abf563d8286ff7a0, type: 3}
+  MaximumStacks: 10

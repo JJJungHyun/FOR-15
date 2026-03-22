@@ -5,9 +5,11 @@ public class EquipmentSlotUI : BaseItemSlotUI
     [Header("Equipment Settings")]
     public EquipmentType SlotType;
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (_slot == null)
+        base.Awake();
+        
+        if (slot == null)
         {
             SetSlot(new ItemSlot());
         }

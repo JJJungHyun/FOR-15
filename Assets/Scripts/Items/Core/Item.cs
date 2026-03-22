@@ -17,8 +17,6 @@ public class Item : ScriptableObject
     [Range(1, 999)]
     public int MaximumStacks = 1;
 
-    // 생존 점수 시스템 대비
-    public int SurvivalScore;
 
     protected static readonly StringBuilder sb = new StringBuilder();
 
@@ -30,12 +28,10 @@ public class Item : ScriptableObject
     }
 #endif
 
-    // 외부 데이터(JSON 등) 연동 대비용 가상 메서드
     public virtual void LoadFromRawData(string name, int maxStack, int score)
     {
         this.ItemName = name;
         this.MaximumStacks = maxStack;
-        this.SurvivalScore = score;
     }
     public virtual void Use(Character c) { }
 

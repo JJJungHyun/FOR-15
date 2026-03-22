@@ -3,8 +3,8 @@ namespace CharacterStats
     public enum StatModType
     {
         Flat = 100,
-        PercentAdd = 200,  // 합연산 퍼센트 (10% + 10% = 20%)
-        PercentMult = 300, // 곱연산 퍼센트 (1.1 * 1.1 = 1.21)
+        PercentAdd = 200,  // 합연산 퍼센트 
+        PercentMult = 300, // 곱연산 퍼센트
     }
 
     public readonly struct StatModifier

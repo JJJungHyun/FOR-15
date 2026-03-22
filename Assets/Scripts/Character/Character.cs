@@ -3,24 +3,36 @@ using CharacterStats;
 
 public class Character : MonoBehaviour
 {
-    public Stat Strength;
-    public Stat Defense;
+    [Header("Stats")]
+    public Stat Strength = new Stat(10);
+    public Stat Defense = new Stat(5);
+    public ClampedStat Health = new ClampedStat(100);
+    public ClampedStat Hunger = new ClampedStat(100);
 
-    public ClampedStat Health;
-    public ClampedStat Hunger;
+    [Header("Handlers")]
+    public CharConditionHandler ConditionHandler; 
+
+    [Header("UI")]
+    [SerializeField] private StatBar hpBar;
+    [SerializeField] private StatBar hungerBar;
+    [SerializeField] private StatPanel statPanel;
 
     private void Awake()
     {
-        // 기본값 설정
-        Strength = new Stat(10);
-        Defense = new Stat(0);
+        ConditionHandler = GetComponent<CharConditionHandler>();
+        ConditionHandler.Init(this);
+    }
 
-        Health = new ClampedStat(100);
-        Hunger = new ClampedStat(100);
+    private void Start()
+    {
+        if (statPanel != null)
+            statPanel.SetStats(Strength, Defense);
+
+        if (hpBar != null) hpBar.Bind(Health);
+        if (hungerBar != null) hungerBar.Bind(Hunger);
     }
 
     // 이후 추가할 기능
-    // 스탯 변경 이벤트 전파 (UI와 연결)
     // 상태 이상 및 버프 관리
     // 피격 및 사망
     // 이후 많아지면 컴포넌트 분리 후 중앙 연결 기능 수행

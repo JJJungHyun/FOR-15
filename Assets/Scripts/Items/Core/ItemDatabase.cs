@@ -15,7 +15,6 @@ public class ItemDatabase : ScriptableObject
     {
         InitializeCache();
 #if UNITY_EDITOR
-        // 최신 API인 projectChanged 사용
         EditorApplication.projectChanged -= LoadItems;
         EditorApplication.projectChanged += LoadItems;
 #endif

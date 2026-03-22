@@ -103,6 +103,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -248,3 +249,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StandardSlotUI
   iconImage: {fileID: 495497296688998442}
   amountText: {fileID: 8261480295300103905}
+  itemTooltip: {fileID: 3655811751650627935, guid: b6d65a7aeea8ba946b4819b8cf4e2caa, type: 3}

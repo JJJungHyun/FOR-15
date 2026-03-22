@@ -4,12 +4,14 @@ using UnityEngine;
 public class PlayerInputHandler : MonoBehaviour
 {
     public static event Action OnInventoryPressed;
+    public static event Action OnCraftingPressed;
     public static event Action OnInteractPressed;
     public static event Action<int> OnQuickSlotPressed;
 
     private void Update()
     {
         HandleInventory();
+        HandleCraftingPanel();
         HandleInteract();
         HandleQuickSlot();
     }
@@ -22,13 +24,21 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
+    private void HandleCraftingPanel()
+    {
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            OnCraftingPressed?.Invoke();
+        }
+    }
+
     private void HandleInteract()
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
             OnInteractPressed?.Invoke();
         }
-    }
+    }   
 
     private void HandleQuickSlot()
     {

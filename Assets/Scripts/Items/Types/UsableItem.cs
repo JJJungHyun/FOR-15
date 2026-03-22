@@ -18,7 +18,6 @@ public class UsableItem : Item
             return;
         }
 
-        // 1. 모든 효과 실행
         foreach (var effect in Effects)
         {
             if (effect != null)
@@ -26,17 +25,12 @@ public class UsableItem : Item
                 effect.ExecuteEffect(this, c);
             }
         }
-
-        // 2. 소모 처리 로직
-        // InventoryController에서 수량을 줄이는 방식이 일반적이지만, 
-        // 아이템 자체에서도 소모 여부를 반환하거나 처리할 준비가 되어있어야 합니다.
     }
 
     public override string GetItemType() => "소모품";
 
     public override string GetDescription()
     {
-        // 부모(Item)의 StringBuilder 사용
         sb.Length = 0;
 
         if (Effects == null || Effects.Count == 0)
@@ -47,10 +41,9 @@ public class UsableItem : Item
         for (int i = 0; i < Effects.Count; i++)
         {
             if (Effects[i] == null) continue;
-
+             
             sb.Append(Effects[i].GetDescription());
 
-            // 마지막 줄이 아니면 줄바꿈 추가
             if (i < Effects.Count - 1) sb.AppendLine();
         }
 

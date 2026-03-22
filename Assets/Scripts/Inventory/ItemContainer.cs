@@ -35,11 +35,12 @@ public abstract class ItemContainer : MonoBehaviour, IItemContainer
         return false;
     }
 
-    public virtual bool RemoveItem(Item item)
+    public virtual bool RemoveItemByID(string itemID)
     {
         foreach (var slot in itemSlots)
         {
-            if (slot.Item == item)
+            // ID가 일치하는지 확인
+            if (slot.Item != null && slot.Item.ID == itemID)
             {
                 slot.Amount--;
                 if (slot.Amount <= 0)
@@ -54,6 +55,8 @@ public abstract class ItemContainer : MonoBehaviour, IItemContainer
         }
         return false;
     }
+
+    public virtual bool RemoveItem(Item item) => RemoveItemByID(item.ID);
 
     public virtual bool IsFull() => itemSlots.Find(slot => slot.Item == null) == null;
 

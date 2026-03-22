@@ -5,25 +5,29 @@ using CharacterStats;
 [CreateAssetMenu(menuName = "Items/Effects/Stat Buff")]
 public class StatBuffItemEffect : UsableItemEffect
 {
+    public enum TargetStatType { Strength, Defense }
+
+    public TargetStatType TargetStat;
     public float Value;
     public StatModType ModType;
     public float Duration;
 
     public override void ExecuteEffect(UsableItem parentItem, Character character)
     {
-        // Modifier 생성 (Source를 parentItem으로 설정하여 추적 가능하게 함)
-        StatModifier mod = new StatModifier(Value, ModType, parentItem);
-        character.Strength.AddModifier(mod);
+        Stat target = (TargetStat == TargetStatType.Strength) ? character.Strength : character.Defense;
 
-        // 일정 시간 후 제거 (Character의 코루틴 활용)
-        character.StartCoroutine(RemoveBuffAfterDelay(character, mod, Duration));
+        StatModifier mod = new StatModifier(Value, ModType, parentItem);
+        target.AddModifier(mod);
+
+        character.StartCoroutine(RemoveBuffAfterDelay(target, mod, Duration));
     }
 
-    private IEnumerator RemoveBuffAfterDelay(Character character, StatModifier mod, float delay)
+    private IEnumerator RemoveBuffAfterDelay(Stat stat, StatModifier mod, float delay)
     {
         yield return new WaitForSeconds(delay);
-        character.Strength.RemoveModifier(mod);
+        stat.RemoveModifier(mod); 
     }
 
-    public override string GetDescription() => $"{Duration}초 동안 공격력 {Value}{(ModType == StatModType.Flat ? "" : "%")} 증가";
+    public override string GetDescription()
+        => $"{Duration}초 동안 {TargetStat} {Value}{(ModType == StatModType.Flat ? "" : "%")} 증가";
 }

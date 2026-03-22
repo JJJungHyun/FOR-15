@@ -3,7 +3,7 @@ using System;
 
 namespace CharacterStats
 {
-    // 최대값이 정해져 있고 현재값이 그 안에서 움직이는 스탯
+    // 최대값이 정해져있는 스탯
     public class ClampedStat : Stat
     {
         private float _currentValue;

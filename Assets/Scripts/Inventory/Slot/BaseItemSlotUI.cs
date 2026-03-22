@@ -10,23 +10,32 @@ public abstract class BaseItemSlotUI : MonoBehaviour, IPointerClickHandler, IBeg
     [SerializeField] protected Image iconImage;
     [SerializeField] protected TMP_Text amountText;
 
-    protected ItemSlot _slot;
-    public ItemSlot Slot => _slot;
+    protected ItemSlot slot;
+    
+    private CanvasGroup _canvasGroup;
 
+    public ItemSlot Slot => slot;
     public static event Action<BaseItemSlotUI> OnSlotRightClickEvent;
     public static event Action<BaseItemSlotUI> OnSlotBeginDragEvent;
     public static event Action<BaseItemSlotUI> OnSlotEndDragEvent;
     public static event Action<BaseItemSlotUI> OnSlotDragEvent;
     public static event Action<BaseItemSlotUI> OnSlotDropEvent;
 
+    protected virtual void Awake()
+    {
+        _canvasGroup = GetComponent<CanvasGroup>();
+
+        if (_canvasGroup == null) _canvasGroup = gameObject.AddComponent<CanvasGroup>();
+    }
+
     public virtual void SetSlot(ItemSlot newSlot)
     {
-        if (_slot != null) _slot.OnSlotChanged -= UpdateUI;
-        _slot = newSlot;
-        if (_slot != null)
+        if (slot != null) slot.OnSlotChanged -= UpdateUI;
+        slot = newSlot;
+        if (slot != null)
         {
-            _slot.OnSlotChanged += UpdateUI;
-            UpdateUI(_slot);
+            slot.OnSlotChanged += UpdateUI;
+            UpdateUI(slot);
         }
     }
 
@@ -53,6 +62,28 @@ public abstract class BaseItemSlotUI : MonoBehaviour, IPointerClickHandler, IBeg
         }
     }
 
+    private void OnEnable()
+    {
+        if (_canvasGroup != null)
+        {
+            _canvasGroup.blocksRaycasts = true;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (ItemTooltip.Instance != null) ItemTooltip.Instance.HideTooltip();
+        if (StatTooltip.Instance != null) StatTooltip.Instance.HideTooltip();
+
+        PointerEventData pointerData = new PointerEventData(EventSystem.current);
+        OnPointerExit(pointerData);
+
+        if (_canvasGroup != null)
+        {
+            _canvasGroup.blocksRaycasts = false;
+        }
+    }
+
     public void SetAlpha(float alpha)
     {
         if (iconImage != null)
@@ -73,6 +104,20 @@ public abstract class BaseItemSlotUI : MonoBehaviour, IPointerClickHandler, IBeg
     public void OnDrag(PointerEventData eventData) => OnSlotDragEvent?.Invoke(this);
     public void OnEndDrag(PointerEventData eventData) => OnSlotEndDragEvent?.Invoke(this);
     public void OnDrop(PointerEventData eventData) => OnSlotDropEvent?.Invoke(this);
-    public void OnPointerEnter(PointerEventData eventData) { }
-    public void OnPointerExit(PointerEventData eventData) { }
+
+    public virtual void OnPointerEnter(PointerEventData eventData)
+    {
+        if (slot != null && slot.Item != null && ItemTooltip.Instance != null)
+        {
+            ItemTooltip.Instance.ShowTooltip(slot.Item);
+        }
+    }
+
+    public virtual void OnPointerExit(PointerEventData eventData)
+    {
+        if (ItemTooltip.Instance != null)
+        {
+            ItemTooltip.Instance.HideTooltip();
+        }
+    }
 }

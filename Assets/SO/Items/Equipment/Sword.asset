@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6988656f8911ab4cb0392251128a5eb, type: 3}
+  m_Name: Sword
+  m_EditorClassIdentifier: Assembly-CSharp::EquippableItem
+  id: b61cf65bd06149648a4bd998b6ca38d8
+  ItemName: Sword
+  Icon: {fileID: -3753825769889500098, guid: a227cac4d020ee14e8b6746f3c78e150, type: 3}
+  MaximumStacks: 1
+  StrengthBonus: 4
+  DefenseBonus: 0
+  StrengthPercentBonus: 0
+  DefensePercentBonus: 0
+  EquipmentType: 4

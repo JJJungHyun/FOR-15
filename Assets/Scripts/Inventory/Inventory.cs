@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Inventory : ItemContainer
 {
@@ -14,19 +16,52 @@ public class Inventory : ItemContainer
     [SerializeField] private Transform quickAreaParent;  
     [SerializeField] private BaseItemSlotUI slotPrefab;
 
-    // 영역별 데이터 리스트 분리
     public List<ItemSlot> defaultSlots = new List<ItemSlot>();
     public List<ItemSlot> quickSlots = new List<ItemSlot>();
-
-    private bool _isInitialized = false;
     public event Action OnInventoryInitialized;
 
-    private void Awake() => EnsureInitialized();
+    private bool isInitialized = false;
+    private GraphicRaycaster raycaster;
+
+    private void Awake()
+    {
+        raycaster = GetComponent<GraphicRaycaster>();
+        EnsureInitialized();
+    }
+
+    private void OnEnable()
+    {
+        if (raycaster != null)
+        {
+            StopAllCoroutines();
+            StartCoroutine(EnableRaycasterRoutine());
+        }
+
+        HideAllTooltips();
+    }
+
+    private IEnumerator EnableRaycasterRoutine()
+    {
+        raycaster.enabled = false;
+        yield return null; 
+        raycaster.enabled = true;
+    }
+
+    private void HideAllTooltips()
+    {
+        ItemTooltip.Instance?.HideTooltip();
+        StatTooltip.Instance?.HideTooltip();
+    }
 
     public void EnsureInitialized()
     {
-        if (_isInitialized) return;
-        _isInitialized = true;
+        if (isInitialized)
+        {
+            HideAllTooltips();
+
+            return;
+        }
+        isInitialized = true;
 
         if (itemSlots == null) itemSlots = new List<ItemSlot>();
 

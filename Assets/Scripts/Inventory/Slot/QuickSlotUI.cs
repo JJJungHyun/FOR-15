@@ -5,7 +5,9 @@ public class QuickSlotUI : MonoBehaviour
     [SerializeField] private Inventory inventory;
     [SerializeField] private BaseItemSlotUI slotPrefab;
     [SerializeField] private Transform container;
-    private bool _isHUDInitialized = false;
+    [SerializeField] private ItemTooltip itemTooltip;
+
+    private bool isHUDInitialized = false;
 
     private void Start()
     {
@@ -21,8 +23,9 @@ public class QuickSlotUI : MonoBehaviour
 
     private void RefreshHUD()
     {
-        if (_isHUDInitialized) return; 
-        _isHUDInitialized = true;
+        if (isHUDInitialized) return; 
+
+        isHUDInitialized = true;
 
         // 기존 UI 청소
         if (container != null)
