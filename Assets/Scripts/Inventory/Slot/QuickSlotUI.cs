@@ -27,7 +27,6 @@ public class QuickSlotUI : MonoBehaviour
 
         isHUDInitialized = true;
 
-        // 기존 UI 청소
         if (container != null)
         {
             for (int i = container.childCount - 1; i >= 0; i--)

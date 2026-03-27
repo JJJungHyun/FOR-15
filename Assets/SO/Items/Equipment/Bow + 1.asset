@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Bow + 1
   m_EditorClassIdentifier: Assembly-CSharp::EquippableItem
   id: d4785e85ddb7c114fb1b8014f9f169fe
-  ItemName: Bow + 1
+  ItemName: "\uD65C \uAC15\uD654"
   Icon: {fileID: -7861612341245328740, guid: 8ddfb489617a97f42bcb013b096c1ad5, type: 3}
   MaximumStacks: 1
   StrengthBonus: 10

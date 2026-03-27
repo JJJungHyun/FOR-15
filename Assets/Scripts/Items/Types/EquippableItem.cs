@@ -38,10 +38,10 @@ public class EquippableItem : Item
     public override string GetDescription()
     {
         sb.Length = 0;
-        AddStatText(StrengthBonus, "Physical Damage");
-        AddStatText(DefenseBonus, "Defense");
-        AddStatText(StrengthPercentBonus, "Physical Damage", isPercent: true);
-        AddStatText(DefensePercentBonus, "Defense", isPercent: true);
+        AddStatText(StrengthBonus, "Èû");
+        AddStatText(DefenseBonus, "¹æ¾î");
+        AddStatText(StrengthPercentBonus, "Èû", isPercent: true);
+        AddStatText(DefensePercentBonus, "¹æ¾î", isPercent: true);
         return sb.ToString();
     }
 

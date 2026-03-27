@@ -7,7 +7,7 @@ public class CharPanelMgr : MonoBehaviour
     public static CharPanelMgr Instance { get; private set; }
 
     [Header("Panels")]
-    [SerializeField] private GameObject mainGroup; // 전체 부모 오브젝트
+    [SerializeField] private GameObject mainGroup;
     [SerializeField] private GameObject inventoryPanel;
     [SerializeField] private GameObject craftingPanel;
 
@@ -50,7 +50,7 @@ public class CharPanelMgr : MonoBehaviour
     public void OpenInventory()
     {
         mainGroup.SetActive(true);
-        inventoryPanel.SetActive(true); 
+        inventoryPanel.SetActive(true);
         craftingPanel.SetActive(false);
 
         UpdateTabVisuals(true);
@@ -61,11 +61,11 @@ public class CharPanelMgr : MonoBehaviour
     {
         mainGroup.SetActive(true);
         inventoryPanel.SetActive(false);
-        craftingPanel.SetActive(true);  
+        craftingPanel.SetActive(true);
 
         craftingPanel.GetComponent<CraftingPanel>()?.RefreshRecipeList();
 
-        UpdateTabVisuals(true);
+        UpdateTabVisuals(false); 
         UpdateGameState(true);
     }
 

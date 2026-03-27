@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Sword
   m_EditorClassIdentifier: Assembly-CSharp::EquippableItem
   id: b61cf65bd06149648a4bd998b6ca38d8
-  ItemName: Sword
+  ItemName: "\uAC80"
   Icon: {fileID: -3753825769889500098, guid: a227cac4d020ee14e8b6746f3c78e150, type: 3}
   MaximumStacks: 1
   StrengthBonus: 4

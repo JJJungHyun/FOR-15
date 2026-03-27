@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1411523b84081d943950d7677c438307, type: 3}
-  m_Name: Heal
-  m_EditorClassIdentifier: Assembly-CSharp::HealItemEffect
+  m_Name: Hugger
+  m_EditorClassIdentifier: Assembly-CSharp::RestoreStatItemEffect
   TargetStat: 0
-  RestoreAmount: 30
+  RestoreAmount: 0
   IsPercent: 0

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Red Potion
   m_EditorClassIdentifier: Assembly-CSharp::UsableItem
   id: 0898cce32abe4a94ab094885d842be95
-  ItemName: Red Potion
+  ItemName: "\uD790 \uD3EC\uC158"
   Icon: {fileID: 258735269523343206, guid: 61a9ac81d1cb19f4d89c48e3036f99ba, type: 3}
   MaximumStacks: 10
   IsConsumable: 1

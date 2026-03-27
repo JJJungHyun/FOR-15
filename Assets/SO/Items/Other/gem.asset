@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: gem
   m_EditorClassIdentifier: Assembly-CSharp::Item
   id: 19cd552790ef5374cb229371c1c584d9
-  ItemName: gem
+  ItemName: "\uAC15\uD654\uD15C"
   Icon: {fileID: -5726572761916440628, guid: 1fce60f04c89e514abf563d8286ff7a0, type: 3}
   MaximumStacks: 10
