@@ -251,7 +251,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -428,6 +428,7 @@ MonoBehaviour:
   loadingText: {fileID: 4458047439868145761}
   wipeDuration: 0.5
   wipeDelay: 0.1
+  textFadeDuration: 1.5
   wipeEase: 13
 --- !u!1 &6001685391545858136
 GameObject:

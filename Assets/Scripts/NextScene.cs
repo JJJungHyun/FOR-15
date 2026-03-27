@@ -3,9 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class NextScene : MonoBehaviour
 {
-    public void ChangeScene(string SampleScene)
+    public void ChangeScene(string sceneName)
     {
-        SceneManager.LoadScene(SampleScene);
+        SceneManager.LoadScene(sceneName);
         Debug.Log("¥Ÿ¿Ω æ¿");
     }
     public void OnClickStart()
