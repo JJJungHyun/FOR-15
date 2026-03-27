@@ -3,7 +3,9 @@ using UnityEngine.UI;
 
 public class RecipeResultUI : MonoBehaviour
 {
-    [SerializeField] private Image iconImage;
+    [Header("UI References")]
+    [SerializeField] private Image slotBackgroundImage; 
+    [SerializeField] private Image iconImage; 
     [SerializeField] private CanvasGroup canvasGroup;
 
     private CraftingRecipe recipe;
@@ -13,18 +15,24 @@ public class RecipeResultUI : MonoBehaviour
     {
         recipe = _recipe;
         panel = _panel;
-        iconImage.sprite = recipe.Result.Item.Icon;
+
+        if (iconImage != null && recipe.Result.Item != null)
+        {
+            iconImage.sprite = recipe.Result.Item.Icon;
+            iconImage.gameObject.SetActive(true); 
+        }
     }
 
-    // 제작 가능 여부에 따라 밝기 조절
     public void UpdateAvailability(IItemContainer container, CraftingStation currentStation)
     {
+        if (recipe == null) return;
+
         bool canCraft = recipe.CanCraft(container, currentStation);
-        canvasGroup.alpha = canCraft ? 1.0f : 0.4f; 
+        canvasGroup.alpha = canCraft ? 1.0f : 0.4f;
     }
 
     public void OnClick()
     {
-        panel.SelectRecipe(recipe); 
+        panel.SelectRecipe(recipe);
     }
 }

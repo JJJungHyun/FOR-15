@@ -54,7 +54,6 @@ public class CraftingPanel : MonoBehaviour
 
             if (isCorrectCategory)
             {
-                // 제작대 조건 확인
                 if (recipe.RequiredStation != CraftingStation.None && recipe.RequiredStation != currentStation)
                     continue;
 

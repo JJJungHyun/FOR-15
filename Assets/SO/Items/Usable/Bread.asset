@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Bread
   m_EditorClassIdentifier: Assembly-CSharp::UsableItem
   id: 31dff017432064a438220c37c4a1ffd8
-  ItemName: Bread
+  ItemName: "\uBE75"
   Icon: {fileID: 639633287478129758, guid: e52b3665edf1f344aa96d96c4e66fdec, type: 3}
   MaximumStacks: 5
   IsConsumable: 1
   Effects:
-  - {fileID: 11400000, guid: 748a16f3e6c89dc479bf6fb43c20f1a4, type: 2}
+  - {fileID: 11400000, guid: 74afe780fbb880e44aee34416bffcd23, type: 2}
