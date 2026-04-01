@@ -1,7 +1,6 @@
 using UnityEngine;
 using TMPro;
 
-// 플레이어 피격&공격 테스트용 더미 몬스터
 public class DummyMonster : MonoBehaviour, IDamageable
 {
     [Header("Stats")]
@@ -11,7 +10,7 @@ public class DummyMonster : MonoBehaviour, IDamageable
     [SerializeField] private float attackCooldown = 1.5f;
 
     [Header("Visual Debug")]
-    [SerializeField] private TextMeshPro hpText; 
+    [SerializeField] private TextMeshPro hpText;
     private float lastAttackTime;
 
     private void Awake()
@@ -20,15 +19,29 @@ public class DummyMonster : MonoBehaviour, IDamageable
         UpdateHPText();
     }
 
+    private void LateUpdate()
+    {
+        if (hpText != null)
+        {
+            Vector3 currentScale = hpText.transform.localScale;
+
+            hpText.transform.rotation = Quaternion.identity; 
+
+            float parentXScale = transform.lossyScale.x;
+            if (parentXScale < 0)
+                hpText.transform.localScale = new Vector3(-Mathf.Abs(currentScale.x), currentScale.y, currentScale.z);
+            else
+                hpText.transform.localScale = new Vector3(Mathf.Abs(currentScale.x), currentScale.y, currentScale.z);
+        }
+    }
+
     public void TakeDamage(float damage)
     {
         currentHp -= damage;
-
-        UpdateHPText(); 
+        UpdateHPText();
 
         if (currentHp <= 0)
         {
-            Debug.Log("몬스터 파괴");
             Destroy(gameObject);
         }
     }

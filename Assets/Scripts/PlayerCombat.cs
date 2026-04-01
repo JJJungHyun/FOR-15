@@ -12,9 +12,9 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private float holderOffset = 0.5f;
 
     [Header("Attack Settings")]
-    [SerializeField] private float attackPreDelay = 0.1f;  // 휘두르기 전 대기
-    [SerializeField] private float attackDuration = 0.15f; // 공격 판정 유지 시간
-    [SerializeField] private float attackCooldown = 0.4f;  // 다음 공격 가능까지 총 시간
+    [SerializeField] private float attackPreDelay = 0.1f;
+    [SerializeField] private float attackDuration = 0.15f;
+    [SerializeField] private float attackCooldown = 0.4f;
 
     private GameObject currentWeaponInstance;
     private WeaponHandler currentWeaponHandler;
@@ -63,24 +63,34 @@ public class PlayerCombat : MonoBehaviour
 
         weaponHolder.rotation = Quaternion.identity;
 
-        Vector3 scale = Vector3.one;
+        Vector3 parentScale = transform.localScale;
+        weaponHolder.localScale = new Vector3(
+            1f / Mathf.Abs(parentScale.x),
+            1f / Mathf.Abs(parentScale.y),
+            1f / Mathf.Abs(parentScale.z)
+        );
+
         Vector3 pos = Vector3.zero;
+        float flipX = 1f;
 
         if (direction.x > 0)
         {
-            scale.x = -1;
+            flipX = -1f;
             pos.x = holderOffset;
         }
         else
         {
-            scale.x = 1;
+            flipX = 1f;
             pos.x = -holderOffset;
         }
 
         pos.y = 0;
-
-        weaponHolder.localScale = scale;
         weaponHolder.localPosition = pos;
+
+        if (currentWeaponInstance != null)
+        {
+            currentWeaponInstance.transform.localScale = new Vector3(flipX, 1, 1);
+        }
 
         AlwaysShowWeaponOnTop();
     }
@@ -101,32 +111,25 @@ public class PlayerCombat : MonoBehaviour
     public void TryAttack()
     {
         if (currentWeaponHandler == null || isAttacking) return;
-
         StartCoroutine(AttackRoutine());
     }
 
     private IEnumerator AttackRoutine()
     {
         isAttacking = true;
-
-        // 선딜레이
         yield return new WaitForSeconds(attackPreDelay);
 
-        // 공격 판정 활성화 
         currentWeaponHandler.EnableAttack(player.GetAttackDamage());
-
         yield return new WaitForSeconds(attackDuration);
 
         currentWeaponHandler.DisableAttack();
 
-        // 후딜레이 및 쿨타임 대기
         float remainCooldown = attackCooldown - attackPreDelay - attackDuration;
         if (remainCooldown > 0)
             yield return new WaitForSeconds(remainCooldown);
 
         isAttacking = false;
     }
-
 
     private void HandleQuickSlot(int index)
     {
@@ -155,6 +158,9 @@ public class PlayerCombat : MonoBehaviour
             currentWeaponInstance = Instantiate(newItem.WeaponPrefab, weaponHolder);
             currentWeaponInstance.transform.localPosition = Vector3.zero;
             currentWeaponInstance.transform.localRotation = Quaternion.identity;
+
+            currentWeaponInstance.transform.localScale = Vector3.one;
+
             SpriteRenderer sr = currentWeaponInstance.GetComponent<SpriteRenderer>();
             if (sr != null) sr.sprite = newItem.Icon;
             currentWeaponHandler = currentWeaponInstance.GetComponent<WeaponHandler>();
@@ -168,6 +174,6 @@ public class PlayerCombat : MonoBehaviour
     {
         if (currentEquippedItem != null) { currentEquippedItem.Unequip(player); currentEquippedItem = null; }
         if (currentWeaponInstance != null) { Destroy(currentWeaponInstance); currentWeaponHandler = null; }
-        isAttacking = false; 
+        isAttacking = false;
     }
 }

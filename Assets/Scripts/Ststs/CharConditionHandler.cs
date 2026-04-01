@@ -43,8 +43,6 @@ public class CharConditionHandler : MonoBehaviour, IDamageable
         float finalDamage = Mathf.Max(0, damage - owner.Defense.Value);
         owner.Health.CurrentValue -= finalDamage;
 
-        Debug.Log($"[Player] 피격됨. 남은체력: {owner.Health.CurrentValue}");
-
         if (owner.Health.CurrentValue <= 0) Die();
     }
 
