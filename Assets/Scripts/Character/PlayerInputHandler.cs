@@ -7,13 +7,23 @@ public class PlayerInputHandler : MonoBehaviour
     public static event Action OnCraftingPressed;
     public static event Action OnInteractPressed;
     public static event Action<int> OnQuickSlotPressed;
+    public static event Action OnAttackPressed;
 
     private void Update()
     {
+        HandleAttack();
         HandleInventory();
         HandleCraftingPanel();
         HandleInteract();
         HandleQuickSlot();
+    }
+
+    private void HandleAttack()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            OnAttackPressed?.Invoke();
+        }
     }
 
     private void HandleInventory()
@@ -42,7 +52,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void HandleQuickSlot()
     {
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < 6; i++)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1 + i))
             {

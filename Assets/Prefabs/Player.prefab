@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 2451282970963323084}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -192,6 +192,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  itemTooltip: {fileID: 0}
+  statTooltip: {fileID: 0}
 --- !u!114 &2684961597469250752
 MonoBehaviour:
   m_ObjectHideFlags: 0

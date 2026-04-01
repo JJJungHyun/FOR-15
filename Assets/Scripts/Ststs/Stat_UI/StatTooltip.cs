@@ -17,6 +17,8 @@ public class StatTooltip : Tooltip
         base.Awake();
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+
+        gameObject.SetActive(false);
     }
 
     public void ShowTooltip(Stat stat, string statName)

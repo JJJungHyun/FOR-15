@@ -4,6 +4,9 @@ using CharacterStats;
 [CreateAssetMenu(menuName = "Items/Equippable Item")]
 public class EquippableItem : Item
 {
+    [Header("Combat Prefab")]
+    public GameObject WeaponPrefab;
+
     public int StrengthBonus;
     public int DefenseBonus;
     [Space]
@@ -38,10 +41,10 @@ public class EquippableItem : Item
     public override string GetDescription()
     {
         sb.Length = 0;
-        AddStatText(StrengthBonus, "Èû");
-        AddStatText(DefenseBonus, "¹æ¾î");
-        AddStatText(StrengthPercentBonus, "Èû", isPercent: true);
-        AddStatText(DefensePercentBonus, "¹æ¾î", isPercent: true);
+        AddStatText(StrengthBonus, "íž˜");
+        AddStatText(DefenseBonus, "ë°©ì–´");
+        AddStatText(StrengthPercentBonus, "íž˜", isPercent: true);
+        AddStatText(DefensePercentBonus, "ë°©ì–´", isPercent: true);
         return sb.ToString();
     }
 

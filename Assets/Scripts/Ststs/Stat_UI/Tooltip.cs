@@ -16,7 +16,6 @@ public abstract class Tooltip : MonoBehaviour
     protected virtual void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
-        gameObject.SetActive(false);
     }
 
     public static void ResetTooltipState()
