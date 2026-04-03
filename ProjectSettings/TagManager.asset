@@ -38,6 +38,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: MabObject
+    uniqueID: 2493027397
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
