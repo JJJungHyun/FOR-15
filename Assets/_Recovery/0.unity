@@ -7202,6 +7202,8 @@ MonoBehaviour:
   - {fileID: 2052235138}
   - {fileID: 786622157}
   - {fileID: 425118269}
+  itemTooltip: {fileID: 0}
+  statTooltip: {fileID: 0}
 --- !u!114 &2095824777
 MonoBehaviour:
   m_ObjectHideFlags: 0
