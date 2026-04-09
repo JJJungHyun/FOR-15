@@ -14,6 +14,8 @@ public class ItemTooltip : Tooltip
         base.Awake();
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
+
+        gameObject.SetActive(false);
     }
 
     public void ShowTooltip(Item item)

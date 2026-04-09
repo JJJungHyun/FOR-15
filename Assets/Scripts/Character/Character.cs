@@ -3,14 +3,20 @@ using CharacterStats;
 
 public class Character : MonoBehaviour
 {
-    [Header("Stats")]
-    public Stat Strength = new Stat(10);
-    public Stat Defense = new Stat(5);
-    public ClampedStat Health = new ClampedStat(100);
-    public ClampedStat Hunger = new ClampedStat(100);
+    [Header("Initial Base Stats")]
+    [SerializeField] private float baseStr = 10f;
+    [SerializeField] private float baseDef = 5f;
+    [SerializeField] private float baseHp = 100f;
+    [SerializeField] private float baseHunger = 100f;
+
+    [Header("Stats Instances")]
+    public Stat Strength;
+    public Stat Defense;
+    public ClampedStat Health;
+    public ClampedStat Hunger;
 
     [Header("Handlers")]
-    public CharConditionHandler ConditionHandler; 
+    public CharConditionHandler ConditionHandler;
 
     [Header("UI")]
     [SerializeField] private StatBar hpBar;
@@ -19,8 +25,14 @@ public class Character : MonoBehaviour
 
     private void Awake()
     {
+        Strength = new Stat(baseStr);
+        Defense = new Stat(baseDef);
+        Health = new ClampedStat(baseHp);
+        Hunger = new ClampedStat(baseHunger);
+
         ConditionHandler = GetComponent<CharConditionHandler>();
-        ConditionHandler.Init(this);
+        if (ConditionHandler != null)
+            ConditionHandler.Init(this);
     }
 
     private void Start()
@@ -32,8 +44,5 @@ public class Character : MonoBehaviour
         if (hungerBar != null) hungerBar.Bind(Hunger);
     }
 
-    // 이후 추가할 기능
-    // 상태 이상 및 버프 관리
-    // 피격 및 사망
-    // 이후 많아지면 컴포넌트 분리 후 중앙 연결 기능 수행
+    public float GetAttackDamage() => Strength.Value;
 }

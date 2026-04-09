@@ -5,17 +5,22 @@ public class QuickSlotUI : MonoBehaviour
     [SerializeField] private Inventory inventory;
     [SerializeField] private BaseItemSlotUI slotPrefab;
     [SerializeField] private Transform container;
-    [SerializeField] private ItemTooltip itemTooltip;
 
     private bool isHUDInitialized = false;
+
+    private void Awake()
+    {
+        if (inventory == null) return;
+        inventory.OnInventoryInitialized += RefreshHUD;
+    }
 
     private void Start()
     {
         if (inventory == null) return;
 
-        inventory.OnInventoryInitialized += RefreshHUD;
+        inventory.EnsureInitialized();
 
-        if (inventory.quickSlots.Count > 0)
+        if (inventory.quickSlots != null && inventory.quickSlots.Count > 0)
         {
             RefreshHUD();
         }
@@ -23,7 +28,8 @@ public class QuickSlotUI : MonoBehaviour
 
     private void RefreshHUD()
     {
-        if (isHUDInitialized) return; 
+        if (isHUDInitialized) return;
+        if (inventory.quickSlots == null || inventory.quickSlots.Count == 0) return;
 
         isHUDInitialized = true;
 
@@ -39,5 +45,11 @@ public class QuickSlotUI : MonoBehaviour
             var ui = Instantiate(slotPrefab, container);
             ui.SetSlot(dataSlot);
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (inventory != null)
+            inventory.OnInventoryInitialized -= RefreshHUD;
     }
 }

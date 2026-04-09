@@ -13,7 +13,7 @@ public class Inventory : ItemContainer
 
     [Header("UI Area Anchors")]
     [SerializeField] private Transform defaultAreaParent;
-    [SerializeField] private Transform quickAreaParent;  
+    [SerializeField] private Transform quickAreaParent;
     [SerializeField] private BaseItemSlotUI slotPrefab;
 
     public List<ItemSlot> defaultSlots = new List<ItemSlot>();
@@ -36,14 +36,13 @@ public class Inventory : ItemContainer
             StopAllCoroutines();
             StartCoroutine(EnableRaycasterRoutine());
         }
-
         HideAllTooltips();
     }
 
     private IEnumerator EnableRaycasterRoutine()
     {
         raycaster.enabled = false;
-        yield return null; 
+        yield return null;
         raycaster.enabled = true;
     }
 
@@ -55,75 +54,62 @@ public class Inventory : ItemContainer
 
     public void EnsureInitialized()
     {
-        if (isInitialized)
-        {
-            HideAllTooltips();
+        if (isInitialized) return;
 
-            return;
-        }
         isInitialized = true;
 
         if (itemSlots == null) itemSlots = new List<ItemSlot>();
 
-        ClearOldUI();
+        itemSlots.Clear();
+        defaultSlots.Clear();
+        quickSlots.Clear();
 
         int defaultCount = Mathf.Max(0, totalInventorySize - quickSlotSize);
 
-        for (int i = 0; i < defaultCount; i++) CreateSlotInList(defaultSlots, defaultAreaParent);
-        for (int i = 0; i < quickSlotSize; i++) CreateSlotInList(quickSlots, quickAreaParent);
+        for (int i = 0; i < defaultCount; i++) CreateDataSlot(defaultSlots);
+        for (int i = 0; i < quickSlotSize; i++) CreateDataSlot(quickSlots);
 
         itemSlots.AddRange(defaultSlots);
         itemSlots.AddRange(quickSlots);
+
+        CreateSlotUI(defaultSlots, defaultAreaParent);
+        CreateSlotUI(quickSlots, quickAreaParent);
 
         if (startingItems != null) SetStartingItems();
 
         OnInventoryInitialized?.Invoke();
     }
 
-    private void ClearOldUI()
-    {
-        CleanTransform(defaultAreaParent);
-        CleanTransform(quickAreaParent);
-
-        itemSlots.Clear();
-        defaultSlots.Clear();
-        quickSlots.Clear();
-    }
-
-    private void CleanTransform(Transform parent)
-    {
-        if (parent == null) return;
-
-        for (int i = parent.childCount - 1; i >= 0; i--)
-        {
-            Destroy(parent.GetChild(i).gameObject);
-        }
-    }
-
-    private void CreateSlotInList(List<ItemSlot> list, Transform parent)
+    private void CreateDataSlot(List<ItemSlot> list)
     {
         ItemSlot newSlot = new ItemSlot();
         list.Add(newSlot);
-        if (parent != null && slotPrefab != null)
+    }
+
+    private void CreateSlotUI(List<ItemSlot> list, Transform parent)
+    {
+        if (parent == null || slotPrefab == null) return;
+
+        // Í∏∞Ï°¥ UI ÏÇ≠Ï†ú
+        foreach (Transform child in parent) Destroy(child.gameObject);
+
+        foreach (var slot in list)
         {
             var ui = Instantiate(slotPrefab, parent);
-            ui.SetSlot(newSlot);
+            ui.SetSlot(slot);
         }
     }
 
-    // æ∆¿Ã≈€ »πµÊ Ω√ æ∆¿Ã≈€ ¡§∑ƒ
     public bool AddItemCustomPriority(Item item, int amount = 1)
     {
         EnsureInitialized();
 
-        // ƒ¸ΩΩ∑‘ -> ¿œπ›ΩΩ∑‘
         if (TryStack(quickSlots, item, amount)) return true;
         if (TryStack(defaultSlots, item, amount)) return true;
-
         if (TryFill(quickSlots, item, amount)) return true;
         if (TryFill(defaultSlots, item, amount)) return true;
 
-        Debug.LogWarning($"<color=red>[Inventory]</color> ¿Œ∫•≈‰∏Æ∞° ∞°µÊ √°Ω¿¥œ¥Ÿ! '{item.name}'¿ª(∏¶) ¥ı ¿ÃªÛ ≥÷¿ª ºˆ æ¯Ω¿¥œ¥Ÿ.");
+        Debug.LogWarning($"Ïù∏Î≤§ÌÜ†Î¶¨Í∞Ä Í∞ÄÎìù Ï∞ºÏäµÎãàÎã§! '{item.name}'");
         return false;
     }
 

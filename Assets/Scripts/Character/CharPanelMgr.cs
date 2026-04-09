@@ -20,6 +20,10 @@ public class CharPanelMgr : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
         CloseAll();
     }
 
@@ -65,7 +69,7 @@ public class CharPanelMgr : MonoBehaviour
 
         craftingPanel.GetComponent<CraftingPanel>()?.RefreshRecipeList();
 
-        UpdateTabVisuals(false); 
+        UpdateTabVisuals(false);
         UpdateGameState(true);
     }
 
@@ -86,9 +90,6 @@ public class CharPanelMgr : MonoBehaviour
 
     private void UpdateGameState(bool isOpen)
     {
-        Cursor.visible = isOpen;
-        Cursor.lockState = isOpen ? CursorLockMode.None : CursorLockMode.Locked;
-
         Tooltip.ResetTooltipState();
         ItemTooltip.Instance?.HideTooltip();
         StatTooltip.Instance?.HideTooltip();

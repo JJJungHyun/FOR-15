@@ -12,7 +12,56 @@ public class InventoryController : MonoBehaviour
     [Header("Equipment Slots")]
     [SerializeField] private List<EquipmentSlotUI> equipmentSlots = new List<EquipmentSlotUI>();
 
+    [Header("Tooltips")]
+    [SerializeField] private ItemTooltip itemTooltip;
+    [SerializeField] private StatTooltip statTooltip;
+
     private BaseItemSlotUI draggedSlot;
+
+    private void Awake()
+    {
+        if (itemTooltip != null) itemTooltip.gameObject.SetActive(true);
+        if (statTooltip != null) statTooltip.gameObject.SetActive(true);
+        if (dragIcon != null) dragIcon.gameObject.SetActive(false);
+
+        InitializeStartingEquipments();
+    }
+
+    private void Start()
+    {
+        if (itemTooltip != null) itemTooltip.gameObject.SetActive(false);
+        if (statTooltip != null) statTooltip.gameObject.SetActive(false);
+
+        RefreshAllSlots();
+    }
+
+    public Inventory GetInventory()
+    {
+        return inventory;
+    }
+
+    private void InitializeStartingEquipments()
+    {
+        foreach (var slotUI in equipmentSlots)
+        {
+            if (slotUI.Slot != null && slotUI.Slot.Item is EquippableItem equippable)
+            {
+                equippable.Equip(character);
+            }
+        }
+    }
+
+    public void RefreshAllSlots()
+    {
+        var allSlots = GetComponentsInChildren<BaseItemSlotUI>(true);
+        foreach (var slotUI in allSlots)
+        {
+            if (slotUI.Slot != null)
+            {
+                slotUI.SetSlot(slotUI.Slot);
+            }
+        }
+    }
 
     private void OnEnable()
     {
