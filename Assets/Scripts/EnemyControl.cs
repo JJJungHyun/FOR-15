@@ -1,14 +1,18 @@
 using System.Collections;
 using UnityEngine;
+using TMPro;
 
 public class EnemyControl : MonoBehaviour
 {
-    private float maxHp;
+    [SerializeField] private float maxHp;
     private float currentHp;
     private bool isDead = false;
 
-    public GameObject[] itemPool;
-    public float dropChance;
+    [SerializeField] private GameObject[] itemPool;
+    [SerializeField] private float dropChance;
+
+    [SerializeField] private TextMeshPro hpText;
+    private SpriteRenderer spriteRenderer;
 
     [Header("배회")]
     public float patrolRadius;    // 배회 가능 반경
@@ -17,15 +21,37 @@ public class EnemyControl : MonoBehaviour
 
     [Header("추적")]
     public float detectRange;    // 플레이어를 감지할 범위
-    public Transform player;          // 추적할 플레이어
+    private Transform player;    // 추적할 플레이어
 
-    private Vector3 spawnPoint;        // 기준점
+    [Header("공격")]
+    [SerializeField] private float damage;
+    [SerializeField] private float attackCooldown;
+
+    private Vector3 spawnPoint;  // 기준점
+    private float lastAttackTime;
 
     void Start()
     {
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         currentHp = maxHp;
+        UpdateHPText();
         spawnPoint = transform.position;
         StartCoroutine(MainRoutine());
+    }
+    private void LateUpdate()
+    {
+        if (hpText != null)
+        {
+            Vector3 currentScale = hpText.transform.localScale;
+
+            hpText.transform.rotation = Quaternion.identity;
+
+            float parentXScale = transform.lossyScale.x;
+            if (parentXScale < 0)
+                hpText.transform.localScale = new Vector3(-Mathf.Abs(currentScale.x), currentScale.y, currentScale.z);
+            else
+                hpText.transform.localScale = new Vector3(Mathf.Abs(currentScale.x), currentScale.y, currentScale.z);
+        }
     }
 
     IEnumerator MainRoutine()
@@ -51,70 +77,78 @@ public class EnemyControl : MonoBehaviour
     // 추적
     IEnumerator ChaseRoutine()
     {
-        // 플레이어가 감지 범위를 벗어날 때까지 계속 쫓아감
-        // 놓치는 범위는 감지보다 조금 더 넓게 설정
-        while (!isDead && player != null && Vector3.Distance(transform.position, player.position) <= detectRange + 2f) 
-        {
-            // 플레이어 방향으로 이동
-            transform.position = Vector3.MoveTowards(
-                transform.position,
-                player.position,
-                moveSpeed * 1.5f * Time.deltaTime
-            );
+        float stopDistance = 0.2f;
 
+        while (!isDead && player != null)
+        {
+            float dist = Vector2.Distance(transform.position, player.position);
+
+            if (dist > detectRange + 2f) yield break;
+
+            // 플레이어 방향 바라보기 (Flip)
+            FlipSprite(player.position.x);
+
+            if (dist > stopDistance)
+            {
+                transform.position = Vector2.MoveTowards(
+                    transform.position,
+                    player.position,
+                    moveSpeed * 1.2f * Time.deltaTime
+                );
+            }
             yield return null;
         }
-
     }
 
     // 배회
     IEnumerator PatrolRoutine()
     {
-        // 대기 (Idle)     
+        // 대기
         float waitTime = Random.Range(idleTime * 0.5f, idleTime * 1.5f);
         float timer = 0;
         while (timer < waitTime)
         {
-            if (isDead || IsPlayerDetected()) yield break; // 대기 중 플레이어 발견 시 즉시 종료
+            if (isDead || IsPlayerDetected()) yield break;
             timer += Time.deltaTime;
             yield return null;
         }
 
-        // 목표 설정
-        Vector2 randomCircle = Random.insideUnitCircle * patrolRadius;
-        Vector3 targetPos = spawnPoint + new Vector3(randomCircle.x, 0, randomCircle.y);
+        // 목표 지점 설정
+        Vector2 randomPoint = Random.insideUnitCircle * patrolRadius;
+        Vector3 targetPos = spawnPoint + new Vector3(randomPoint.x, randomPoint.y, 0);
 
-        // 이동 (Move)
-        // 목표 지점에 도착할 때까지 이 루프에서 빠져나가지 않음
-        while (Vector3.Distance(transform.position, targetPos) > 0.1f)
+        // 이동
+        while (Vector2.Distance(transform.position, targetPos) > 0.1f)
         {
             if (isDead || IsPlayerDetected()) yield break;
 
-            float currentSpeed = moveSpeed * 3f;
+            FlipSprite(targetPos.x);
 
-            // 위치 이동
-            transform.position = Vector3.MoveTowards(
+            transform.position = Vector2.MoveTowards(
                 transform.position,
                 targetPos,
-                currentSpeed * Time.deltaTime
+                moveSpeed * Time.deltaTime
             );
 
-            // 방향 전환 (Flip)
-            float direction = targetPos.x - transform.position.x;
-
-            if (Mathf.Abs(direction) > 0.01f)
-            {
-                transform.localScale = new Vector3(direction > 0 ? 1 : -1, 1, 1);
-            }
-
-            // 다음 프레임까지 대기 
-                yield return null;
-            }
+            yield return null;
+        }
     }
-
+    
     bool IsPlayerDetected()
     {
-        return player != null && Vector3.Distance(transform.position, player.position) <= detectRange;
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, detectRange);
+
+        foreach (var col in colliders)
+        {
+            // 그 중 태그가 "Player"인 것이 있다면
+            if (col.CompareTag("Player"))
+            {
+                player = col.transform; // 발견한 플레이어를 타겟으로 지정
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void TakeDamage(float damage)
@@ -122,10 +156,21 @@ public class EnemyControl : MonoBehaviour
         if (isDead) return;
 
         currentHp -= damage;
+        UpdateHPText();
 
         if (currentHp <= 0)
         {
             Die();
+        }
+    }
+
+    void FlipSprite(float targetX)
+    {
+        float directionX = targetX - transform.position.x;
+        if (Mathf.Abs(directionX) > 0.05f)
+        {
+            // 적이 오른쪽을 보고 있는 스프라이트 기준
+            spriteRenderer.flipX = (directionX < 0);
         }
     }
 
@@ -149,6 +194,42 @@ public class EnemyControl : MonoBehaviour
             GameObject selectedItem = itemPool[randomIndex];
 
             Instantiate(selectedItem, transform.position, Quaternion.identity);
+        }
+    }
+
+    private void UpdateHPText()
+    {
+        if (hpText != null)
+        {
+            hpText.text = $"{currentHp} / {maxHp}";
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.TryGetComponent(out IDamageable damageable))
+        {
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                TryAttack(damageable);
+            }
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player") && collision.TryGetComponent(out IDamageable damageable))
+        {
+            TryAttack(damageable);
+        }
+    }
+
+    private void TryAttack(IDamageable target)
+    {
+        if (Time.time >= lastAttackTime + attackCooldown)
+        {
+            target.TakeDamage(damage);
+            lastAttackTime = Time.time;
         }
     }
 }
