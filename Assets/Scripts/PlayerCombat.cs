@@ -6,7 +6,9 @@ public class PlayerCombat : MonoBehaviour
     private PlayerEquipment equipment;
 
     [Header("Visual Settings")]
-    [SerializeField] private float holderOffset = 0.5f;
+    [SerializeField] private float offsetX = 0.5f;
+    [SerializeField] private float offsetY = 0.5f;
+    [SerializeField] private float weaponVisualScale = 1.0f;
 
     private void Awake()
     {
@@ -21,7 +23,7 @@ public class PlayerCombat : MonoBehaviour
 
     public void TryAttack()
     {
-        if (equipment.CurrentWeaponAbility != null)
+        if (equipment != null && equipment.CurrentWeaponAbility != null)
         {
             equipment.CurrentWeaponAbility.ExecuteAttack(player);
         }
@@ -33,32 +35,34 @@ public class PlayerCombat : MonoBehaviour
         if (holder == null || Camera.main == null) return;
 
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0f;
         Vector3 direction = (mousePos - transform.position).normalized;
 
-        holder.rotation = Quaternion.identity;
+        bool isRight = direction.x > 0;
+        float targetX = isRight ? offsetX : -offsetX;
+        holder.localPosition = new Vector3(targetX, offsetY, 0f);
 
-        Vector3 parentScale = transform.localScale;
-        holder.localScale = new Vector3(
-            1f / Mathf.Max(0.01f, Mathf.Abs(parentScale.x)),
-            1f / Mathf.Max(0.01f, Mathf.Abs(parentScale.y)),
-            1f / Mathf.Max(0.01f, Mathf.Abs(parentScale.z))
-        );
-
-        float flipX = (direction.x > 0) ? -1f : 1f;
-        holder.localPosition = new Vector3((direction.x > 0) ? holderOffset : -holderOffset, 0, 0);
+        holder.localRotation = Quaternion.identity;
+        holder.localScale = Vector3.one;
 
         if (equipment.CurrentWeaponInstance != null)
         {
-            equipment.CurrentWeaponInstance.transform.localScale = new Vector3(flipX, 1, 1);
+            float flipX = isRight ? -weaponVisualScale : weaponVisualScale;
+            equipment.CurrentWeaponInstance.transform.localScale = new Vector3(flipX, weaponVisualScale, 1f);
             AlwaysShowWeaponOnTop();
         }
     }
 
     private void AlwaysShowWeaponOnTop()
     {
+        if (equipment.CurrentWeaponInstance == null) return;
+
         SpriteRenderer weaponSr = equipment.CurrentWeaponInstance.GetComponent<SpriteRenderer>();
         SpriteRenderer playerSr = GetComponent<SpriteRenderer>();
+
         if (weaponSr != null && playerSr != null)
+        {
             weaponSr.sortingOrder = playerSr.sortingOrder + 1;
+        }
     }
 }
