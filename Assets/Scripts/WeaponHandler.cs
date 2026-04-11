@@ -1,18 +1,25 @@
 using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(SpriteRenderer), typeof(BoxCollider2D))]
-public class WeaponHandler : MonoBehaviour
+public class WeaponHandler : MonoBehaviour, IWeaponAbility
 {
+    [Header("Attack Config")]
+    [SerializeField] private float attackPreDelay = 0.1f;
+    [SerializeField] private float attackDuration = 0.15f;
+    [SerializeField] private float attackCooldown = 0.4f;
+
     private SpriteRenderer spriteRenderer;
     private BoxCollider2D weaponCollider;
-    private float damage;
+    private Character ownerPlayer;
     private bool isAttacking = false;
+
+    public bool IsAttacking => isAttacking;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         weaponCollider = GetComponent<BoxCollider2D>();
-
         weaponCollider.isTrigger = true;
         weaponCollider.enabled = false;
     }
@@ -26,17 +33,31 @@ public class WeaponHandler : MonoBehaviour
         }
     }
 
-    public void EnableAttack(float attackDamage)
+    // 공격 실행
+    public bool ExecuteAttack(Character player)
     {
-        damage = attackDamage;
-        isAttacking = true;
-        weaponCollider.enabled = true;
+        if (isAttacking) return false;
+
+        ownerPlayer = player;
+        StartCoroutine(AttackRoutine());
+        return true;
     }
 
-    public void DisableAttack()
+    private IEnumerator AttackRoutine()
     {
-        isAttacking = false;
+        isAttacking = true;
+
+        yield return new WaitForSeconds(attackPreDelay);
+
+        weaponCollider.enabled = true;
+        yield return new WaitForSeconds(attackDuration);
+
         weaponCollider.enabled = false;
+
+        float remain = attackCooldown - attackPreDelay - attackDuration;
+        if (remain > 0) yield return new WaitForSeconds(remain);
+
+        isAttacking = false;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -44,10 +65,9 @@ public class WeaponHandler : MonoBehaviour
         if (!isAttacking) return;
         if (other.CompareTag("Player")) return;
 
-        IDamageable target = other.GetComponent<IDamageable>();
-        if (target != null)
+        if (other.TryGetComponent(out IDamageable target))
         {
-            target.TakeDamage(damage);
+            target.TakeDamage(ownerPlayer.GetAttackDamage(), transform.root.position);
         }
     }
 }
