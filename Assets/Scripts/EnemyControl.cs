@@ -4,14 +4,6 @@ using TMPro;
 
 public class EnemyControl : MonoBehaviour
 {
-    [SerializeField] private float maxHp;
-    private float currentHp;
-    private bool isDead = false;
-
-    [SerializeField] private GameObject[] itemPool;
-    [SerializeField] private float dropChance;
-
-    [SerializeField] private TextMeshPro hpText;
     private SpriteRenderer spriteRenderer;
 
     [Header("배회")]
@@ -23,40 +15,18 @@ public class EnemyControl : MonoBehaviour
     public float detectRange;    // 플레이어를 감지할 범위
     private Transform player;    // 추적할 플레이어
 
-    [Header("공격")]
-    [SerializeField] private float damage;
-    [SerializeField] private float attackCooldown;
-
     private Vector3 spawnPoint;  // 기준점
-    private float lastAttackTime;
 
     void Start()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        currentHp = maxHp;
-        UpdateHPText();
         spawnPoint = transform.position;
         StartCoroutine(MainRoutine());
-    }
-    private void LateUpdate()
-    {
-        if (hpText != null)
-        {
-            Vector3 currentScale = hpText.transform.localScale;
-
-            hpText.transform.rotation = Quaternion.identity;
-
-            float parentXScale = transform.lossyScale.x;
-            if (parentXScale < 0)
-                hpText.transform.localScale = new Vector3(-Mathf.Abs(currentScale.x), currentScale.y, currentScale.z);
-            else
-                hpText.transform.localScale = new Vector3(Mathf.Abs(currentScale.x), currentScale.y, currentScale.z);
-        }
     }
 
     IEnumerator MainRoutine()
     {
-        while (!isDead)
+        while (true)
         {
             // 플레이어가 주변에 있는지 체크
             if (IsPlayerDetected())
@@ -79,7 +49,7 @@ public class EnemyControl : MonoBehaviour
     {
         float stopDistance = 0.2f;
 
-        while (!isDead && player != null)
+        while (player != null)
         {
             float dist = Vector2.Distance(transform.position, player.position);
 
@@ -108,7 +78,7 @@ public class EnemyControl : MonoBehaviour
         float timer = 0;
         while (timer < waitTime)
         {
-            if (isDead || IsPlayerDetected()) yield break;
+            if (IsPlayerDetected()) yield break;
             timer += Time.deltaTime;
             yield return null;
         }
@@ -120,7 +90,7 @@ public class EnemyControl : MonoBehaviour
         // 이동
         while (Vector2.Distance(transform.position, targetPos) > 0.1f)
         {
-            if (isDead || IsPlayerDetected()) yield break;
+            if (IsPlayerDetected()) yield break;
 
             FlipSprite(targetPos.x);
 
@@ -151,18 +121,6 @@ public class EnemyControl : MonoBehaviour
         return false;
     }
 
-    public void TakeDamage(float damage)
-    {
-        if (isDead) return;
-
-        currentHp -= damage;
-        UpdateHPText();
-
-        if (currentHp <= 0)
-        {
-            Die();
-        }
-    }
 
     void FlipSprite(float targetX)
     {
@@ -171,65 +129,6 @@ public class EnemyControl : MonoBehaviour
         {
             // 적이 오른쪽을 보고 있는 스프라이트 기준
             spriteRenderer.flipX = (directionX < 0);
-        }
-    }
-
-    void Die()
-    {
-        if (isDead) return;
-        isDead = true;
-        StopAllCoroutines();
-        TryDropItem();
-        Destroy(gameObject);
-    }
-
-    void TryDropItem()
-    {
-        if (itemPool.Length == 0) return;
-
-        if (Random.value <= dropChance)
-        {
-            // 배열 중에서 랜덤하게 하나 선택
-            int randomIndex = Random.Range(0, itemPool.Length);
-            GameObject selectedItem = itemPool[randomIndex];
-
-            Instantiate(selectedItem, transform.position, Quaternion.identity);
-        }
-    }
-
-    private void UpdateHPText()
-    {
-        if (hpText != null)
-        {
-            hpText.text = $"{currentHp} / {maxHp}";
-        }
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.TryGetComponent(out IDamageable damageable))
-        {
-            if (collision.gameObject.CompareTag("Player"))
-            {
-                TryAttack(damageable, transform.position);
-            }
-        }
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player") && collision.TryGetComponent(out IDamageable damageable))
-        {
-            TryAttack(damageable, transform.position);
-        }
-    }
-
-    private void TryAttack(IDamageable target, Vector2 attackPosition)
-    {
-        if (Time.time >= lastAttackTime + attackCooldown)
-        {
-            target.TakeDamage(damage, attackPosition);
-            lastAttackTime = Time.time;
         }
     }
 }

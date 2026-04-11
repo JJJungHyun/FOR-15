@@ -5,6 +5,9 @@ using UnityEngine.Events;
 
 public class EnemyCombat : MonoBehaviour, IDamageable
 {
+    [SerializeField] private GameObject[] itemPool;
+    [SerializeField] private float dropChance;
+
     private Rigidbody2D rb;
     private EnemyControl movementScript;
 
@@ -61,6 +64,7 @@ public class EnemyCombat : MonoBehaviour, IDamageable
         if (currentHp <= 0)
         {
             Destroy(gameObject);
+            TryDropItem();
         }
     }
 
@@ -116,6 +120,19 @@ public class EnemyCombat : MonoBehaviour, IDamageable
         {
             target.TakeDamage(damage, transform.position);
             lastAttackTime = Time.time;
+        }
+    }
+    void TryDropItem()
+    {
+        if (itemPool.Length == 0) return;
+
+        if (Random.value <= dropChance)
+        {
+            // 배열 중에서 랜덤하게 하나 선택
+            int randomIndex = Random.Range(0, itemPool.Length);
+            GameObject selectedItem = itemPool[randomIndex];
+
+            Instantiate(selectedItem, transform.position, Quaternion.identity);
         }
     }
 }
