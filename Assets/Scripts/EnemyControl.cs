@@ -211,7 +211,7 @@ public class EnemyControl : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("Player"))
             {
-                TryAttack(damageable);
+                TryAttack(damageable, transform.position);
             }
         }
     }
@@ -220,15 +220,15 @@ public class EnemyControl : MonoBehaviour
     {
         if (collision.CompareTag("Player") && collision.TryGetComponent(out IDamageable damageable))
         {
-            TryAttack(damageable);
+            TryAttack(damageable, transform.position);
         }
     }
 
-    private void TryAttack(IDamageable target)
+    private void TryAttack(IDamageable target, Vector2 attackPosition)
     {
         if (Time.time >= lastAttackTime + attackCooldown)
         {
-            target.TakeDamage(damage);
+            target.TakeDamage(damage, attackPosition);
             lastAttackTime = Time.time;
         }
     }
