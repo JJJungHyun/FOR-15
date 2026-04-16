@@ -2,22 +2,52 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+    public float moveSpeed;
+    public PlayerAnimation playerAnimation;
 
+    private SpriteRenderer spriteRenderer;
+
+    private void Awake()
+    {
+        playerAnimation = new PlayerAnimation(GetComponent<Animator>());
+    }
     void Start()
     {
-
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
     void Update()
     {
-        // πÊ«‚≈∞ ¿‘∑¬
+        // Î∞©Ìñ•ÌÇ§ ÏûÖÎ†•
         float inputX = Input.GetAxisRaw("Horizontal");
         float inputY = Input.GetAxisRaw("Vertical");
 
-        // ¿‘∑¬ πÊ«‚ ¡§±‘»≠
+        // ÏûÖÎ†• Î∞©Ìñ• Ï†ïÍ∑úÌôî
         Vector3 normalizedInput = new Vector3(inputX, inputY, 0).normalized;
 
-        // ¿Ãµø ∑Œ¡˜
+        // Ïù¥Îèô Î°úÏßÅ
         transform.Translate(normalizedInput * moveSpeed * Time.deltaTime);
+
+        if (inputX == 0 && inputY == 0)
+        {
+            playerAnimation.SetAnimState(PlayerAnimState.Idle);
+        }
+        else
+        {
+            if (inputY > 0)
+            {
+                playerAnimation.SetAnimState(PlayerAnimState.MoveUp);
+            }
+            else if (inputY < 0)
+            {
+                playerAnimation.SetAnimState(PlayerAnimState.MoveDown);
+            }
+        
+            else if (inputX != 0)
+            {
+                // Ïò§Î•∏Ï™Ω(>0)Ïù¥Î©¥ flipXÎ•º true, ÏôºÏ™Ω(<0)Ïù¥Î©¥ false
+                spriteRenderer.flipX = (inputX > 0);
+                playerAnimation.SetAnimState(PlayerAnimState.MoveLeft);
+            }
+        }
     }
 }
