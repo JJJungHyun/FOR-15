@@ -2429,6 +2429,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1233814483084405532, guid: 7f3913aad46487c4583a3d88636d10e3, type: 3}
+      propertyPath: m_Size.x
+      value: 0.8720896
+      objectReference: {fileID: 0}
+    - target: {fileID: 1233814483084405532, guid: 7f3913aad46487c4583a3d88636d10e3, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.0639559
+      objectReference: {fileID: 0}
     - target: {fileID: 1764721265835665243, guid: 7f3913aad46487c4583a3d88636d10e3, type: 3}
       propertyPath: m_Name
       value: TreePivot

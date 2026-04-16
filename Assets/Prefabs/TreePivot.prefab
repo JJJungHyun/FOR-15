@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7983963262901868611}
   - component: {fileID: 9166483320714472022}
   - component: {fileID: 1233814483084405532}
+  - component: {fileID: -3367760055923846639}
   m_Layer: 0
   m_Name: TreePivot
   m_TagString: Untagged
@@ -108,7 +109,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -1.0905689, y: 0.961684}
+  m_Offset: {x: 0.057051063, y: 1.1219176}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -118,8 +119,23 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 3.1811392, y: 3.2009673}
+  m_Size: {x: 0.5740936, y: 2.7072742}
   m_EdgeRadius: 0
+--- !u!114 &-3367760055923846639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1764721265835665243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86b75e153d88b1f458bb6bf010912641, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectColorFeedback
+  _interactRange: 3
+  _canInteractColor: {r: 0, g: 0, b: 1, a: 1}
+  _cannotInteractColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &7944214763160496823
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,7 +263,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.3715105, y: -0.11417258}
+  m_Offset: {x: 0.008590326, y: -0.00041919947}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -257,7 +273,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 5.8514853, y: 1.2283444}
+  m_Size: {x: 1.0153092, y: 1.0008371}
   m_EdgeRadius: 0
 --- !u!114 &3160582914680487022
 MonoBehaviour:
