@@ -26,14 +26,6 @@ public class Character : MonoBehaviour
     // --- 추가된 변수 ---
     private bool _isDead = false;
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.K)) // K키를 누르면 20씩 데미지
-        {
-            TakeDamage(20f);
-        }
-    }
-
     private void Awake()
     {
         Strength = new Stat(baseStr);
@@ -86,4 +78,30 @@ public class Character : MonoBehaviour
     }
 
     public float GetAttackDamage() => Strength.Value;
+
+    public void LoadFromData(GameData data)
+    {
+        // 1. 공격력, 방어력 복구
+        if (Strength != null) Strength.BaseValue = data.strength;
+        if (Defense != null) Defense.BaseValue = data.defense;
+
+        // 2. 체력 복구 (최대치 설정 후 현재치 설정)
+        if (Health != null)
+        {
+            Health.BaseValue = data.maxHp;
+            Health.CurrentValue = data.currentHp;
+        }
+
+        // 3. 허기 복구
+        if (Hunger != null)
+        {
+            Hunger.BaseValue = data.maxHunger;
+            Hunger.CurrentValue = data.currentHunger;
+        }
+
+        // 4. UI가 있다면 업데이트
+        if (statPanel != null) statPanel.SetStats(Strength, Defense);
+
+        Debug.Log("캐릭터 스탯 로드 완료!");
+    }
 }

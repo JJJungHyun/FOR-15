@@ -6,11 +6,11 @@ public class NextScene : MonoBehaviour
     public void ChangeScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
-        Debug.Log("´ÙÀ½ ¾À");
+        Debug.Log("ë‹¤ìŒ ì”¬");
     }
     public void OnClickStart()
     {
-        // ½ºÅ©¸³Æ®°¡ ºÙÀº SceneTransitioner ÀÎ½ºÅÏ½º¸¦ Ã£¾Æ ¾À ÀüÈ¯ ¸í·É
+        // ìŠ¤í¬ë¦½íŠ¸ê°€ ë¶™ì€ SceneTransitioner ì¸ìŠ¤í„´ìŠ¤ë¥¼ ì°¾ì•„ ì”¬ ì „í™˜ ëª…ë ¹
         //SceneLoad.Instance.ChangeScene("SimpleScene");
     }
 }
