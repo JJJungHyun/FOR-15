@@ -1,6 +1,5 @@
 using UnityEngine;
 using System;
-using TMPro;
 
 public enum PlayerAnimState
 {

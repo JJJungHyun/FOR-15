@@ -17,11 +17,14 @@ public class EnemyControl : MonoBehaviour
 
     private Vector3 spawnPoint;  // 기준점
 
+    private WolfAnimation wolfAnimation;
+
     void Start()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         spawnPoint = transform.position;
         StartCoroutine(MainRoutine());
+        wolfAnimation = new WolfAnimation(GetComponent<Animator>());
     }
 
     IEnumerator MainRoutine()
@@ -56,7 +59,7 @@ public class EnemyControl : MonoBehaviour
             if (dist > detectRange + 2f) yield break;
 
             // 플레이어 방향 바라보기 (Flip)
-            FlipSprite(player.position.x);
+            UpdateAnimation(player.position);
 
             if (dist > stopDistance)
             {
@@ -92,7 +95,7 @@ public class EnemyControl : MonoBehaviour
         {
             if (IsPlayerDetected()) yield break;
 
-            FlipSprite(targetPos.x);
+            UpdateAnimation(Vector3.zero);
 
             transform.position = Vector2.MoveTowards(
                 transform.position,
@@ -122,13 +125,29 @@ public class EnemyControl : MonoBehaviour
     }
 
 
-    void FlipSprite(float targetX)
+    void UpdateAnimation(Vector3 targetPos)
     {
-        float directionX = targetX - transform.position.x;
-        if (Mathf.Abs(directionX) > 0.05f)
+        Vector3 currentPos = transform.position;
+        float diffX = targetPos.x - currentPos.x;
+        float diffY = targetPos.y - currentPos.y;
+
+        // 1. 상하 이동 판단 (Y축 차이가 더 클 때)
+        if (Mathf.Abs(diffY) > Mathf.Abs(diffX))
         {
-            // 적이 오른쪽을 보고 있는 스프라이트 기준
-            spriteRenderer.flipX = (directionX < 0);
+            spriteRenderer.flipX = false; // 상하 이동 시 flip 해제
+
+            if (diffY > 0.05f)
+                wolfAnimation.SetAnimState(WolfAnimState.MoveUp);
+            else if (diffY < -0.05f)
+                wolfAnimation.SetAnimState(WolfAnimState.MoveDown);
+        }
+        // 2. 좌우 이동 판단 (X축 차이가 더 클 때)
+        else if (Mathf.Abs(diffX) > 0.05f)
+        {
+            // MoveLeft 애니메이션 하나를 사용하고 flipX로 방향 결정
+            // (오른쪽 타겟이면 flipX = true)
+            spriteRenderer.flipX = (diffX > 0);
+            wolfAnimation.SetAnimState(WolfAnimState.MoveLeft);
         }
     }
 }
