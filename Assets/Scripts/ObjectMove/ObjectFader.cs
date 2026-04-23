@@ -35,8 +35,16 @@ public class ObjectFader : MonoBehaviour
         {
             for (int i = 0; i < _dropCount; i++)
             {
-                // 나무의 현재 위치에 아이템 생성
-                Instantiate(_itemPrefab, transform.position, Quaternion.identity);
+                GameObject newItem = Instantiate(_itemPrefab, transform.position, Quaternion.identity);
+
+                // [중요] 방금 생성된 아이템(newItem) 안에 있는 ItemPopUp 스크립트를 가져옵니다.
+                ItemPopUp popUp = newItem.GetComponent<ItemPopUp>();
+
+                // 스크립트를 찾았다면 애니메이션 실행!
+                if (popUp != null)
+                {
+                    popUp.PlayDropAnimation();
+                }
             }
         }
     }

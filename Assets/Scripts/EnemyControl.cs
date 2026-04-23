@@ -150,4 +150,10 @@ public class EnemyControl : MonoBehaviour
             wolfAnimation.SetAnimState(WolfAnimState.MoveLeft);
         }
     }
+    public void StartMainRoutine()
+    {
+        // 이미 돌아가고 있을지 모를 코루틴을 정리하고 새로 시작
+        StopAllCoroutines();
+        StartCoroutine(MainRoutine());
+    }
 }

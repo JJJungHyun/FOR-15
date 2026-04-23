@@ -5,9 +5,8 @@ public enum PlayerAnimState
 {
     Idle = 0,
     MoveLeft,
-    MoveRight,
-    MoveUp,
-    MoveDown
+    MoveDown,
+    MoveUp
 }
 
 public class PlayerAnimation

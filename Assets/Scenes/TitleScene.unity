@@ -2213,7 +2213,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5980498806711740293, guid: 6b275989a16ced147877038a8c700341, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8940549559232107511, guid: 6b275989a16ced147877038a8c700341, type: 3}
       propertyPath: wipeDelay
@@ -2236,11 +2236,11 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 4832502219812106496}
   - {fileID: 519420032}
   - {fileID: 619394802}
   - {fileID: 371095142}
   - {fileID: 1163687757}
-  - {fileID: 4832502219812106496}
   - {fileID: 545769294}
   - {fileID: 2451030212275750085}
   - {fileID: 1199677870}

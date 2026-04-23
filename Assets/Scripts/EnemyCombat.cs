@@ -10,6 +10,7 @@ public class EnemyCombat : MonoBehaviour, IDamageable
 
     private Rigidbody2D rb;
     private EnemyControl movementScript;
+    private bool isStunned = false;
 
     [Header("Stats")]
     [SerializeField] private float maxHp = 50f;
@@ -120,9 +121,31 @@ public class EnemyCombat : MonoBehaviour, IDamageable
         {
             target.TakeDamage(damage, transform.position);
             lastAttackTime = Time.time;
+
+            StartCoroutine(AttackPauseRoutine());
         }
     }
-    void TryDropItem()
+
+    private IEnumerator AttackPauseRoutine()
+    {
+        isStunned = true;
+
+        // 이동 스크립트 비활성화
+        if (movementScript != null) movementScript.enabled = false;
+
+        yield return new WaitForSeconds(1.5f);
+
+        // 이동 스크립트 다시 활성화 및 루틴 재시작
+        if (movementScript != null)
+        {
+            movementScript.enabled = true;
+            movementScript.StartMainRoutine(); // 재시작 함수 호출
+        }
+
+        isStunned = false;
+    }
+
+    void TryDropItem()  
     {
         if (itemPool.Length == 0) return;
 
