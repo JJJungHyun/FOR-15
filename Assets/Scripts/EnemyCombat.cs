@@ -126,13 +126,24 @@ public class EnemyCombat : MonoBehaviour, IDamageable
     {
         if (itemPool.Length == 0) return;
 
+        // 확률 체크
         if (Random.value <= dropChance)
         {
-            // 배열 중에서 랜덤하게 하나 선택
+            // 1. 아이템 선택
             int randomIndex = Random.Range(0, itemPool.Length);
             GameObject selectedItem = itemPool[randomIndex];
 
-            Instantiate(selectedItem, transform.position, Quaternion.identity);
+            // 2. 아이템 생성 (변수에 담기)
+            GameObject droppedItem = Instantiate(selectedItem, transform.position, Quaternion.identity);
+
+            // 3. 애니메이션 컴포넌트 가져오기
+            ItemPopUp anim = droppedItem.GetComponent<ItemPopUp>();
+
+            // 4. 애니메이션 실행
+            if (anim != null)
+            {
+                anim.PlayDropAnimation();
+            }
         }
     }
 }
