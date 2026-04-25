@@ -1,8 +1,11 @@
 using UnityEngine;
 using CharacterStats;
+using System.Collections.Generic;
 
 public class Character : MonoBehaviour
 {
+    private Dictionary<string, IActivatableDevice> _devices = new Dictionary<string, IActivatableDevice>();
+    
     [Header("Initial Base Stats")]
     [SerializeField] private float baseStr = 10f;
     [SerializeField] private float baseDef = 5f;
@@ -23,6 +26,7 @@ public class Character : MonoBehaviour
     [SerializeField] private StatBar hungerBar;
     [SerializeField] private StatPanel statPanel;
 
+
     // --- 추가된 변수 ---
     private bool _isDead = false;
 
@@ -36,6 +40,8 @@ public class Character : MonoBehaviour
         ConditionHandler = GetComponent<CharConditionHandler>();
         if (ConditionHandler != null)
             ConditionHandler.Init(this);
+
+        RefreshDeviceList();
     }
 
     private void Start()
@@ -45,6 +51,39 @@ public class Character : MonoBehaviour
 
         if (hpBar != null) hpBar.Bind(Health);
         if (hungerBar != null) hungerBar.Bind(Hunger);
+    }
+
+    public void RefreshDeviceList()
+    {
+        var foundDevices = GetComponentsInChildren<IActivatableDevice>(true);
+        foreach (var device in foundDevices)
+        {
+            if (!_devices.ContainsKey(device.DeviceID))
+            {
+                _devices[device.DeviceID] = device;
+            }
+        }
+    }
+
+    public bool TryGetDevice(string deviceID, out IActivatableDevice device)
+    {
+        return _devices.TryGetValue(deviceID, out device);
+    }
+
+    public void RegisterDevice(string deviceID, IActivatableDevice device)
+    {
+        if (!_devices.ContainsKey(deviceID))
+        {
+            _devices.Add(deviceID, device);
+        }
+    }
+
+    public void UseDevice(string deviceID)
+    {
+        if (_devices.TryGetValue(deviceID, out var device))
+        {
+            device.Activate();
+        }
     }
 
     // --- 추가된 함수: 외부(몬스터 등)에서 데미지를 줄 때 호출 ---
