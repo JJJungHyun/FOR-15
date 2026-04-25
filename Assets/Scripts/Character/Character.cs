@@ -1,6 +1,7 @@
 using UnityEngine;
 using CharacterStats;
 using System.Collections.Generic;
+using UnityEngine.Profiling;
 
 public class Character : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class Character : MonoBehaviour
     [SerializeField] private StatBar hpBar;
     [SerializeField] private StatBar hungerBar;
     [SerializeField] private StatPanel statPanel;
+    [SerializeField] private CharProfileUI profileUI;
 
 
     // --- 추가된 변수 ---
@@ -51,6 +53,7 @@ public class Character : MonoBehaviour
 
         if (hpBar != null) hpBar.Bind(Health);
         if (hungerBar != null) hungerBar.Bind(Hunger);
+        if (profileUI != null) profileUI.Bind(Health);
     }
 
     public void RefreshDeviceList()

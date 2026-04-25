@@ -26,5 +26,5 @@ public class ToggleObjectEffect : UsableItemEffect
         }
     }
 
-    public override string GetDescription() => $"{targetDeviceID} 장치를 활성화";
+    public override string GetDescription() => $"{targetDeviceID} 장치 활성화";
 }
