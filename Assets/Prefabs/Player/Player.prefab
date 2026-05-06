@@ -160,6 +160,7 @@ GameObject:
   - component: {fileID: 276159943710175170}
   - component: {fileID: 5405483822864691950}
   - component: {fileID: 79482515158975694}
+  - component: {fileID: -4974509439857420691}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -500,6 +501,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-4974509439857420691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476894614341188072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d98005d93c551984cb63459ec6d8b83a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorldObjectShadow
+  isStatic: 1
+  offset: {x: 0.1, y: -0.1, z: 0}
+  shadowColor: {r: 0, g: 0, b: 0, a: 0.5}
 --- !u!1 &8093355484298980481
 GameObject:
   m_ObjectHideFlags: 0

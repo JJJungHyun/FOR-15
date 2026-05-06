@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 3994326144737782230}
   - component: {fileID: 4437642515004023234}
   - component: {fileID: 5783630037796319015}
+  - component: {fileID: 8351103967468043469}
   m_Layer: 0
   m_Name: 'Stone '
   m_TagString: Untagged
@@ -226,3 +227,20 @@ MonoBehaviour:
   _fadeTime: 1
   _itemPrefab: {fileID: 6291070261636849244, guid: d46ea5bf42db5834aa704ce10aa79cda, type: 3}
   _dropCount: 1
+--- !u!114 &8351103967468043469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5830439309361106512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d98005d93c551984cb63459ec6d8b83a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorldObjectShadow
+  footOffset: {x: 0, y: -0.5}
+  isStatic: 1
+  shadowColor: {r: 0, g: 0, b: 0, a: 0.4}
+  baseScale: {x: 1, y: 0.8}
+  lengthVariation: 0.4
