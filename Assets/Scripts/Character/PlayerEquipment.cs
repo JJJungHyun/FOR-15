@@ -10,6 +10,8 @@ public class PlayerEquipment : MonoBehaviour
     [Header("Weapon Placement")]
     [SerializeField] private Transform weaponHolder;
 
+    [SerializeField] private GameObject bareHandPrefab;
+
     private GameObject currentWeaponInstance;
     private IWeaponAbility currentWeaponAbility;
     private EquippableItem currentEquippedItem;
@@ -41,14 +43,7 @@ public class PlayerEquipment : MonoBehaviour
     private IEnumerator InitializeDefaultSlot()
     {
         yield return null;
-
-        if (inventory != null && inventory.quickSlots.Count > 0)
-        {
-            if (currentSlotIndex == -1)
-            {
-                HandleQuickSlot(0);
-            }
-        }
+        HandleQuickSlot(0); 
     }
 
     private void OnEnable() => PlayerInputHandler.OnQuickSlotPressed += HandleQuickSlot;
@@ -63,6 +58,7 @@ public class PlayerEquipment : MonoBehaviour
         {
             UnequipWeapon();
             currentSlotIndex = -1;
+            EquipBareHands(); 
             return;
         }
 
@@ -72,7 +68,7 @@ public class PlayerEquipment : MonoBehaviour
         if (selectedSlot != null && selectedSlot.Item is EquippableItem equippable && equippable.EquipmentType == EquipmentType.Weapon)
             EquipWeapon(equippable);
         else
-            UnequipWeapon();
+            EquipBareHands(); 
     }
 
     private void EquipWeapon(EquippableItem newItem)
@@ -84,9 +80,6 @@ public class PlayerEquipment : MonoBehaviour
         if (newItem.WeaponPrefab != null)
         {
             currentWeaponInstance = Instantiate(newItem.WeaponPrefab, weaponHolder);
-            currentWeaponInstance.transform.localPosition = Vector3.zero;
-            currentWeaponInstance.transform.localRotation = Quaternion.identity;
-            currentWeaponInstance.transform.localScale = Vector3.one;
 
             currentWeaponAbility = currentWeaponInstance.GetComponent<IWeaponAbility>();
 
@@ -95,6 +88,16 @@ public class PlayerEquipment : MonoBehaviour
 
             if (currentWeaponInstance.TryGetComponent(out WeaponHandler handler))
                 handler.UpdateColliderSize();
+        }
+    }
+
+    private void EquipBareHands()
+    {
+        UnequipWeapon();
+        if (bareHandPrefab != null)
+        {
+            currentWeaponInstance = Instantiate(bareHandPrefab, weaponHolder);
+            currentWeaponAbility = currentWeaponInstance.GetComponent<IWeaponAbility>();
         }
     }
 

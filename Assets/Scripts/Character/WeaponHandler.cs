@@ -24,6 +24,17 @@ public class WeaponHandler : MonoBehaviour, IWeaponAbility
         weaponCollider.enabled = false;
     }
 
+    public void OnAttackStart(Character player)
+    {
+        if (isAttacking) return;
+
+        ownerPlayer = player;
+        StartCoroutine(AttackRoutine());
+    }
+
+    public void OnAttackHold(Character player) { }
+    public void OnAttackRelease(Character player) { }
+
     public void UpdateColliderSize()
     {
         if (spriteRenderer.sprite != null)
@@ -31,16 +42,6 @@ public class WeaponHandler : MonoBehaviour, IWeaponAbility
             weaponCollider.size = spriteRenderer.sprite.bounds.size;
             weaponCollider.offset = spriteRenderer.sprite.bounds.center;
         }
-    }
-
-    // 공격 실행
-    public bool ExecuteAttack(Character player)
-    {
-        if (isAttacking) return false;
-
-        ownerPlayer = player;
-        StartCoroutine(AttackRoutine());
-        return true;
     }
 
     private IEnumerator AttackRoutine()

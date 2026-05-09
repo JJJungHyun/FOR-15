@@ -2,31 +2,49 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
-    public float moveSpeed;
+    public float moveSpeed = 5f;
+
     public PlayerAnimation playerAnimation;
 
     private SpriteRenderer spriteRenderer;
 
+    private Rigidbody2D rb;
+
+    private Vector2 moveInput;
+
     private void Awake()
     {
-        playerAnimation = new PlayerAnimation(GetComponent<Animator>());
+        playerAnimation =
+            new PlayerAnimation(GetComponent<Animator>());
+
+        rb = GetComponent<Rigidbody2D>();
     }
+
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
+
     void Update()
     {
-        // 방향키 입력
+        // 입력만 받기
         float inputX = Input.GetAxisRaw("Horizontal");
         float inputY = Input.GetAxisRaw("Vertical");
 
-        // 입력 방향 정규화
-        Vector3 normalizedInput = new Vector3(inputX, inputY, 0).normalized;
+        moveInput =
+            new Vector2(inputX, inputY).normalized;
 
-        // 이동 로직
-        transform.Translate(normalizedInput * moveSpeed * Time.deltaTime);
+        // 애니메이션 처리
+        UpdateAnimation(inputX, inputY);
+    }
 
+    private void FixedUpdate()
+    {
+        rb.linearVelocity = moveInput * moveSpeed;
+    }
+
+    void UpdateAnimation(float inputX, float inputY)
+    {
         if (inputX == 0 && inputY == 0)
         {
             playerAnimation.SetAnimState(PlayerAnimState.Idle);
@@ -41,11 +59,10 @@ public class PlayerControl : MonoBehaviour
             {
                 playerAnimation.SetAnimState(PlayerAnimState.MoveDown);
             }
-        
             else if (inputX != 0)
             {
-                // 오른쪽(>0)이면 flipX를 true, 왼쪽(<0)이면 false
                 spriteRenderer.flipX = (inputX > 0);
+
                 playerAnimation.SetAnimState(PlayerAnimState.MoveLeft);
             }
         }

@@ -18,4 +18,11 @@ public class ItemObject : MonoBehaviour
     public Item GetItem() => item;
     public int GetAmount() => amount;
     public void OnPickedUp() => Destroy(gameObject);
+
+    public void SetItemData(Item newItem, int newAmount)
+    {
+        item = newItem;
+        amount = newAmount;
+        UpdateSprite();
+    }
 }

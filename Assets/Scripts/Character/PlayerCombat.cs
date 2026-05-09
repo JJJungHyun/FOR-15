@@ -16,17 +16,38 @@ public class PlayerCombat : MonoBehaviour
         equipment = GetComponent<PlayerEquipment>();
     }
 
-    private void OnEnable() => PlayerInputHandler.OnAttackPressed += TryAttack;
-    private void OnDisable() => PlayerInputHandler.OnAttackPressed -= TryAttack;
+    private void OnEnable()
+    {
+        PlayerInputHandler.OnAttackPressed += HandleAttackStart;
+        PlayerInputHandler.OnAttackHeld += HandleAttackHold;
+        PlayerInputHandler.OnAttackReleased += HandleAttackRelease;
+    }
+
+    private void OnDisable()
+    {
+        PlayerInputHandler.OnAttackPressed -= HandleAttackStart;
+        PlayerInputHandler.OnAttackHeld -= HandleAttackHold;
+        PlayerInputHandler.OnAttackReleased -= HandleAttackRelease;
+    }
 
     private void Update() => HandleWeaponFacing();
 
-    public void TryAttack()
+    private void HandleAttackStart()
     {
         if (equipment != null && equipment.CurrentWeaponAbility != null)
-        {
-            equipment.CurrentWeaponAbility.ExecuteAttack(player);
-        }
+            equipment.CurrentWeaponAbility.OnAttackStart(player);
+    }
+
+    private void HandleAttackHold()
+    {
+        if (equipment != null && equipment.CurrentWeaponAbility != null)
+            equipment.CurrentWeaponAbility.OnAttackHold(player);
+    }
+
+    private void HandleAttackRelease()
+    {
+        if (equipment != null && equipment.CurrentWeaponAbility != null)
+            equipment.CurrentWeaponAbility.OnAttackRelease(player);
     }
 
     private void HandleWeaponFacing()

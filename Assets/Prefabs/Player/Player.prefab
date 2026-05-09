@@ -361,6 +361,7 @@ MonoBehaviour:
   hpBar: {fileID: 0}
   hungerBar: {fileID: 0}
   statPanel: {fileID: 0}
+  profileUI: {fileID: 0}
 --- !u!114 &2809477338103953616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -400,7 +401,7 @@ MonoBehaviour:
   detectionRadius: 3
   itemLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
 --- !u!114 &2319308538196561598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,9 +446,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 406b4dafcb36ede40afe9b55f7d5b33c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
-  offsetX: 0.5
-  offsetY: 0.5
-  weaponVisualScale: 1
+  offsetX: 2
+  offsetY: -1
+  weaponVisualScale: 3
 --- !u!114 &276159943710175170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -461,6 +462,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerEquipment
   weaponHolder: {fileID: 3426266329336076847}
+  bareHandPrefab: {fileID: 5884597979597576333, guid: c6ab4c58c800b7349a3d6548e563b4fd, type: 3}
 --- !u!114 &5405483822864691950
 MonoBehaviour:
   m_ObjectHideFlags: 0
