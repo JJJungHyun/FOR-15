@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class TimeManage : MonoBehaviour
+public class TimeManage: MonoBehaviour
 {
     [Header("시간 설정")]
     public float totalCycleTime; // 전체 주기 (2분)
@@ -12,6 +12,8 @@ public class TimeManage : MonoBehaviour
     public Light2D sunLight;
     public float maxIntensity; // 낮일 때 밝기
     public float minIntensity; // 밤일 때 밝기
+
+    public static TimeManage instance;
 
     void Update()
     {
@@ -28,5 +30,10 @@ public class TimeManage : MonoBehaviour
             // 밤: 최소 밝기 유지
             sunLight.intensity = minIntensity;
         }
+    }
+    void Awake()
+    {
+        // 중요: 이 코드가 있어야 외부에서 TimeManage.instance 로 접근이 가능합니다.
+        if (instance == null) instance = this;
     }
 }
