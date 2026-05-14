@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1563fc4fd03739946a03f1ec495a021b, type: 3}
   m_Name: crab
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
-  disposition: 1
-  hurtReaction: 1
+  disposition: 0
   attackStyle: 0
-  maxHp: 10
+  maxHp: 50
   walkSpeed: 2
   chaseSpeed: 7
   attackDamage: 0
@@ -26,4 +25,10 @@ MonoBehaviour:
   moveTime: 3
   idleTime: 2
   attackCooldown: 0
+  reinforcementPrefabs: []
+  reactionSequence:
+  - type: 1
+    chance: 100
+    stopChain: 1
+  nextActionMap: []
   dropTable: []

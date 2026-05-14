@@ -22,29 +22,7 @@ public class CallHelpState : IState
         SpawnReinforcements();
         yield return new WaitForSeconds(0.5f);
 
-
-        switch (owner.data.disposition)
-        {
-            case MonsterDisposition.Passive:
-                owner.ChangeState(new ReturnState(owner));
-                break;
-
-            case MonsterDisposition.Neutral:
-                owner.DetectPlayer(); 
-                if (owner.Target != null)
-                    owner.ChangeState(new CombatState(owner));
-                else
-                    owner.ChangeState(new ReturnState(owner));
-                break;
-
-            case MonsterDisposition.Aggressive:
-                owner.DetectPlayer();
-                if (owner.Target != null)
-                    owner.ChangeState(new CombatState(owner));
-                else
-                    owner.ChangeState(new ReturnState(owner));
-                break;
-        }
+        owner.OnActionFinished("CallHelp");
     }
 
     private void SpawnReinforcements()

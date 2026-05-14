@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: boar
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
   disposition: 1
-  hurtReaction: 2
   attackStyle: 2
   maxHp: 65
   walkSpeed: 5
@@ -26,6 +25,12 @@ MonoBehaviour:
   moveTime: 3
   idleTime: 2
   attackCooldown: 3
+  reinforcementPrefabs: []
+  reactionSequence:
+  - type: 2
+    chance: 100
+    stopChain: 1
+  nextActionMap: []
   dropTable:
   - itemPrefab: {fileID: 6291070261636849244, guid: d46ea5bf42db5834aa704ce10aa79cda, type: 3}
     dropChance: 1

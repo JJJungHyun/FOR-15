@@ -100,30 +100,43 @@ public class MonsterController : MonoBehaviour, IDamageable
 
         ChangeState(new KnockbackState(this, attackerPos));
 
-        if (data.hurtReaction == HurtReactionType.CallHelp)
+        // 시퀀스 리스트를 순회하며 확률 체크
+        foreach (var step in data.reactionSequence)
         {
-            if (Random.value < data.callHelpChance)
+            if (Random.Range(0f, 100f) <= step.chance)
             {
-                ChangeState(new CallHelpState(this));
+                ExecuteReaction(step.type);
+                if (step.stopChain) break; // 이번 행동이 사슬을 끊는다면 중단
             }
-            else
-            {
-                ChangeState(new FleeState(this));
-            }
+        }
+    }
+
+    // 중간 단계 상태들이 종료될 때 호출할 함수
+    public void OnActionFinished(string key)
+    {
+        // 데이터 맵에서 다음 목적지를 찾음
+        var transition = data.nextActionMap.Find(x => x.triggerKey == key);
+        if (transition.triggerKey != null)
+        {
+            ExecuteReaction(transition.nextAction);
         }
         else
         {
-            switch (data.hurtReaction)
-            {
-                case HurtReactionType.Flee:
-                    ChangeState(new FleeState(this));
-                    break;
-                case HurtReactionType.Counter:
-                    var col = Physics2D.OverlapCircle(transform.position, data.detectRange, LayerMask.GetMask("Player"));
-                    if (col != null) Target = col.transform;
-                    ChangeState(new CombatState(this));
-                    break;
-            }
+            // 매핑이 없으면 기본적으로 복귀
+            ChangeState(new ReturnState(this));
+        }
+    }
+
+    public void ExecuteReaction(HurtReactionType type)
+    {
+        switch (type)
+        {
+            case HurtReactionType.Flee: ChangeState(new FleeState(this)); break;
+            case HurtReactionType.CallHelp: ChangeState(new CallHelpState(this)); break;
+            case HurtReactionType.Counter:
+                SetTargetFromDetection();
+                ChangeState(new CombatState(this));
+                break;
         }
     }
 

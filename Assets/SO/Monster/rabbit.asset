@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: rabbit
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
   disposition: 0
-  hurtReaction: 3
   attackStyle: 0
   maxHp: 20
   walkSpeed: 7
@@ -28,7 +27,16 @@ MonoBehaviour:
   attackCooldown: 0
   reinforcementPrefabs:
   - {fileID: 7403477820895952762, guid: 550a468872b4786418b8bedc9fcec910, type: 3}
-  callHelpChance: 0.5
+  reactionSequence:
+  - type: 3
+    chance: 50
+    stopChain: 1
+  - type: 1
+    chance: 50
+    stopChain: 1
+  nextActionMap:
+  - triggerKey: CallHelp
+    nextAction: 0
   dropTable:
   - itemPrefab: {fileID: 6291070261636849244, guid: d46ea5bf42db5834aa704ce10aa79cda, type: 3}
     dropChance: 1
