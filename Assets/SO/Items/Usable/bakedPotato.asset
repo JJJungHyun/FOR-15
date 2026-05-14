@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2aa36add3bd1e34281f4e4991239b4e, type: 3}
+  m_Name: bakedPotato
+  m_EditorClassIdentifier: Assembly-CSharp::UsableItem
+  id: 31dff017432064a438220c37c4a1ffd8
+  ItemName: "\uAD6C\uC6B4\uAC10\uC790"
+  Icon: {fileID: -6338319413664897797, guid: 12cb05158b73efa458f93d1dd21b8085, type: 3}
+  MaximumStacks: 5
+  IsConsumable: 1
+  Effects:
+  - {fileID: 11400000, guid: 76b5d688a82da8942b66dc6f1bd523c7, type: 2}

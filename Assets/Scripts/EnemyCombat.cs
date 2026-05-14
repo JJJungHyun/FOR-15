@@ -5,16 +5,12 @@ using UnityEngine.Events;
 
 public class EnemyCombat : MonoBehaviour, IDamageable
 {
-    /*[SerializeField] private GameObject[] itemPool;
-    [SerializeField] private float dropChance;*/
+    [SerializeField] private GameObject[] itemPool;
+    [SerializeField] private float dropChance;
 
     private Rigidbody2D rb;
     private EnemyControl movementScript;
     private bool isStunned = false;
-
-    [SerializeField] private GameObject ItemPrefab;
-    [SerializeField] private EnemyData enemyData;
-    [SerializeField] private string enemyName; 
 
     [Header("Stats")]
     [SerializeField] private float maxHp = 50f;
@@ -151,32 +147,25 @@ public class EnemyCombat : MonoBehaviour, IDamageable
 
     void TryDropItem()
     {
-        if (enemyData == null) return;
+        if (itemPool.Length == 0) return;
 
-        var settings = enemyData.GetSettings(enemyName);
-        if (settings == null) return;
-
-        foreach (var drop in settings.drops)
+        // 확률 체크
+        if (Random.value <= dropChance)
         {
-            float randomRoll = Random.Range(0f, 100f);
+            // 1. 아이템 선택
+            int randomIndex = Random.Range(0, itemPool.Length);
+            GameObject selectedItem = itemPool[randomIndex];
 
-            if (randomRoll <= drop.dropRate)
+            // 2. 아이템 생성 (변수에 담기)
+            GameObject droppedItem = Instantiate(selectedItem, transform.position, Quaternion.identity);
+
+            // 3. 애니메이션 컴포넌트 가져오기
+            ItemPopUp anim = droppedItem.GetComponent<ItemPopUp>();
+
+            // 4. 애니메이션 실행
+            if (anim != null)
             {
-                int finalAmount = Random.Range(drop.minAmount, drop.maxAmount + 1);
-
-                if (finalAmount <= 0) continue;
-
-                GameObject go = Instantiate(ItemPrefab, transform.position, Quaternion.identity);
-
-                if (go.TryGetComponent(out ItemObject itemObj))
-                {
-                    itemObj.SetItemData(drop.itemSO, finalAmount);
-                }
-
-                if (go.TryGetComponent(out ItemPopUp anim))
-                {
-                    anim.PlayDropAnimation();
-                }
+                anim.PlayDropAnimation();
             }
         }
     }
