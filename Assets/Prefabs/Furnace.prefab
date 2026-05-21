@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5064732354911609211}
   - component: {fileID: 4566053690136021843}
   - component: {fileID: 3130340577213426887}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Furnace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,4 +170,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd353966374151b4abdf4d04a2f4b2d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FurnaceInteractable
-  furnaceCanvas: {fileID: 0}

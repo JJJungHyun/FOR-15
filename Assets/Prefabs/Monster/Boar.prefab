@@ -363,6 +363,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterController
   data: {fileID: 11400000, guid: 3c04de6956a564949832f9dc427a34f4, type: 2}
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  avoidDetectDistance: 1.2
+  avoidRadius: 0.35
 --- !u!95 &7513375876897108973
 Animator:
   serializedVersion: 7
