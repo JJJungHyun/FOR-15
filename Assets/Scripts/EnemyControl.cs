@@ -16,6 +16,7 @@ public class EnemyControl : MonoBehaviour
     private Transform player;    // 추적할 플레이어
 
     private Vector3 spawnPoint;  // 기준점
+    private bool movementLocked = false;
 
     private WolfAnimation wolfAnimation;
 
@@ -155,5 +156,10 @@ public class EnemyControl : MonoBehaviour
         // 이미 돌아가고 있을지 모를 코루틴을 정리하고 새로 시작
         StopAllCoroutines();
         StartCoroutine(MainRoutine());
+    }
+
+    public void LockMovement(bool value)
+    {
+        movementLocked = value;
     }
 }

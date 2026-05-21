@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1563fc4fd03739946a03f1ec495a021b, type: 3}
+  m_Name: crab
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterData
+  disposition: 0
+  attackStyle: 0
+  maxHp: 50
+  walkSpeed: 2
+  chaseSpeed: 7
+  attackDamage: 0
+  detectRange: 10
+  attackRange: 0
+  patrolRadius: 20
+  returnRange: 0
+  moveTime: 3
+  idleTime: 2
+  attackCooldown: 0
+  reinforcementPrefabs: []
+  reactionSequence:
+  - type: 1
+    chance: 100
+    stopChain: 1
+  nextActionMap: []
+  dropTable: []

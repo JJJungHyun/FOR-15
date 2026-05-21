@@ -1,8 +1,14 @@
 using UnityEngine;
 using CharacterStats;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.Profiling;
 
-public class Character : MonoBehaviour
+public class Character : MonoBehaviour, IDamageable
 {
+    private Dictionary<string, IActivatableDevice> _devices = new Dictionary<string, IActivatableDevice>();
+    private Coroutine _farmingResetCoroutine;
+
     [Header("Initial Base Stats")]
     [SerializeField] private float baseStr = 10f;
     [SerializeField] private float baseDef = 5f;
@@ -22,6 +28,9 @@ public class Character : MonoBehaviour
     [SerializeField] private StatBar hpBar;
     [SerializeField] private StatBar hungerBar;
     [SerializeField] private StatPanel statPanel;
+    [SerializeField] private CharProfileUI profileUI;
+
+    public bool IsFarming { get; set; } = false;
 
     // --- 추가된 변수 ---
     private bool _isDead = false;
@@ -36,6 +45,8 @@ public class Character : MonoBehaviour
         ConditionHandler = GetComponent<CharConditionHandler>();
         if (ConditionHandler != null)
             ConditionHandler.Init(this);
+
+        RefreshDeviceList();
     }
 
     private void Start()
@@ -45,14 +56,78 @@ public class Character : MonoBehaviour
 
         if (hpBar != null) hpBar.Bind(Health);
         if (hungerBar != null) hungerBar.Bind(Hunger);
+        if (profileUI != null) profileUI.Bind(Health);
     }
 
-    // --- 추가된 함수: 외부(몬스터 등)에서 데미지를 줄 때 호출 ---
+    private void OnEnable()
+    {
+        PlayerInputHandler.OnFarmingPressed += StartFarmingState;
+    }
+
+    private void OnDisable()
+    {
+        PlayerInputHandler.OnFarmingPressed -= StartFarmingState;
+    }
+
+    private void StartFarmingState()
+    {
+        if (_isDead) return;
+
+        IsFarming = true;
+
+        if (_farmingResetCoroutine != null) StopCoroutine(_farmingResetCoroutine);
+
+        _farmingResetCoroutine = StartCoroutine(ResetFarmingState(1.0f));
+    }
+
+    IEnumerator ResetFarmingState(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        IsFarming = false;
+    }
+
+    public void RefreshDeviceList()
+    {
+        var foundDevices = GetComponentsInChildren<IActivatableDevice>(true);
+        foreach (var device in foundDevices)
+        {
+            if (!_devices.ContainsKey(device.DeviceID))
+            {
+                _devices[device.DeviceID] = device;
+            }
+        }
+    }
+
+    public bool TryGetDevice(string deviceID, out IActivatableDevice device)
+    {
+        return _devices.TryGetValue(deviceID, out device);
+    }
+
+    public void RegisterDevice(string deviceID, IActivatableDevice device)
+    {
+        if (!_devices.ContainsKey(deviceID))
+        {
+            _devices.Add(deviceID, device);
+        }
+    }
+
+    public void UseDevice(string deviceID)
+    {
+        if (_devices.TryGetValue(deviceID, out var device))
+        {
+            device.Activate();
+        }
+    }
+
+    public void TakeDamage(float damage, Vector2 attackerPosition)
+    {
+        TakeDamage(damage);
+    }
+
     public void TakeDamage(float damage)
     {
         if (_isDead) return;
 
-        // Value가 아니라 CurrentValue를 수정해야 합니다!
         Health.CurrentValue -= damage;
 
         Debug.Log($"현재 체력: {Health.CurrentValue}");

@@ -36,6 +36,7 @@ public class EquippableItem : Item
         c.Defense.RemoveAllModifiersFromSource(this);
     }
 
+
     public override string GetItemType() => EquipmentType.ToString();
 
     public override string GetDescription()

@@ -145,7 +145,7 @@ public class EnemyCombat : MonoBehaviour, IDamageable
         isStunned = false;
     }
 
-    void TryDropItem()  
+    void TryDropItem()
     {
         if (itemPool.Length == 0) return;
 

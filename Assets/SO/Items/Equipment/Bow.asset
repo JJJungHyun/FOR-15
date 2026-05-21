@@ -16,7 +16,7 @@ MonoBehaviour:
   ItemName: "\uD65C"
   Icon: {fileID: -415446080585258355, guid: 0419deb179888774bac151d149dda380, type: 3}
   MaximumStacks: 1
-  WeaponPrefab: {fileID: 5884597979597576333, guid: 88aff0082ac2da541a9131be21452284, type: 3}
+  WeaponPrefab: {fileID: 5884597979597576333, guid: 069611cf44682e64a9cc8f7b892d1312, type: 3}
   StrengthBonus: 5
   DefenseBonus: 0
   StrengthPercentBonus: 0

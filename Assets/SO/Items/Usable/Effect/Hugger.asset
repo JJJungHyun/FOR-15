@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1411523b84081d943950d7677c438307, type: 3}
   m_Name: Hugger
   m_EditorClassIdentifier: Assembly-CSharp::RestoreStatItemEffect
-  TargetStat: 0
-  RestoreAmount: 0
+  TargetStat: 1
+  RestoreAmount: 30
   IsPercent: 0

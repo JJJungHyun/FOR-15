@@ -3,12 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - EscapeZone
+  - Enemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - Item
@@ -38,9 +40,6 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: MabObject
-    uniqueID: 2493027397
-    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

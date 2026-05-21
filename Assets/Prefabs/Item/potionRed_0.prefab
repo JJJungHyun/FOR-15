@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1144203714549301163}
   - component: {fileID: 8820783580783817451}
   - component: {fileID: -9129139979325831646}
+  - component: {fileID: -3464809252922506210}
   m_Layer: 6
   m_Name: potionRed_0
   m_TagString: Untagged
@@ -154,3 +155,18 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.61, y: 0.71}
   m_EdgeRadius: 0
+--- !u!114 &-3464809252922506210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9165056121040424855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a154bda0a3f2ceb4cb9064590a76e5a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemPopUp
+  _jumpPower: 2
+  _jumpDuration: 0.5
+  _dropRange: 1.5
