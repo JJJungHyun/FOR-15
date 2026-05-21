@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 446f0e7bdaaa42f4bae0e89e2c505423, type: 3}
-  m_Name: Bread_Recipe
+  m_Name: Ammo_Recipe
   m_EditorClassIdentifier: Assembly-CSharp::CraftingRecipe
-  Category: 3
+  Category: 0
   RequiredStation: 0
   Materials:
-  - Item: {fileID: 11400000, guid: 17feef9b728acb14ab9c9a40c0a747ab, type: 2}
-    Amount: 5
+  - Item: {fileID: 11400000, guid: a08482246c86b00489d7fcaec53fe578, type: 2}
+    Amount: 1
+  - Item: {fileID: 11400000, guid: b679ade3230ae004da49b512412cf892, type: 2}
+    Amount: 1
   Result:
-    Item: {fileID: 11400000, guid: 0898cce32abe4a94ab094885d842be95, type: 2}
+    Item: {fileID: 11400000, guid: 58671f942affe064bbc2212124ecee73, type: 2}
     Amount: 1

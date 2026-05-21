@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c353b82625f13bb4d89ead419af98f07, type: 3}
-  m_Name: Pebble
+  m_Name: Coconut
   m_EditorClassIdentifier: Assembly-CSharp::Item
-  id: b679ade3230ae004da49b512412cf892
-  ItemName: "\uB3CC"
-  Icon: {fileID: 8361171416893098218, guid: f824d7f11623a5e4ea2764b329e28411, type: 3}
+  id: 0e0c4aaf731772a46b30f4179ba10b57
+  ItemName: "\uCF54\uCF54\uB11B"
+  Icon: {fileID: 4097144792221710411, guid: 7d63fc99796a0bc4fab1f783781a12ae, type: 3}
   MaximumStacks: 99

@@ -10,13 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 446f0e7bdaaa42f4bae0e89e2c505423, type: 3}
-  m_Name: Bread_Recipe
+  m_Name: EscapeB_Recipe
   m_EditorClassIdentifier: Assembly-CSharp::CraftingRecipe
-  Category: 3
+  Category: 0
   RequiredStation: 0
   Materials:
-  - Item: {fileID: 11400000, guid: 17feef9b728acb14ab9c9a40c0a747ab, type: 2}
-    Amount: 5
+  - Item: {fileID: 11400000, guid: 2cdd90f27a84d38478df43091a04f29b, type: 2}
+    Amount: 1
+  - Item: {fileID: 11400000, guid: bdc53de3709adff4f88971ad3b517db6, type: 2}
+    Amount: 1
+  - Item: {fileID: 11400000, guid: d367f87f3d569064c9c9a213216f7f97, type: 2}
+    Amount: 1
   Result:
-    Item: {fileID: 11400000, guid: 0898cce32abe4a94ab094885d842be95, type: 2}
+    Item: {fileID: 11400000, guid: 4e39fc722a1c2e442bd097f6f328d09b, type: 2}
     Amount: 1
