@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 742962929346621070}
   - component: {fileID: 480415885773723914}
   - component: {fileID: 1261021555621415308}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: hpText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -195,7 +195,7 @@ GameObject:
   - component: {fileID: 3021245354191194441}
   - component: {fileID: 2629112981609874228}
   - component: {fileID: 8819229810869697293}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Crab
   m_TagString: Enemy
   m_Icon: {fileID: 0}

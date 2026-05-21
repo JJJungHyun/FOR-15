@@ -70,6 +70,7 @@ public class InventoryController : MonoBehaviour
         BaseItemSlotUI.OnSlotEndDragEvent += HandleEndDrag;
         BaseItemSlotUI.OnSlotDragEvent += HandleDrag;
         BaseItemSlotUI.OnSlotDropEvent += HandleDrop;
+        PlayerInputHandler.OnQuickSlotPressed += HandleQuickSlotPressed;
     }
 
     private void OnDisable()
@@ -79,6 +80,7 @@ public class InventoryController : MonoBehaviour
         BaseItemSlotUI.OnSlotEndDragEvent -= HandleEndDrag;
         BaseItemSlotUI.OnSlotDragEvent -= HandleDrag;
         BaseItemSlotUI.OnSlotDropEvent -= HandleDrop;
+        PlayerInputHandler.OnQuickSlotPressed -= HandleQuickSlotPressed;
 
         if (draggedSlot != null) HandleEndDrag(draggedSlot);
     }
@@ -227,6 +229,25 @@ public class InventoryController : MonoBehaviour
             sourceSlot.Slot.Amount = 0;
             sourceSlot.Slot.UpdateSlot();
             RefreshTooltip(sourceSlot);
+        }
+    }
+    #endregion
+
+    #region QuickSlot
+    private void HandleQuickSlotPressed(int slotIndex)
+    {
+        if (inventory == null) return;
+
+        if (slotIndex >= 0 && slotIndex < inventory.quickSlots.Count)
+        {
+            ItemSlot targetSlot = inventory.quickSlots[slotIndex];
+
+            if (targetSlot != null && targetSlot.Item != null)
+            {
+                Debug.Log($"퀵슬롯 {slotIndex + 1}번 아이템 사용: {targetSlot.Item.ItemName}");
+
+                targetSlot.Item.Use(character);
+            }
         }
     }
     #endregion

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7945777162299341701}
   - component: {fileID: 3319685205346921343}
   - component: {fileID: 5818852293394784666}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: hpText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -195,7 +195,7 @@ GameObject:
   - component: {fileID: 2698980522585607035}
   - component: {fileID: 7699705282658779559}
   - component: {fileID: 7513375876897108973}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Boar
   m_TagString: Enemy
   m_Icon: {fileID: 0}

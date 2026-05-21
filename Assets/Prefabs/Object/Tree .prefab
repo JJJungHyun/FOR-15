@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9166483320714472022}
   - component: {fileID: 1233814483084405532}
   - component: {fileID: 8608363428174143609}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 'Tree '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectFader
   _fadeTime: 1
-  _itemPrefab: {fileID: 6291070261636849244, guid: d46ea5bf42db5834aa704ce10aa79cda, type: 3}
+  _itemPrefab: {fileID: 9165056121040424855, guid: a71d1726f7a6f334da8f84891af8dbb6, type: 3}
   _dropCount: 3
 --- !u!114 &7983963262901868611
 MonoBehaviour:
@@ -149,7 +149,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5436125931649359682}
   - component: {fileID: 3763805172230566206}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

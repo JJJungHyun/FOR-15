@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8593778948404406387}
   - component: {fileID: 7301714807911548024}
   - component: {fileID: 7929097798024372653}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CoconutCrab_1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 3622262679985130779}
   - component: {fileID: 9181582177308089484}
   - component: {fileID: 1023542036158762247}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: hpText
   m_TagString: Untagged
   m_Icon: {fileID: 0}

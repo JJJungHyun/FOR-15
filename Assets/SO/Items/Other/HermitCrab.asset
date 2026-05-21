@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c353b82625f13bb4d89ead419af98f07, type: 3}
+  m_Name: HermitCrab
+  m_EditorClassIdentifier: Assembly-CSharp::Item
+  id: a6b4b5481f09dd5498d7354bd8b10f3a
+  ItemName: "\uC18C\uB77C\uAC8C"
+  Icon: {fileID: 1544354356635034539, guid: 7976a206594ddcf499c7f2f38717afbf, type: 3}
+  MaximumStacks: 99

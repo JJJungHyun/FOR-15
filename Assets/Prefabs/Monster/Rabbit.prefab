@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9064491136418424633}
   - component: {fileID: 5924395051948600299}
   - component: {fileID: 1532685189071474929}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Rabbit
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 2566947853298049506}
   - component: {fileID: 8180145758447853543}
   - component: {fileID: 4717847269449648100}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: hpText
   m_TagString: Untagged
   m_Icon: {fileID: 0}

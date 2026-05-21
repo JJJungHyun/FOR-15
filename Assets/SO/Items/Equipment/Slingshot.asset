@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6988656f8911ab4cb0392251128a5eb, type: 3}
+  m_Name: Slingshot
+  m_EditorClassIdentifier: Assembly-CSharp::EquippableItem
+  id: bd97d3dabd051c44ab91b2eded41f781
+  ItemName: "\uC0C8\uCD1D"
+  Icon: {fileID: -415446080585258355, guid: 0419deb179888774bac151d149dda380, type: 3}
+  MaximumStacks: 1
+  WeaponPrefab: {fileID: 5884597979597576333, guid: 069611cf44682e64a9cc8f7b892d1312, type: 3}
+  StrengthBonus: 5
+  DefenseBonus: 0
+  StrengthPercentBonus: 0
+  DefensePercentBonus: 0
+  EquipmentType: 4

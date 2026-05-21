@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2883927309866007915}
   - component: {fileID: 6083972463986758174}
   - component: {fileID: 5014608648958979331}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: HermitCrab
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 8597752183946335442}
   - component: {fileID: 671903815112387613}
   - component: {fileID: 4826821796172357392}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: hpText
   m_TagString: Untagged
   m_Icon: {fileID: 0}

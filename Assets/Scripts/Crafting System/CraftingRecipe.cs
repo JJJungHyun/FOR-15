@@ -13,7 +13,7 @@ public struct ItemAmount
 public enum CraftingCategory { All, Weapon, Armor, Food, Misc }
 public enum CraftingStation { None, Workbench, Forge }
 
-[CreateAssetMenu(menuName = "Crafting/Recipe")]
+[CreateAssetMenu(menuName = "Recipe/Crafting Recipe")]
 public class CraftingRecipe : ScriptableObject
 {
     public CraftingCategory Category;
@@ -36,7 +36,7 @@ public class CraftingRecipe : ScriptableObject
 
     public void Craft(IItemContainer container)
     {
-        // Àç·á Á¦°Å
+        // ìž¬ë£Œ ì œê±°
         foreach (var material in Materials)
         {
             for (int i = 0; i < material.Amount; i++)
@@ -45,7 +45,7 @@ public class CraftingRecipe : ScriptableObject
             }
         }
 
-        // °á°ú¹° Ãß°¡
+        // ê²°ê³¼ë¬¼ ì¶”ê°€
         for (int i = 0; i < Result.Amount; i++)
         {
             container.AddItem(Result.Item.GetCopy());
