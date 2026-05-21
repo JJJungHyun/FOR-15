@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9f7d4e7330ad0f4458943f177424d8ba
+guid: 322f056cc16db4747bdab35b1a95c758
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7418319356420012835
-    second: IMG_5566_0
+      213: -574868403420277541
+    second: "\uAE30\uBCF8 \uC228\uC26C\uAE30 \uBAA8\uC158  (1)_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: IMG_5566_0
+      name: "\uAE30\uBCF8 \uC228\uC26C\uAE30 \uBAA8\uC158  (1)_0"
       rect:
         serializedVersion: 2
-        x: 263
-        y: 105
-        width: 429
-        height: 793
+        x: 256
+        y: 99
+        width: 444
+        height: 802
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: dd44e2a69d5dc0990800000000000000
-      internalID: -7418319356420012835
+      spriteID: bd4d98d9b38a508f0800000000000000
+      internalID: -574868403420277541
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      IMG_5566_0: -7418319356420012835
+      "\uAE30\uBCF8 \uC228\uC26C\uAE30 \uBAA8\uC158  (1)_0": -574868403420277541
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
