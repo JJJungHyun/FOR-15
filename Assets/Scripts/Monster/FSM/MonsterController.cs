@@ -16,8 +16,15 @@ public class MonsterController : MonoBehaviour, IDamageable
 
     public bool IsAttacking { get; set; }
     public Transform Target { get; private set; }
-
     public Vector3 SpawnPoint { get; private set; }
+
+    [Header("장애물 회피 시스템 (자체 우회)")]
+    [SerializeField] private LayerMask obstacleLayer; // 회피할 바위, 나무 등의 레이어
+    [SerializeField] private float avoidDetectDistance = 1.2f; // 장애물을 미리 감지할 전방 거리
+    [SerializeField] private float avoidRadius = 0.35f; // 몬스터의 물리적 두께 반지름
+
+    [Header("UI 시스템")]
+    [SerializeField] private MonsterHPBar hpBar; 
 
     private void Awake()
     {
@@ -27,6 +34,16 @@ public class MonsterController : MonoBehaviour, IDamageable
 
         currentHp = data.maxHp;
         SpawnPoint = transform.position;
+
+        if (hpBar != null)
+        {
+            hpBar.Init(data.maxHp, transform);
+        }
+        else
+        {
+            hpBar = GetComponentInChildren<MonsterHPBar>();
+            if (hpBar != null) hpBar.Init(data.maxHp, transform);
+        }
 
         SetupDetectionStrategy();
 
@@ -66,9 +83,54 @@ public class MonsterController : MonoBehaviour, IDamageable
 
     public void MoveTo(Vector3 target, float speed)
     {
-        Vector3 direction = (target - transform.position).normalized;
-        transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime);
-        monsterAnim.UpdateMoveAnimation(direction);
+        Vector2 currentPos = transform.position;
+        Vector2 targetPos = target;
+        Vector2 moveDirection = (targetPos - currentPos).normalized;
+
+        float distToTarget = Vector2.Distance(currentPos, targetPos);
+        if (distToTarget > 0.1f)
+        {
+            RaycastHit2D hit = Physics2D.CircleCast(currentPos, avoidRadius, moveDirection, avoidDetectDistance, obstacleLayer);
+
+            if (hit.collider != null)
+            {
+                Vector2 alternativeDir = Vector2.zero;
+                bool foundPath = false;
+
+                float[] avoidAngles = { 30f, -30f, 60f, -60f, 90f, -90f };
+
+                foreach (float angle in avoidAngles)
+                {
+                    Vector2 rotatedDir = Quaternion.Euler(0, 0, angle) * moveDirection;
+                    RaycastHit2D checkHit = Physics2D.CircleCast(currentPos, avoidRadius, rotatedDir, avoidDetectDistance, obstacleLayer);
+
+                    if (checkHit.collider == null)
+                    {
+                        alternativeDir = rotatedDir;
+                        foundPath = true;
+                        break;
+                    }
+                }
+
+                if (foundPath)
+                {
+                    moveDirection = alternativeDir;
+                }
+            }
+        }
+
+        Vector3 nextPos = (Vector3)currentPos + (Vector3)(moveDirection * speed * Time.deltaTime);
+        transform.position = nextPos;
+
+        monsterAnim.UpdateMoveAnimation(moveDirection);
+    }
+
+    public void StopMoving()
+    {
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
     }
 
     public bool DetectPlayer()
@@ -91,6 +153,12 @@ public class MonsterController : MonoBehaviour, IDamageable
         if (isDead) return;
         currentHp -= damage;
 
+        // UI 체력바 실시간 업데이트
+        if (hpBar != null)
+        {
+            hpBar.UpdateHP(currentHp);
+        }
+
         if (currentHp <= 0)
         {
             isDead = true;
@@ -100,21 +168,18 @@ public class MonsterController : MonoBehaviour, IDamageable
 
         ChangeState(new KnockbackState(this, attackerPos));
 
-        // 시퀀스 리스트를 순회하며 확률 체크
         foreach (var step in data.reactionSequence)
         {
             if (Random.Range(0f, 100f) <= step.chance)
             {
                 ExecuteReaction(step.type);
-                if (step.stopChain) break; // 이번 행동이 사슬을 끊는다면 중단
+                if (step.stopChain) break;
             }
         }
     }
 
-    // 중간 단계 상태들이 종료될 때 호출할 함수
     public void OnActionFinished(string key)
     {
-        // 데이터 맵에서 다음 목적지를 찾음
         var transition = data.nextActionMap.Find(x => x.triggerKey == key);
         if (transition.triggerKey != null)
         {
@@ -122,7 +187,6 @@ public class MonsterController : MonoBehaviour, IDamageable
         }
         else
         {
-            // 매핑이 없으면 기본적으로 복귀
             ChangeState(new ReturnState(this));
         }
     }
@@ -165,14 +229,17 @@ public class MonsterController : MonoBehaviour, IDamageable
         }
     }
 
-    // 디버그용 기즈모
     private void OnDrawGizmosSelected()
     {
         if (data == null) return;
+
         Gizmos.color = Color.green;
         Vector3 center = Application.isPlaying ? SpawnPoint : transform.position;
         Gizmos.DrawWireSphere(center, data.patrolRadius);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, data.detectRange);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, avoidRadius);
     }
 }

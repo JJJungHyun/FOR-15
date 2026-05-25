@@ -7,19 +7,10 @@ public class PlayerEquipment : MonoBehaviour
     private Inventory inventory;
     private InventoryController inventoryController;
 
-    [Header("Weapon Placement")]
-    [SerializeField] private Transform weaponHolder;
-
-    [SerializeField] private GameObject bareHandPrefab;
-
-    private GameObject currentWeaponInstance;
-    private IWeaponAbility currentWeaponAbility;
-    private EquippableItem currentEquippedItem;
+    private EquippableItem currentSelectedWeapon;
     private int currentSlotIndex = -1;
 
-    public IWeaponAbility CurrentWeaponAbility => currentWeaponAbility;
-    public GameObject CurrentWeaponInstance => currentWeaponInstance;
-    public Transform WeaponHolder => weaponHolder;
+    public EquippableItem CurrentSelectedWeapon => currentSelectedWeapon;
 
     private void Awake()
     {
@@ -43,7 +34,7 @@ public class PlayerEquipment : MonoBehaviour
     private IEnumerator InitializeDefaultSlot()
     {
         yield return null;
-        HandleQuickSlot(0); 
+        HandleQuickSlot(0);
     }
 
     private void OnEnable() => PlayerInputHandler.OnQuickSlotPressed += HandleQuickSlot;
@@ -56,54 +47,46 @@ public class PlayerEquipment : MonoBehaviour
 
         if (currentSlotIndex == index)
         {
-            UnequipWeapon();
+            RemoveCurrentWeaponStats();
             currentSlotIndex = -1;
-            EquipBareHands(); 
+            currentSelectedWeapon = null;
+            UpdatePlayerAnimationState(null);
             return;
         }
+
+        RemoveCurrentWeaponStats();
 
         currentSlotIndex = index;
         ItemSlot selectedSlot = inventory.quickSlots[index];
 
         if (selectedSlot != null && selectedSlot.Item is EquippableItem equippable && equippable.EquipmentType == EquipmentType.Weapon)
-            EquipWeapon(equippable);
+        {
+            currentSelectedWeapon = equippable;
+            currentSelectedWeapon.Equip(player);
+        }
         else
-            EquipBareHands(); 
+        {
+            currentSelectedWeapon = null;
+        }
+
+        UpdatePlayerAnimationState(currentSelectedWeapon);
     }
 
-    private void EquipWeapon(EquippableItem newItem)
+    private void RemoveCurrentWeaponStats()
     {
-        UnequipWeapon();
-        currentEquippedItem = newItem;
-        currentEquippedItem.Equip(player);
-
-        if (newItem.WeaponPrefab != null)
+        if (currentSelectedWeapon != null)
         {
-            currentWeaponInstance = Instantiate(newItem.WeaponPrefab, weaponHolder);
-
-            currentWeaponAbility = currentWeaponInstance.GetComponent<IWeaponAbility>();
-
-            SpriteRenderer sr = currentWeaponInstance.GetComponent<SpriteRenderer>();
-            if (sr != null) sr.sprite = newItem.Icon;
-
-            if (currentWeaponInstance.TryGetComponent(out WeaponHandler handler))
-                handler.UpdateColliderSize();
+            currentSelectedWeapon.Unequip(player);
         }
     }
 
-    private void EquipBareHands()
+    private void UpdatePlayerAnimationState(EquippableItem weapon)
     {
-        UnequipWeapon();
-        if (bareHandPrefab != null)
+        Animator anim = GetComponent<Animator>();
+        if (anim != null)
         {
-            currentWeaponInstance = Instantiate(bareHandPrefab, weaponHolder);
-            currentWeaponAbility = currentWeaponInstance.GetComponent<IWeaponAbility>();
+            int toolType = (weapon != null) ? (int)weapon.ToolType : 0;
+            anim.SetInteger("EquippedToolType", toolType);
         }
-    }
-
-    private void UnequipWeapon()
-    {
-        if (currentEquippedItem != null) { currentEquippedItem.Unequip(player); currentEquippedItem = null; }
-        if (currentWeaponInstance != null) { Destroy(currentWeaponInstance); currentWeaponAbility = null; }
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class WeaponChargeUI : MonoBehaviour
 {
-    [SerializeField] private PlayerEquipment playerEquipment;
+    [SerializeField] private PlayerCombat playerCombat;
     [SerializeField] private GameObject chargeBarObject;
     [SerializeField] private Image chargeFillImage;
     [SerializeField] private Color normalColor = Color.white;
@@ -11,18 +11,15 @@ public class WeaponChargeUI : MonoBehaviour
 
     private void Update()
     {
-        if (playerEquipment == null) return;
+        if (playerCombat == null) return;
 
-        var ability = playerEquipment.CurrentWeaponAbility;
-
-        RangedAbility rangedAbility = ability as RangedAbility;
-
-        if (rangedAbility != null && rangedAbility.IsAttacking)
+        if (playerCombat.IsCharging)
         {
             if (chargeBarObject != null) chargeBarObject.SetActive(true);
 
-            float ratio = rangedAbility.ChargeRatio;
+            float ratio = playerCombat.ChargeRatio;
             chargeFillImage.fillAmount = ratio;
+
             chargeFillImage.color = (ratio >= 1.0f) ? fullChargeColor : normalColor;
         }
         else

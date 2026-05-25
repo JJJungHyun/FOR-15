@@ -9,9 +9,6 @@ public class InventoryController : MonoBehaviour
     [SerializeField] private Character character;
     [SerializeField] private Image dragIcon;
 
-    [Header("Equipment Slots")]
-    [SerializeField] private List<EquipmentSlotUI> equipmentSlots = new List<EquipmentSlotUI>();
-
     [Header("Tooltips")]
     [SerializeField] private ItemTooltip itemTooltip;
     [SerializeField] private StatTooltip statTooltip;
@@ -23,8 +20,6 @@ public class InventoryController : MonoBehaviour
         if (itemTooltip != null) itemTooltip.gameObject.SetActive(true);
         if (statTooltip != null) statTooltip.gameObject.SetActive(true);
         if (dragIcon != null) dragIcon.gameObject.SetActive(false);
-
-        InitializeStartingEquipments();
     }
 
     private void Start()
@@ -35,21 +30,7 @@ public class InventoryController : MonoBehaviour
         RefreshAllSlots();
     }
 
-    public Inventory GetInventory()
-    {
-        return inventory;
-    }
-
-    private void InitializeStartingEquipments()
-    {
-        foreach (var slotUI in equipmentSlots)
-        {
-            if (slotUI.Slot != null && slotUI.Slot.Item is EquippableItem equippable)
-            {
-                equippable.Equip(character);
-            }
-        }
-    }
+    public Inventory GetInventory() => inventory;
 
     public void RefreshAllSlots()
     {
@@ -70,6 +51,7 @@ public class InventoryController : MonoBehaviour
         BaseItemSlotUI.OnSlotEndDragEvent += HandleEndDrag;
         BaseItemSlotUI.OnSlotDragEvent += HandleDrag;
         BaseItemSlotUI.OnSlotDropEvent += HandleDrop;
+        PlayerInputHandler.OnQuickSlotPressed += HandleQuickSlotPressed;
     }
 
     private void OnDisable()
@@ -79,6 +61,7 @@ public class InventoryController : MonoBehaviour
         BaseItemSlotUI.OnSlotEndDragEvent -= HandleEndDrag;
         BaseItemSlotUI.OnSlotDragEvent -= HandleDrag;
         BaseItemSlotUI.OnSlotDropEvent -= HandleDrop;
+        PlayerInputHandler.OnQuickSlotPressed -= HandleQuickSlotPressed;
 
         if (draggedSlot != null) HandleEndDrag(draggedSlot);
     }
@@ -115,10 +98,9 @@ public class InventoryController : MonoBehaviour
     {
         if (draggedSlot == null || dropSlotUI == null) return;
 
+        // 서로 교환 가능한 아이템 구조인지만 체크 (순수 스왑 기능)
         if (dropSlotUI.CanReceiveItem(draggedSlot.Slot.Item) && draggedSlot.CanReceiveItem(dropSlotUI.Slot.Item))
         {
-            HandleEquipmentLogic(draggedSlot, dropSlotUI);
-
             ItemSlot source = draggedSlot.Slot;
             ItemSlot target = dropSlotUI.Slot;
 
@@ -137,24 +119,6 @@ public class InventoryController : MonoBehaviour
             RefreshTooltip(dropSlotUI);
         }
     }
-
-    private void HandleEquipmentLogic(BaseItemSlotUI sourceSlot, BaseItemSlotUI targetSlot)
-    {
-        if (!(sourceSlot is EquipmentSlotUI) && targetSlot is EquipmentSlotUI)
-        {
-            if (targetSlot.Slot.Item is EquippableItem oldItem) oldItem.Unequip(character);
-            if (sourceSlot.Slot.Item is EquippableItem newItem) newItem.Equip(character);
-        }
-        else if (sourceSlot is EquipmentSlotUI && !(targetSlot is EquipmentSlotUI))
-        {
-            if (sourceSlot.Slot.Item is EquippableItem unequipItem) unequipItem.Unequip(character);
-        }
-        else if (sourceSlot is EquipmentSlotUI && targetSlot is EquipmentSlotUI)
-        {
-            if (sourceSlot.Slot.Item is EquippableItem item1) item1.Unequip(character);
-            if (targetSlot.Slot.Item is EquippableItem item2) item2.Equip(character);
-        }
-    }
     #endregion
 
     #region Right Click 
@@ -163,17 +127,9 @@ public class InventoryController : MonoBehaviour
         Item item = slotUI.Slot.Item;
         if (item == null) return;
 
-        if (slotUI is EquipmentSlotUI equipSlot)
-        {
-            UnequipViaRightClick(equipSlot);
-            return;
-        }
-
-        if (item is EquippableItem equippable)
-        {
-            EquipViaRightClick(slotUI, equippable);
-        }
-        else if (item is UsableItem usable)
+        // [장비 장착/해제 로직 제거됨] 
+        // 이제 인벤토리는 소모품 등 공통 사용 로직만 보유합니다.
+        if (item is UsableItem usable)
         {
             usable.Use(character);
             if (usable.IsConsumable)
@@ -193,40 +149,21 @@ public class InventoryController : MonoBehaviour
         else
             ItemTooltip.Instance?.HideTooltip();
     }
+    #endregion
 
-    private void EquipViaRightClick(BaseItemSlotUI sourceSlot, EquippableItem item)
+    #region QuickSlot
+    private void HandleQuickSlotPressed(int slotIndex)
     {
-        foreach (var targetSlot in equipmentSlots)
+        if (inventory == null) return;
+
+        if (slotIndex >= 0 && slotIndex < inventory.quickSlots.Count)
         {
-            if (targetSlot.SlotType == item.EquipmentType)
+            ItemSlot targetSlot = inventory.quickSlots[slotIndex];
+            if (targetSlot != null && targetSlot.Item != null)
             {
-                if (targetSlot.Slot.Item is EquippableItem oldEquip) oldEquip.Unequip(character);
-                item.Equip(character);
-
-                Item temp = targetSlot.Slot.Item;
-                targetSlot.Slot.Item = item;
-                sourceSlot.Slot.Item = temp;
-
-                targetSlot.Slot.UpdateSlot();
-                sourceSlot.Slot.UpdateSlot();
-                RefreshTooltip(sourceSlot);
-                return;
+                Debug.Log($"퀵슬롯 {slotIndex + 1}번 아이템 사용: {targetSlot.Item.ItemName}");
+                targetSlot.Item.Use(character);
             }
-        }
-    }
-
-    private void UnequipViaRightClick(EquipmentSlotUI sourceSlot)
-    {
-        EquippableItem item = sourceSlot.Slot.Item as EquippableItem;
-        if (item == null) return;
-
-        if (inventory.AddItemCustomPriority(item, 1))
-        {
-            item.Unequip(character);
-            sourceSlot.Slot.Item = null;
-            sourceSlot.Slot.Amount = 0;
-            sourceSlot.Slot.UpdateSlot();
-            RefreshTooltip(sourceSlot);
         }
     }
     #endregion

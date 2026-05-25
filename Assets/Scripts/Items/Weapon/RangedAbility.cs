@@ -1,50 +1,45 @@
 using UnityEngine;
 
-public class RangedAbility : MonoBehaviour, IWeaponAbility
+[CreateAssetMenu(menuName = "Weapons/Abilities/Ranged Ability")]
+public class RangedAbility : ScriptableObject, IWeaponAbility
 {
+    [Header("Ranged Config")]
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private float maxChargeTime = 1.5f;
     [SerializeField] private float minRange = 2f;
     [SerializeField] private float maxRange = 12f;
     [SerializeField] private float projectileSpeed = 15f;
+    [SerializeField] private float attackCooldown = 0.5f;
 
-    private float currentChargeTime;
-    private bool isCharging;
+    // 데이터 조회용 프로퍼티 오픈
+    public float MaxChargeTime => maxChargeTime;
+    public float AttackCooldown => attackCooldown;
 
-    public bool IsAttacking => isCharging;
+    public bool IsAttacking => false;
+    public bool IsCharging => false;
+    public float ChargeRatio => 0f;
 
-    public float ChargeRatio => Mathf.Clamp01(currentChargeTime / maxChargeTime);
+    public void OnAttackStart(Character player, Vector3 attackDir) { }
+    public void OnAttackHold(Character player, Vector3 attackDir) { }
 
-    public void OnAttackStart(Character player)
+    public void OnAttackRelease(Character player, Vector3 attackDir)
     {
-        isCharging = true;
-        currentChargeTime = 0f;
+        if (player.TryGetComponent(out PlayerCombat combat))
+        {
+            Fire(player, attackDir, combat.ChargeRatio);
+        }
     }
 
-    public void OnAttackHold(Character player)
+    private void Fire(Character player, Vector3 attackDir, float chargeRatio)
     {
-        if (!isCharging) return;
-        currentChargeTime += Time.deltaTime;
-    }
+        if (projectilePrefab == null) return;
 
-    public void OnAttackRelease(Character player)
-    {
-        if (!isCharging) return;
-        Fire(player);
-        isCharging = false;
-    }
+        float finalRange = Mathf.Lerp(minRange, maxRange, chargeRatio);
 
-    private void Fire(Character player)
-    {
-        float finalRange = Mathf.Lerp(minRange, maxRange, ChargeRatio);
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0;
-        Vector3 dir = (mousePos - transform.position).normalized;
-
-        GameObject proj = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+        GameObject proj = Instantiate(projectilePrefab, player.transform.position, Quaternion.identity);
         if (proj.TryGetComponent(out Projectile projectileScript))
         {
-            projectileScript.Setup(dir, projectileSpeed, finalRange, player.GetAttackDamage());
+            projectileScript.Setup(attackDir, projectileSpeed, finalRange, player.GetAttackDamage());
         }
     }
 }

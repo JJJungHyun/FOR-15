@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c353b82625f13bb4d89ead419af98f07, type: 3}
-  m_Name: bone
+  m_Name: Bone
   m_EditorClassIdentifier: Assembly-CSharp::Item
   id: a08482246c86b00489d7fcaec53fe578
-  ItemName: bone
-  Icon: {fileID: 7675826601332790545, guid: 3c9613ff81ea9a84da3fb75b7cbdb520, type: 3}
+  ItemName: "\uBF08"
+  Icon: {fileID: 7553835203902197830, guid: 4530035f0cb6876418cc35920fd5321c, type: 3}
   MaximumStacks: 99

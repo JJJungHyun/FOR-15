@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c353b82625f13bb4d89ead419af98f07, type: 3}
+  m_Name: Log
+  m_EditorClassIdentifier: Assembly-CSharp::Item
+  id: 57bfe0be1b30177478c0098687715ed9
+  ItemName: "\uB098\uBB34 \uC6D0\uBAA9"
+  Icon: {fileID: -5034061168752090764, guid: 30ed1c63ab43a14468915882ad900d61, type: 3}
+  MaximumStacks: 10

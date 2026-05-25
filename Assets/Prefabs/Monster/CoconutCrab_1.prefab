@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8593778948404406387}
   - component: {fileID: 7301714807911548024}
   - component: {fileID: 7929097798024372653}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: CoconutCrab_1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -86,12 +86,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 2723267827211427421, guid: 9e68c245ce468f9408810bde2396bc61, type: 3}
+  m_Sprite: {fileID: -7473508731796611570, guid: 2228a50c60e5f4440a1d79da9046bf0c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.04, y: 0.83}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -161,8 +161,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 0.83}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 1.04, y: 0.83}
+    newSize: {x: 1.04, y: 0.83}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -182,6 +182,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterController
   data: {fileID: 11400000, guid: 96c6e19e47cdc5940b391c75da778fb8, type: 2}
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  avoidDetectDistance: 1.2
+  avoidRadius: 0.35
+  hpBar: {fileID: 0}
 --- !u!95 &7929097798024372653
 Animator:
   serializedVersion: 7
@@ -215,7 +221,7 @@ GameObject:
   - component: {fileID: 3622262679985130779}
   - component: {fileID: 9181582177308089484}
   - component: {fileID: 1023542036158762247}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: hpText
   m_TagString: Untagged
   m_Icon: {fileID: 0}

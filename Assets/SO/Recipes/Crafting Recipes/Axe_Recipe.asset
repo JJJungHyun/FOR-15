@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 446f0e7bdaaa42f4bae0e89e2c505423, type: 3}
+  m_Name: Axe_Recipe
+  m_EditorClassIdentifier: Assembly-CSharp::CraftingRecipe
+  Category: 1
+  RequiredStation: 0
+  Materials:
+  - Item: {fileID: 11400000, guid: b89fc9ce2c1b645479859ba17c02d566, type: 2}
+    Amount: 2
+  - Item: {fileID: 11400000, guid: b679ade3230ae004da49b512412cf892, type: 2}
+    Amount: 1
+  - Item: {fileID: 11400000, guid: 2d1121c9a3b3f2e4b8d31887434a3d29, type: 2}
+    Amount: 1
+  Result:
+    Item: {fileID: 11400000, guid: b61cf65bd06149648a4bd998b6ca38d8, type: 2}
+    Amount: 1

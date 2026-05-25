@@ -1,11 +1,22 @@
 using UnityEngine;
 using CharacterStats;
+public enum EquipmentType
+{
+    Helmet, Chestplate, Gloves, Boots, Weapon, Accessory,
+}
+
+public enum ToolType { None = 0, Slingshot = 1, Axe = 2, Pickaxe = 3 }
 
 [CreateAssetMenu(menuName = "Items/Equippable Item")]
 public class EquippableItem : Item
 {
-    [Header("Combat Prefab")]
-    public GameObject WeaponPrefab;
+    [Header("Weapon Ability Configuration")]
+    [SerializeField] private ScriptableObject weaponAbilityAsset;
+
+    public IWeaponAbility WeaponAbility => weaponAbilityAsset as IWeaponAbility;
+
+    [Header("Animation Settings")]
+    public ToolType ToolType;
 
     public int StrengthBonus;
     public int DefenseBonus;
@@ -17,17 +28,10 @@ public class EquippableItem : Item
 
     public void Equip(Character c)
     {
-        if (StrengthBonus != 0)
-            c.Strength.AddModifier(new StatModifier(StrengthBonus, StatModType.Flat, this));
-
-        if (DefenseBonus != 0)
-            c.Defense.AddModifier(new StatModifier(DefenseBonus, StatModType.Flat, this));
-
-        if (StrengthPercentBonus != 0)
-            c.Strength.AddModifier(new StatModifier(StrengthPercentBonus, StatModType.PercentMult, this));
-
-        if (DefensePercentBonus != 0)
-            c.Defense.AddModifier(new StatModifier(DefensePercentBonus, StatModType.PercentMult, this));
+        if (StrengthBonus != 0) c.Strength.AddModifier(new StatModifier(StrengthBonus, StatModType.Flat, this));
+        if (DefenseBonus != 0) c.Defense.AddModifier(new StatModifier(DefenseBonus, StatModType.Flat, this));
+        if (StrengthPercentBonus != 0) c.Strength.AddModifier(new StatModifier(StrengthPercentBonus, StatModType.PercentMult, this));
+        if (DefenseBonus != 0) c.Defense.AddModifier(new StatModifier(DefensePercentBonus, StatModType.PercentMult, this));
     }
 
     public void Unequip(Character c)
@@ -36,9 +40,7 @@ public class EquippableItem : Item
         c.Defense.RemoveAllModifiersFromSource(this);
     }
 
-
     public override string GetItemType() => EquipmentType.ToString();
-
     public override string GetDescription()
     {
         sb.Length = 0;
@@ -55,24 +57,9 @@ public class EquippableItem : Item
         {
             if (sb.Length > 0) sb.AppendLine();
             if (value > 0) sb.Append("+");
-
-            if (isPercent)
-            {
-                sb.Append(value * 100);
-                sb.Append("% ");
-            }
-            else
-            {
-                sb.Append(value);
-                sb.Append(" ");
-            }
+            if (isPercent) { sb.Append(value * 100); sb.Append("% "); }
+            else { sb.Append(value); sb.Append(" "); }
             sb.Append(statName);
         }
     }
-}
-
-
-public enum EquipmentType
-{
-    Helmet, Chestplate, Gloves, Boots, Weapon, Accessory,
 }

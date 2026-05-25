@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2aa36add3bd1e34281f4e4991239b4e, type: 3}
+  m_Name: Cooked_Coconutcrab_1
+  m_EditorClassIdentifier: Assembly-CSharp::UsableItem
+  id: 960de225ddc94bb428c33f231f8327da
+  ItemName: "\uAD6C\uC6B4 \uCF54\uCF54\uB11B\uD06C\uB7A9"
+  Icon: {fileID: 258735269523343206, guid: 61a9ac81d1cb19f4d89c48e3036f99ba, type: 3}
+  MaximumStacks: 10
+  IsConsumable: 1
+  Effects:
+  - {fileID: 11400000, guid: 76b5d688a82da8942b66dc6f1bd523c7, type: 2}
