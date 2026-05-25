@@ -2,7 +2,8 @@ using UnityEngine;
 
 public enum WolfAnimState
 {
-    MoveLeft = 0,
+    Idle = 0,
+    MoveLeft,
     MoveUp,
     MoveDown
 }

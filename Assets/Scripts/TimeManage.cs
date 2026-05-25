@@ -13,6 +13,8 @@ public class TimeManage: MonoBehaviour
     public float maxIntensity; // 낮일 때 밝기
     public float minIntensity; // 밤일 때 밝기
 
+    public Light playerLight;
+
     public static TimeManage instance;
 
     void Update()
@@ -24,11 +26,15 @@ public class TimeManage: MonoBehaviour
         if (currentTime <= 0.5f)
         {
             sunLight.intensity = Mathf.Clamp(Mathf.Sin(currentTime * Mathf.PI * 2) * maxIntensity, minIntensity, maxIntensity);
+
+            if (playerLight != null) playerLight.enabled = false;
         }
         else
         {
             // 밤: 최소 밝기 유지
             sunLight.intensity = minIntensity;
+
+            if (playerLight != null) playerLight.enabled = true;
         }
     }
     void Awake()

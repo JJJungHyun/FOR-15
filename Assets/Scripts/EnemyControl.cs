@@ -80,6 +80,9 @@ public class EnemyControl : MonoBehaviour
         // 대기
         float waitTime = Random.Range(idleTime * 0.5f, idleTime * 1.5f);
         float timer = 0;
+
+        wolfAnimation.SetAnimState(WolfAnimState.Idle);
+
         while (timer < waitTime)
         {
             if (IsPlayerDetected()) yield break;
@@ -96,18 +99,18 @@ public class EnemyControl : MonoBehaviour
         {
             if (IsPlayerDetected()) yield break;
 
-            UpdateAnimation(Vector3.zero);
+            UpdateAnimation(targetPos);
 
             transform.position = Vector2.MoveTowards(
                 transform.position,
                 targetPos,
                 moveSpeed * Time.deltaTime
             );
-
             yield return null;
         }
+
+        UpdateAnimation(targetPos);
     }
-    
     bool IsPlayerDetected()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, detectRange);
@@ -131,19 +134,24 @@ public class EnemyControl : MonoBehaviour
         Vector3 currentPos = transform.position;
         float diffX = targetPos.x - currentPos.x;
         float diffY = targetPos.y - currentPos.y;
+        float threshold = 0.05f;
 
+        if (Mathf.Abs(diffX) <= threshold && Mathf.Abs(diffY) <= threshold)
+        {
+            wolfAnimation.SetAnimState(WolfAnimState.Idle);
+        }
         // 1. 상하 이동 판단 (Y축 차이가 더 클 때)
-        if (Mathf.Abs(diffY) > Mathf.Abs(diffX))
+        else if (Mathf.Abs(diffY) > Mathf.Abs(diffX))
         {
             spriteRenderer.flipX = false; // 상하 이동 시 flip 해제
 
-            if (diffY > 0.05f)
+            if (diffY > threshold)
                 wolfAnimation.SetAnimState(WolfAnimState.MoveUp);
-            else if (diffY < -0.05f)
+            else if (diffY < -threshold)
                 wolfAnimation.SetAnimState(WolfAnimState.MoveDown);
         }
         // 2. 좌우 이동 판단 (X축 차이가 더 클 때)
-        else if (Mathf.Abs(diffX) > 0.05f)
+        else if (Mathf.Abs(diffX) > threshold)
         {
             // MoveLeft 애니메이션 하나를 사용하고 flipX로 방향 결정
             // (오른쪽 타겟이면 flipX = true)
