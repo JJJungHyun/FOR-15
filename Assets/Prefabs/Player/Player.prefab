@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3678661527432239261}
   - component: {fileID: 1872506435301984586}
   - component: {fileID: 5278338038986555326}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 276159943710175170}
   - component: {fileID: 5405483822864691950}
   - component: {fileID: 79482515158975694}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -257,7 +257,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_AngularDamping: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -268,7 +268,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!70 &1669878403439454689
 CapsuleCollider2D:
@@ -377,12 +377,6 @@ MonoBehaviour:
   inventory: {fileID: 0}
   character: {fileID: 2845865592246385957}
   dragIcon: {fileID: 0}
-  equipmentSlots:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   itemTooltip: {fileID: 0}
   statTooltip: {fileID: 0}
 --- !u!114 &2684961597469250752
@@ -401,7 +395,7 @@ MonoBehaviour:
   detectionRadius: 3
   itemLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
 --- !u!114 &2319308538196561598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,9 +440,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 406b4dafcb36ede40afe9b55f7d5b33c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
-  offsetX: 2
-  offsetY: -1
-  weaponVisualScale: 3
+  bareHandAbility: {fileID: 11400000, guid: 91d847ccf76818249921d9ce41cfb1ea, type: 2}
 --- !u!114 &276159943710175170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -461,8 +453,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbd05133aa3150145bd3152ccb3d4b0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerEquipment
-  weaponHolder: {fileID: 3426266329336076847}
-  bareHandPrefab: {fileID: 5884597979597576333, guid: c6ab4c58c800b7349a3d6548e563b4fd, type: 3}
 --- !u!114 &5405483822864691950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -511,7 +501,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3426266329336076847}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: WeaponHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}

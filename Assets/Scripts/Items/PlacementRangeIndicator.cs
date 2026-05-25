@@ -22,16 +22,13 @@ public class PlacementRangeIndicator : MonoBehaviour
         lineRenderer.positionCount = segments + 1;
         lineRenderer.useWorldSpace = true;
 
-        // 부모-자식 분리형(방법2)이면 gameObject.SetActive(false); 로 쓰셔도 됩니다.
         lineRenderer.enabled = false;
     }
 
-    // ★ PlacementManager가 아이템의 MaxPlacementDistance를 이쪽(radius)으로 넘겨줍니다.
     public void Show(Vector3 center, float radius)
     {
-        currentRadius = radius; // 받아온 반지름 저장 (아이템별 사거리 동적 조정)
+        currentRadius = radius; 
 
-        // 방법 1 기준 컴포넌트 켜기 (방법 2라면 gameObject.SetActive(true);)
         lineRenderer.enabled = true;
 
         DrawCircle(center, currentRadius);
@@ -49,7 +46,7 @@ public class PlacementRangeIndicator : MonoBehaviour
     {
         if (lineRenderer != null)
         {
-            lineRenderer.enabled = false; // 방법 2라면 gameObject.SetActive(false);
+            lineRenderer.enabled = false; 
         }
     }
 
@@ -60,7 +57,6 @@ public class PlacementRangeIndicator : MonoBehaviour
 
         for (int i = 0; i < segments + 1; i++)
         {
-            // ★ 여기서 입력받은 동적 radius를 곱해주기 때문에 원의 크기가 조절됩니다.
             float x = radius * Mathf.Cos(theta);
             float y = radius * Mathf.Sin(theta);
             Vector3 pos = new Vector3(x, y, 0f) + center;

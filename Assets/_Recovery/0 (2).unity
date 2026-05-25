@@ -34208,11 +34208,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CraftingPanel
   allRecipes:
+  - {fileID: 11400000, guid: 4cddc1c1ff913ed4fb44f6e4931e552f, type: 2}
   - {fileID: 11400000, guid: 41c4a036e3fab6e4e82b07bc7bcfac3b, type: 2}
-  - {fileID: 11400000, guid: 711b6b76ff8a0224090d42364b80a532, type: 2}
+  - {fileID: 11400000, guid: ef06bb9f2ae985246a6448723ecd8fbb, type: 2}
+  - {fileID: 11400000, guid: fd1109bfc474a7445b3366ddaa673556, type: 2}
+  - {fileID: 11400000, guid: 5e6d01db6cea5ed49b7400cbff85e311, type: 2}
   - {fileID: 11400000, guid: 3bf808b1f8cda9143ae98cda1bc8c7f6, type: 2}
   - {fileID: 11400000, guid: 9fe9f31138060814bafc651b5c277096, type: 2}
   - {fileID: 11400000, guid: bf0da37eb282f3244bc95100783acd1c, type: 2}
+  - {fileID: 11400000, guid: 711b6b76ff8a0224090d42364b80a532, type: 2}
   - {fileID: 11400000, guid: 1189c06bc04fd574ebf1c1bbf0a1c7a8, type: 2}
   playerInventory: {fileID: 1808195536}
   recipeListParent: {fileID: 397149832}
@@ -36692,7 +36696,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8a5d477a14154542a16afdefac227aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponChargeUI
-  playerCombat: {fileID: 1864859640}
+  playerEquipment: {fileID: 1864859639}
   chargeBarObject: {fileID: 889429600}
   chargeFillImage: {fileID: 969554033}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -38277,14 +38281,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 209965924011735557, guid: 7bad70887923e4843b9e96cc3dc4e47d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 476894614341188072, guid: 7bad70887923e4843b9e96cc3dc4e47d, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 476894614341188072, guid: 7bad70887923e4843b9e96cc3dc4e47d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1183755970963760373, guid: 7bad70887923e4843b9e96cc3dc4e47d, type: 3}
+      propertyPath: m_AngularDamping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1183755970963760373, guid: 7bad70887923e4843b9e96cc3dc4e47d, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2684961597469250752, guid: 7bad70887923e4843b9e96cc3dc4e47d, type: 3}
       propertyPath: inventory
       value: 
       objectReference: {fileID: 1808195536}
+    - target: {fileID: 2684961597469250752, guid: 7bad70887923e4843b9e96cc3dc4e47d, type: 3}
+      propertyPath: itemLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 2809477338103953616, guid: 7bad70887923e4843b9e96cc3dc4e47d, type: 3}
       propertyPath: dragIcon
       value: 
@@ -38301,6 +38325,26 @@ PrefabInstance:
       propertyPath: statTooltip
       value: 
       objectReference: {fileID: 1950863526}
+    - target: {fileID: 2809477338103953616, guid: 7bad70887923e4843b9e96cc3dc4e47d, type: 3}
+      propertyPath: 'equipmentSlots.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1982681705}
+    - target: {fileID: 2809477338103953616, guid: 7bad70887923e4843b9e96cc3dc4e47d, type: 3}
+      propertyPath: 'equipmentSlots.Array.data[1]'
+      value: 
+      objectReference: {fileID: 844784651}
+    - target: {fileID: 2809477338103953616, guid: 7bad70887923e4843b9e96cc3dc4e47d, type: 3}
+      propertyPath: 'equipmentSlots.Array.data[2]'
+      value: 
+      objectReference: {fileID: 1227089320}
+    - target: {fileID: 2809477338103953616, guid: 7bad70887923e4843b9e96cc3dc4e47d, type: 3}
+      propertyPath: 'equipmentSlots.Array.data[3]'
+      value: 
+      objectReference: {fileID: 1835756277}
+    - target: {fileID: 2809477338103953616, guid: 7bad70887923e4843b9e96cc3dc4e47d, type: 3}
+      propertyPath: 'equipmentSlots.Array.data[4]'
+      value: 
+      objectReference: {fileID: 825144232}
     - target: {fileID: 2845865592246385957, guid: 7bad70887923e4843b9e96cc3dc4e47d, type: 3}
       propertyPath: hpBar
       value: 
@@ -38309,6 +38353,10 @@ PrefabInstance:
       propertyPath: hungerBar
       value: 
       objectReference: {fileID: 374627480}
+    - target: {fileID: 2845865592246385957, guid: 7bad70887923e4843b9e96cc3dc4e47d, type: 3}
+      propertyPath: inventory
+      value: 
+      objectReference: {fileID: 1808195536}
     - target: {fileID: 2845865592246385957, guid: 7bad70887923e4843b9e96cc3dc4e47d, type: 3}
       propertyPath: profileUI
       value: 
@@ -38361,6 +38409,10 @@ PrefabInstance:
       propertyPath: inventory
       value: 
       objectReference: {fileID: 1808195536}
+    - target: {fileID: 8093355484298980481, guid: 7bad70887923e4843b9e96cc3dc4e47d, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8466415693490717708, guid: 7bad70887923e4843b9e96cc3dc4e47d, type: 3}
       propertyPath: mainGroup
       value: 
@@ -38397,17 +38449,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ae0fc9108be5ef47addf8f7e6ef9836, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharConditionHandler
---- !u!114 &1864859640 stripped
+--- !u!114 &1864859639 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 865588815224599431, guid: 7bad70887923e4843b9e96cc3dc4e47d, type: 3}
+  m_CorrespondingSourceObject: {fileID: 276159943710175170, guid: 7bad70887923e4843b9e96cc3dc4e47d, type: 3}
   m_PrefabInstance: {fileID: 1864859635}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 406b4dafcb36ede40afe9b55f7d5b33c, type: 3}
+  m_Script: {fileID: 11500000, guid: cbd05133aa3150145bd3152ccb3d4b0b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerEquipment
 --- !u!1 &1892690788
 GameObject:
   m_ObjectHideFlags: 0
@@ -40645,7 +40697,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7513375876897108973, guid: 550a468872b4786418b8bedc9fcec910, type: 3}
-    - {fileID: 5948694414578147736, guid: 550a468872b4786418b8bedc9fcec910, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -40947,14 +40998,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1901241470100038750, guid: 5e0a51e59fc7463478bff4dcc1b3b9e4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3812031407183591015, guid: 5e0a51e59fc7463478bff4dcc1b3b9e4, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -3630689358919370552, guid: b5b06061c5482604492e2b9be1f183a9, type: 3}
-    - target: {fileID: 3812031407183591015, guid: 5e0a51e59fc7463478bff4dcc1b3b9e4, type: 3}
-      propertyPath: m_WasSpriteAssigned
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4284843250309540734, guid: 5e0a51e59fc7463478bff4dcc1b3b9e4, type: 3}

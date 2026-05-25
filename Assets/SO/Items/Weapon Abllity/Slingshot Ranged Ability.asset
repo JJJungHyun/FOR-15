@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e7ebbcefe8a8cf47b2a5091329ae9f6, type: 3}
+  m_Name: Slingshot Ranged Ability
+  m_EditorClassIdentifier: Assembly-CSharp::RangedAbility
+  projectilePrefab: {fileID: 8601571736799903222, guid: 6084710d0e14add4e99e921f65df0d86, type: 3}
+  maxChargeTime: 1.5
+  minRange: 2
+  maxRange: 12
+  projectileSpeed: 15
+  attackCooldown: 0.5

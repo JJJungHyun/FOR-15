@@ -23,6 +23,9 @@ public class MonsterController : MonoBehaviour, IDamageable
     [SerializeField] private float avoidDetectDistance = 1.2f; // 장애물을 미리 감지할 전방 거리
     [SerializeField] private float avoidRadius = 0.35f; // 몬스터의 물리적 두께 반지름
 
+    [Header("UI 시스템")]
+    [SerializeField] private MonsterHPBar hpBar; 
+
     private void Awake()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -31,6 +34,16 @@ public class MonsterController : MonoBehaviour, IDamageable
 
         currentHp = data.maxHp;
         SpawnPoint = transform.position;
+
+        if (hpBar != null)
+        {
+            hpBar.Init(data.maxHp, transform);
+        }
+        else
+        {
+            hpBar = GetComponentInChildren<MonsterHPBar>();
+            if (hpBar != null) hpBar.Init(data.maxHp, transform);
+        }
 
         SetupDetectionStrategy();
 
@@ -68,18 +81,15 @@ public class MonsterController : MonoBehaviour, IDamageable
     public void ChangeState(IState newState) => fsm.ChangeState(newState);
     public void RunBT() => btRoot.Evaluate();
 
-    // 레이캐스트 우회 기법이 적용된 MoveTo
     public void MoveTo(Vector3 target, float speed)
     {
         Vector2 currentPos = transform.position;
         Vector2 targetPos = target;
         Vector2 moveDirection = (targetPos - currentPos).normalized;
 
-        // 목적지와의 거리가 아주 가까우면 회피 연산을 하지 않고 직진 후 멈춤
         float distToTarget = Vector2.Distance(currentPos, targetPos);
         if (distToTarget > 0.1f)
         {
-            // 1. 진행 방향 정면에 두꺼운 레이(CircleCast)를 쏘아 장애물 확인
             RaycastHit2D hit = Physics2D.CircleCast(currentPos, avoidRadius, moveDirection, avoidDetectDistance, obstacleLayer);
 
             if (hit.collider != null)
@@ -87,15 +97,11 @@ public class MonsterController : MonoBehaviour, IDamageable
                 Vector2 alternativeDir = Vector2.zero;
                 bool foundPath = false;
 
-                // 좌우 30도, 60도, 90도 각도로 살피며 장애물이 없는 가장 빠른 길 탐색
                 float[] avoidAngles = { 30f, -30f, 60f, -60f, 90f, -90f };
 
                 foreach (float angle in avoidAngles)
                 {
-                    // 방향 벡터를 angle만큼 회전
                     Vector2 rotatedDir = Quaternion.Euler(0, 0, angle) * moveDirection;
-
-                    // 해당 회전 방향으로 다시 길 체크
                     RaycastHit2D checkHit = Physics2D.CircleCast(currentPos, avoidRadius, rotatedDir, avoidDetectDistance, obstacleLayer);
 
                     if (checkHit.collider == null)
@@ -106,7 +112,6 @@ public class MonsterController : MonoBehaviour, IDamageable
                     }
                 }
 
-                // 열린 길을 찾았다면 이동 방향을 우회로로 변경
                 if (foundPath)
                 {
                     moveDirection = alternativeDir;
@@ -114,15 +119,12 @@ public class MonsterController : MonoBehaviour, IDamageable
             }
         }
 
-        // 2. 최종 결정된 방향으로 부드럽게 프레임 독립적 이동
         Vector3 nextPos = (Vector3)currentPos + (Vector3)(moveDirection * speed * Time.deltaTime);
         transform.position = nextPos;
 
-        // 애니메이션 업데이트
         monsterAnim.UpdateMoveAnimation(moveDirection);
     }
 
-    // 공격 중이거나 대기 상태일 때 제자리에서 미끄러지지 않도록 속도 초기화 함수
     public void StopMoving()
     {
         if (rb != null)
@@ -151,6 +153,12 @@ public class MonsterController : MonoBehaviour, IDamageable
         if (isDead) return;
         currentHp -= damage;
 
+        // UI 체력바 실시간 업데이트
+        if (hpBar != null)
+        {
+            hpBar.UpdateHP(currentHp);
+        }
+
         if (currentHp <= 0)
         {
             isDead = true;
@@ -160,7 +168,6 @@ public class MonsterController : MonoBehaviour, IDamageable
 
         ChangeState(new KnockbackState(this, attackerPos));
 
-        // 시퀀스 리스트를 순회하며 확률 체크
         foreach (var step in data.reactionSequence)
         {
             if (Random.Range(0f, 100f) <= step.chance)
@@ -171,7 +178,6 @@ public class MonsterController : MonoBehaviour, IDamageable
         }
     }
 
-    // 중간 단계 상태들이 종료될 때 호출할 함수
     public void OnActionFinished(string key)
     {
         var transition = data.nextActionMap.Find(x => x.triggerKey == key);
@@ -223,19 +229,16 @@ public class MonsterController : MonoBehaviour, IDamageable
         }
     }
 
-    // 디버그용 기즈모 (인스펙터에서 레이가 어떻게 조준되는지 시각화)
     private void OnDrawGizmosSelected()
     {
         if (data == null) return;
 
-        // 탐지 및 순찰 반경 기즈모
         Gizmos.color = Color.green;
         Vector3 center = Application.isPlaying ? SpawnPoint : transform.position;
         Gizmos.DrawWireSphere(center, data.patrolRadius);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, data.detectRange);
 
-        // 장애물 감지 전방 레이 실시간 기즈모
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, avoidRadius);
     }

@@ -16,7 +16,8 @@ MonoBehaviour:
   ItemName: "\uC0C8\uCD1D"
   Icon: {fileID: -415446080585258355, guid: 0419deb179888774bac151d149dda380, type: 3}
   MaximumStacks: 1
-  WeaponPrefab: {fileID: 5884597979597576333, guid: 069611cf44682e64a9cc8f7b892d1312, type: 3}
+  weaponAbilityAsset: {fileID: 11400000, guid: e96f589bd0e147140a9b4845a1c512a7, type: 2}
+  ToolType: 1
   StrengthBonus: 5
   DefenseBonus: 0
   StrengthPercentBonus: 0
