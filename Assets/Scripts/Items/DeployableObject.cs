@@ -31,7 +31,6 @@ public class DeployableObject : MonoBehaviour
 
     protected virtual void OnLifespanExpired()
     {
-        // 이펙트를 뿌리거나 사운드를 내고 삭제
         Debug.Log($"{gameObject.name}의 지속 시간이 다되어 소멸합니다.");
         Destroy(gameObject);
     }

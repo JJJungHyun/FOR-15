@@ -1,5 +1,6 @@
 using UnityEngine;
 using CharacterStats;
+using System;
 public enum EquipmentType
 {
     Helmet, Chestplate, Gloves, Boots, Weapon, Accessory,
@@ -18,6 +19,16 @@ public class EquippableItem : Item
     [Header("Animation Settings")]
     public ToolType ToolType;
 
+    [Header("Durability Settings")]
+    [SerializeField] private bool hasDurability = true;
+    [SerializeField] private int maxDurability = 100;
+
+    public event Action OnDurabilityChanged;
+
+    public int MaxDurability => maxDurability;
+    public int CurrentDurability { get; set; }
+    public bool HasDurability => hasDurability;
+
     public int StrengthBonus;
     public int DefenseBonus;
     [Space]
@@ -25,6 +36,13 @@ public class EquippableItem : Item
     public float DefensePercentBonus;
     [Space]
     public EquipmentType EquipmentType;
+
+    public override Item GetCopy()
+    {
+        EquippableItem clone = Instantiate(this);
+        clone.CurrentDurability = this.maxDurability;
+        return clone;
+    }
 
     public void Equip(Character c)
     {
@@ -38,6 +56,27 @@ public class EquippableItem : Item
     {
         c.Strength.RemoveAllModifiersFromSource(this);
         c.Defense.RemoveAllModifiersFromSource(this);
+    }
+
+    // 내구도 감소
+    public void ConsumeDurability(int amount, Character owner)
+    {
+        if (!hasDurability) return;
+
+        CurrentDurability = Mathf.Max(0, CurrentDurability - amount);
+        OnDurabilityChanged?.Invoke();
+
+        Debug.Log($"{ItemName} 내구도 감소 (-{amount}). 현재: {CurrentDurability}/{MaxDurability}");
+
+        if (CurrentDurability <= 0)
+        {
+            HandleBroken(owner);
+        }
+    }
+
+    private void HandleBroken(Character owner)
+    {
+        Debug.LogWarning($"{ItemName}의 내구도가 다해 파괴되었습니다!");
     }
 
     public override string GetItemType() => EquipmentType.ToString();

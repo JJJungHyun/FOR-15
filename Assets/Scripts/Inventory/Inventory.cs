@@ -90,7 +90,6 @@ public class Inventory : ItemContainer
     {
         if (parent == null || slotPrefab == null) return;
 
-        // 기존 UI 삭제
         foreach (Transform child in parent) Destroy(child.gameObject);
 
         foreach (var slot in list)

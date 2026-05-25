@@ -98,7 +98,6 @@ public class InventoryController : MonoBehaviour
     {
         if (draggedSlot == null || dropSlotUI == null) return;
 
-        // 서로 교환 가능한 아이템 구조인지만 체크 (순수 스왑 기능)
         if (dropSlotUI.CanReceiveItem(draggedSlot.Slot.Item) && draggedSlot.CanReceiveItem(dropSlotUI.Slot.Item))
         {
             ItemSlot source = draggedSlot.Slot;
@@ -127,8 +126,6 @@ public class InventoryController : MonoBehaviour
         Item item = slotUI.Slot.Item;
         if (item == null) return;
 
-        // [장비 장착/해제 로직 제거됨] 
-        // 이제 인벤토리는 소모품 등 공통 사용 로직만 보유합니다.
         if (item is UsableItem usable)
         {
             usable.Use(character);

@@ -24,7 +24,7 @@ public class MonsterController : MonoBehaviour, IDamageable
     [SerializeField] private float avoidRadius = 0.35f; // 몬스터의 물리적 두께 반지름
 
     [Header("UI 시스템")]
-    [SerializeField] private MonsterHPBar hpBar; 
+    [SerializeField] private MonsterHPBar hpBar;
 
     private void Awake()
     {
@@ -133,6 +133,7 @@ public class MonsterController : MonoBehaviour, IDamageable
         }
     }
 
+    // [버그 수정 ⭐️] 도망 상태일 때 Target이 null로 증발하여 무한 복귀하던 로직 수정
     public bool DetectPlayer()
     {
         var col = Physics2D.OverlapCircle(transform.position, data.detectRange, LayerMask.GetMask("Player"));
@@ -144,6 +145,13 @@ public class MonsterController : MonoBehaviour, IDamageable
                 return true;
             }
         }
+
+        // 현재 도망(FleeState) 중이라면, 플레이어가 감지 범위를 살짝 벗어났어도 Target을 유지시킵니다.
+        if (fsm != null && fsm.GetCurrentStateName() == "FleeState")
+        {
+            return false;
+        }
+
         Target = null;
         return false;
     }
@@ -165,6 +173,10 @@ public class MonsterController : MonoBehaviour, IDamageable
             ChangeState(new DieState(this));
             return;
         }
+
+        // 공격구조 변경 대응: 피격 시 공격한 대상을 확고하게 타겟으로 재설정
+        var col = Physics2D.OverlapCircle(transform.position, data.detectRange, LayerMask.GetMask("Player"));
+        if (col != null) Target = col.transform;
 
         ChangeState(new KnockbackState(this, attackerPos));
 

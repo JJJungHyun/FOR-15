@@ -29,10 +29,10 @@ MonoBehaviour:
   - {fileID: 7403477820895952762, guid: 550a468872b4786418b8bedc9fcec910, type: 3}
   reactionSequence:
   - type: 3
-    chance: 50
+    chance: 0
     stopChain: 1
   - type: 1
-    chance: 50
+    chance: 100
     stopChain: 1
   nextActionMap:
   - triggerKey: CallHelp

@@ -5,11 +5,11 @@ public class CombatState : IState
     private MonsterController owner;
     public CombatState(MonsterController o) => owner = o;
 
-    public void Enter() {}
+    public void Enter() { }
 
     public void Update()
     {
-        if (owner.IsAttacking) { owner.RunBT(); return; }
+        if (owner.IsAttacking) return;
 
         float distFromSpawn = Vector3.Distance(owner.transform.position, owner.SpawnPoint);
         if (distFromSpawn > owner.data.returnRange)

@@ -9,9 +9,12 @@ public abstract class BaseItemSlotUI : MonoBehaviour, IPointerClickHandler, IBeg
     [Header("UI References")]
     [SerializeField] protected Image iconImage;
     [SerializeField] protected TMP_Text amountText;
+    [SerializeField] protected GameObject durabilityBarObject;
+    [SerializeField] protected Image durabilityFillImage;
 
     protected ItemSlot slot;
-    
+
+    private EquippableItem trackedEquipItem;
     private CanvasGroup _canvasGroup;
 
     public ItemSlot Slot => slot;
@@ -24,13 +27,15 @@ public abstract class BaseItemSlotUI : MonoBehaviour, IPointerClickHandler, IBeg
     protected virtual void Awake()
     {
         _canvasGroup = GetComponent<CanvasGroup>();
-
         if (_canvasGroup == null) _canvasGroup = gameObject.AddComponent<CanvasGroup>();
     }
 
     public virtual void SetSlot(ItemSlot newSlot)
     {
         if (slot != null) slot.OnSlotChanged -= UpdateUI;
+
+        UnbindDurabilityEvent();
+
         slot = newSlot;
         if (slot != null)
         {
@@ -41,33 +46,78 @@ public abstract class BaseItemSlotUI : MonoBehaviour, IPointerClickHandler, IBeg
 
     protected virtual void UpdateUI(ItemSlot slot)
     {
-        if (slot != null && slot.Item != null)
+        if (slot == null || slot.Item == null)
         {
-            iconImage.sprite = slot.Item.Icon;
-            iconImage.color = Color.white;
-            if (amountText != null)
+            ClearSlotUI();
+            return;
+        }
+
+        iconImage.sprite = slot.Item.Icon;
+        iconImage.color = Color.white;
+
+        if (amountText != null)
+        {
+            amountText.text = slot.Amount > 1 ? slot.Amount.ToString() : "";
+            amountText.enabled = slot.Amount > 1;
+        }
+
+        if (slot.Item is EquippableItem equipItem && equipItem.HasDurability)
+        {
+            if (durabilityBarObject != null) durabilityBarObject.SetActive(true);
+
+            float ratio = (float)equipItem.CurrentDurability / equipItem.MaxDurability;
+            if (durabilityFillImage != null)
             {
-                amountText.text = slot.Amount > 1 ? slot.Amount.ToString() : "";
-                amountText.enabled = slot.Amount > 1;
+                durabilityFillImage.fillAmount = ratio;
+                durabilityFillImage.color = Color.Lerp(Color.red, Color.green, ratio);
             }
+
+            UnbindDurabilityEvent();
+            trackedEquipItem = equipItem;
+            trackedEquipItem.OnDurabilityChanged += HandleDurabilityChanged;
         }
         else
         {
-            iconImage.sprite = null;
-            iconImage.color = new Color(1, 1, 1, 0);
-            if (amountText != null)
-            {
-                amountText.enabled = false;
-            }
+            UnbindDurabilityEvent();
+            if (durabilityBarObject != null) durabilityBarObject.SetActive(false);
         }
+    }
+
+    private void ClearSlotUI()
+    {
+        UnbindDurabilityEvent();
+
+        iconImage.sprite = null;
+        iconImage.color = new Color(1, 1, 1, 0);
+
+        if (amountText != null) amountText.enabled = false;
+
+        if (durabilityBarObject != null) durabilityBarObject.SetActive(false);
+    }
+
+    private void HandleDurabilityChanged()
+    {
+        UpdateUI(slot);
+    }
+
+    private void UnbindDurabilityEvent()
+    {
+        if (trackedEquipItem != null)
+        {
+            trackedEquipItem.OnDurabilityChanged -= HandleDurabilityChanged;
+            trackedEquipItem = null;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (slot != null) slot.OnSlotChanged -= UpdateUI;
+        UnbindDurabilityEvent();
     }
 
     private void OnEnable()
     {
-        if (_canvasGroup != null)
-        {
-            _canvasGroup.blocksRaycasts = true;
-        }
+        if (_canvasGroup != null) _canvasGroup.blocksRaycasts = true;
     }
 
     private void OnDisable()
@@ -78,10 +128,7 @@ public abstract class BaseItemSlotUI : MonoBehaviour, IPointerClickHandler, IBeg
         PointerEventData pointerData = new PointerEventData(EventSystem.current);
         OnPointerExit(pointerData);
 
-        if (_canvasGroup != null)
-        {
-            _canvasGroup.blocksRaycasts = false;
-        }
+        if (_canvasGroup != null) _canvasGroup.blocksRaycasts = false;
     }
 
     public void SetAlpha(float alpha)
@@ -115,9 +162,6 @@ public abstract class BaseItemSlotUI : MonoBehaviour, IPointerClickHandler, IBeg
 
     public virtual void OnPointerExit(PointerEventData eventData)
     {
-        if (ItemTooltip.Instance != null)
-        {
-            ItemTooltip.Instance.HideTooltip();
-        }
+        if (ItemTooltip.Instance != null) ItemTooltip.Instance.HideTooltip();
     }
 }

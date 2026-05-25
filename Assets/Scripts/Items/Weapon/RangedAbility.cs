@@ -11,10 +11,12 @@ public class RangedAbility : ScriptableObject, IWeaponAbility
     [SerializeField] private float projectileSpeed = 15f;
     [SerializeField] private float attackCooldown = 0.5f;
 
-    // 데이터 조회용 프로퍼티 오픈
+    [Header("Durability Logic Select")]
+    [SerializeField] private bool consumeOnFire = true; 
+    [SerializeField] private int durabilityCost = 1;
+
     public float MaxChargeTime => maxChargeTime;
     public float AttackCooldown => attackCooldown;
-
     public bool IsAttacking => false;
     public bool IsCharging => false;
     public float ChargeRatio => 0f;
@@ -34,12 +36,24 @@ public class RangedAbility : ScriptableObject, IWeaponAbility
     {
         if (projectilePrefab == null) return;
 
-        float finalRange = Mathf.Lerp(minRange, maxRange, chargeRatio);
+        PlayerEquipment equipment = player.GetComponent<PlayerEquipment>();
+        EquippableItem currentWeapon = equipment != null ? equipment.CurrentSelectedWeapon : null;
 
+        // [옵션 1] 활을 쏘는 행위 자체만으로 내구도 감소
+        if (consumeOnFire && currentWeapon != null)
+        {
+            currentWeapon.ConsumeDurability(durabilityCost, player);
+        }
+
+        float finalRange = Mathf.Lerp(minRange, maxRange, chargeRatio);
         GameObject proj = Instantiate(projectilePrefab, player.transform.position, Quaternion.identity);
+        
         if (proj.TryGetComponent(out Projectile projectileScript))
         {
+            // [옵션 2]
+            EquippableItem weaponSource = consumeOnFire ? null : currentWeapon;
             projectileScript.Setup(attackDir, projectileSpeed, finalRange, player.GetAttackDamage());
+            projectileScript.SetWeaponSource(weaponSource, player, durabilityCost);
         }
     }
 }
