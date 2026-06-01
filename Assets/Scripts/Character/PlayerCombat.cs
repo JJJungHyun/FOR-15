@@ -6,12 +6,12 @@ public class PlayerCombat : MonoBehaviour
     private PlayerEquipment equipment;
 
     [Header("Default Settings")]
-    [SerializeField] private MeleeAbility bareHandAbility; 
+    [SerializeField] private MeleeAbility bareHandAbility;
 
     private float currentChargeTime;
     private bool isCharging = false;
     private float maxChargeTime = 1.5f;
-    private float lastAttackTime = -99f; 
+    private float lastAttackTime = -99f;
 
     public bool IsCharging => isCharging;
     public float ChargeRatio => isCharging ? Mathf.Clamp01(currentChargeTime / maxChargeTime) : 0f;
@@ -40,7 +40,14 @@ public class PlayerCombat : MonoBehaviour
     {
         if (isCharging)
         {
-            currentChargeTime += Time.deltaTime;
+            if (currentChargeTime < maxChargeTime)
+            {
+                currentChargeTime += Time.deltaTime;
+                if (currentChargeTime > maxChargeTime)
+                {
+                    currentChargeTime = maxChargeTime;
+                }
+            }
         }
     }
 
@@ -56,6 +63,11 @@ public class PlayerCombat : MonoBehaviour
 
         if (ability is RangedAbility rangedAbility)
         {
+            if (!rangedAbility.HasAmmo(player))
+            {
+                return; 
+            }
+
             isCharging = true;
             currentChargeTime = 0f;
             maxChargeTime = rangedAbility.MaxChargeTime;
@@ -99,17 +111,16 @@ public class PlayerCombat : MonoBehaviour
         if (activeCam == null)
         {
             activeCam = FindFirstObjectByType<Camera>();
-            if (activeCam == null) return Vector3.down; 
+            if (activeCam == null) return Vector3.down;
         }
 
         Plane xyPlane = new Plane(Vector3.forward, Vector3.zero);
-
         Ray ray = activeCam.ScreenPointToRay(Input.mousePosition);
 
         if (xyPlane.Raycast(ray, out float enter))
         {
             Vector3 mouseWorldPos = ray.GetPoint(enter);
-            mouseWorldPos.z = 0f; 
+            mouseWorldPos.z = 0f;
 
             Vector3 direction = mouseWorldPos - transform.position;
 

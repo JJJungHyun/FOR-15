@@ -4015,6 +4015,8 @@ MonoBehaviour:
   startingItems:
   - {fileID: 11400000, guid: bd97d3dabd051c44ab91b2eded41f781, type: 2}
   - {fileID: 11400000, guid: b61cf65bd06149648a4bd998b6ca38d8, type: 2}
+  - {fileID: 11400000, guid: 58671f942affe064bbc2212124ecee73, type: 2}
+  - {fileID: 11400000, guid: 58671f942affe064bbc2212124ecee73, type: 2}
   defaultAreaParent: {fileID: 341681926}
   quickAreaParent: {fileID: 1650670601}
   slotPrefab: {fileID: 4940789552937581102, guid: 55905af769e67034a9ad912ba05d16da, type: 3}

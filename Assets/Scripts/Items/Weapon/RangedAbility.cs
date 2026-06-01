@@ -1,4 +1,3 @@
-// RangedAbility.cs 수정
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Weapons/Abilities/Ranged Ability")]
@@ -12,9 +11,9 @@ public class RangedAbility : ScriptableObject, IWeaponAbility
     [SerializeField] private float projectileSpeed = 15f;
     [SerializeField] private float attackCooldown = 0.5f;
 
-    [Header("Ammo Settings")]
-    [Tooltip("요구하는 탄환 아이템의 ID ")]
-    [SerializeField] private string requiredAmmoID;
+    [Header("Ammo Settings (SO Direct Assignment)")]
+    [Tooltip("요구하는 탄환 아이템의 SO 에셋을 프로젝트 창에서 드래그해서 할당하세요.")]
+    [SerializeField] private Item requiredAmmoItem;
 
     [Header("Audio Settings")]
     [SerializeField] private AudioClip fireSound;
@@ -29,6 +28,19 @@ public class RangedAbility : ScriptableObject, IWeaponAbility
     public bool IsAttacking => false;
     public bool IsCharging => false;
     public float ChargeRatio => 0f;
+
+    public bool HasAmmo(Character player)
+    {
+        if (requiredAmmoItem == null) return true;
+
+        InventoryController invController = player.GetComponentInChildren<InventoryController>();
+        if (invController == null) return false;
+
+        Inventory inventory = invController.GetInventory();
+        if (inventory == null) return false;
+
+        return inventory.ItemCount(requiredAmmoItem.ID) > 0;
+    }
 
     public void OnAttackStart(Character player, Vector3 attackDir) { }
     public void OnAttackHold(Character player, Vector3 attackDir) { }
@@ -51,27 +63,18 @@ public class RangedAbility : ScriptableObject, IWeaponAbility
 
         Sprite ammoSprite = null;
 
-        // 탄환 체크 로직
-        if (!string.IsNullOrEmpty(requiredAmmoID))
+        if (requiredAmmoItem != null)
         {
-            int currentAmmoCount = inventory.ItemCount(requiredAmmoID);
-            if (currentAmmoCount <= 0)
+            if (!HasAmmo(player))
             {
-                Debug.LogWarning($"탄환이 부족합니다! 필요한 탄환 ID: {requiredAmmoID}");
+                Debug.LogWarning($"탄환이 부족합니다! 필요한 탄환: {requiredAmmoItem.ItemName}");
                 return;
             }
 
-            foreach (var slot in inventory.itemSlots)
-            {
-                if (slot.Item != null && slot.Item.ID == requiredAmmoID)
-                {
-                    ammoSprite = slot.Item.Icon;
-                    break;
-                }
-            }
+            string targetAmmoID = requiredAmmoItem.ID;
+            ammoSprite = requiredAmmoItem.Icon;
 
-            // 탄환 소모
-            inventory.RemoveItemByID(requiredAmmoID);
+            inventory.RemoveItemByID(targetAmmoID);
             invController.RefreshAllSlots();
         }
 
@@ -96,7 +99,6 @@ public class RangedAbility : ScriptableObject, IWeaponAbility
         if (proj.TryGetComponent(out Projectile projectileScript))
         {
             EquippableItem weaponSource = consumeOnFire ? null : currentWeapon;
-
             projectileScript.Setup(attackDir, projectileSpeed, finalRange, player.GetAttackDamage(), ammoSprite);
             projectileScript.SetWeaponSource(weaponSource, player, durabilityCost);
         }
