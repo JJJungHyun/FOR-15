@@ -1,3 +1,4 @@
+// RangedAbility.cs 수정
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Weapons/Abilities/Ranged Ability")]
@@ -11,8 +12,16 @@ public class RangedAbility : ScriptableObject, IWeaponAbility
     [SerializeField] private float projectileSpeed = 15f;
     [SerializeField] private float attackCooldown = 0.5f;
 
+    [Header("Ammo Settings")]
+    [Tooltip("요구하는 탄환 아이템의 ID ")]
+    [SerializeField] private string requiredAmmoID;
+
+    [Header("Audio Settings")]
+    [SerializeField] private AudioClip fireSound;
+    [SerializeField] private float soundVolume = 1f;
+
     [Header("Durability Logic Select")]
-    [SerializeField] private bool consumeOnFire = true; 
+    [SerializeField] private bool consumeOnFire = true;
     [SerializeField] private int durabilityCost = 1;
 
     public float MaxChargeTime => maxChargeTime;
@@ -34,25 +43,61 @@ public class RangedAbility : ScriptableObject, IWeaponAbility
 
     private void Fire(Character player, Vector3 attackDir, float chargeRatio)
     {
+        InventoryController invController = player.GetComponentInChildren<InventoryController>();
+        if (invController == null) return;
+
+        Inventory inventory = invController.GetInventory();
+        if (inventory == null) return;
+
+        Sprite ammoSprite = null;
+
+        // 탄환 체크 로직
+        if (!string.IsNullOrEmpty(requiredAmmoID))
+        {
+            int currentAmmoCount = inventory.ItemCount(requiredAmmoID);
+            if (currentAmmoCount <= 0)
+            {
+                Debug.LogWarning($"탄환이 부족합니다! 필요한 탄환 ID: {requiredAmmoID}");
+                return;
+            }
+
+            foreach (var slot in inventory.itemSlots)
+            {
+                if (slot.Item != null && slot.Item.ID == requiredAmmoID)
+                {
+                    ammoSprite = slot.Item.Icon;
+                    break;
+                }
+            }
+
+            // 탄환 소모
+            inventory.RemoveItemByID(requiredAmmoID);
+            invController.RefreshAllSlots();
+        }
+
         if (projectilePrefab == null) return;
 
         PlayerEquipment equipment = player.GetComponent<PlayerEquipment>();
         EquippableItem currentWeapon = equipment != null ? equipment.CurrentSelectedWeapon : null;
 
-        // [옵션 1] 활을 쏘는 행위 자체만으로 내구도 감소
         if (consumeOnFire && currentWeapon != null)
         {
             currentWeapon.ConsumeDurability(durabilityCost, player);
         }
 
+        if (fireSound != null)
+        {
+            AudioSource.PlayClipAtPoint(fireSound, player.transform.position, soundVolume);
+        }
+
         float finalRange = Mathf.Lerp(minRange, maxRange, chargeRatio);
         GameObject proj = Instantiate(projectilePrefab, player.transform.position, Quaternion.identity);
-        
+
         if (proj.TryGetComponent(out Projectile projectileScript))
         {
-            // [옵션 2]
             EquippableItem weaponSource = consumeOnFire ? null : currentWeapon;
-            projectileScript.Setup(attackDir, projectileSpeed, finalRange, player.GetAttackDamage());
+
+            projectileScript.Setup(attackDir, projectileSpeed, finalRange, player.GetAttackDamage(), ammoSprite);
             projectileScript.SetWeaponSource(weaponSource, player, durabilityCost);
         }
     }

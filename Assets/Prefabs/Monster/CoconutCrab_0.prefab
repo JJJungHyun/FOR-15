@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d07aecbfb4d8e444e9b9a4a4bb31050c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterController
-  data: {fileID: 11400000, guid: 96c6e19e47cdc5940b391c75da778fb8, type: 2}
+  data: {fileID: 11400000, guid: 20fea6c60f714754dbef707711508604, type: 2}
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 256

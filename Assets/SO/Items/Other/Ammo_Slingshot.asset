@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c353b82625f13bb4d89ead419af98f07, type: 3}
-  m_Name: Ammo
+  m_Name: Ammo_Slingshot
   m_EditorClassIdentifier: Assembly-CSharp::Item
   id: 58671f942affe064bbc2212124ecee73
   ItemName: "\uD0C4\uD658"

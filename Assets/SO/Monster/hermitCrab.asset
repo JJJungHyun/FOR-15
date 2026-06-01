@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: hermitCrab
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
   disposition: 0
-  hurtReaction: 0
   attackStyle: 0
   maxHp: 10
   walkSpeed: 2
@@ -26,4 +25,12 @@ MonoBehaviour:
   moveTime: 3
   idleTime: 2
   attackCooldown: 0
-  dropTable: []
+  reinforcementPrefabs: []
+  reactionSequence: []
+  nextActionMap: []
+  defaultItemPrefab: {fileID: 5939985120356410149, guid: 8d834bd42be6a2f46bd3e50226d16c7c, type: 3}
+  dropTable:
+  - itemData: {fileID: 11400000, guid: a6b4b5481f09dd5498d7354bd8b10f3a, type: 2}
+    dropChance: 0.7
+    minAmount: 1
+    maxAmount: 1

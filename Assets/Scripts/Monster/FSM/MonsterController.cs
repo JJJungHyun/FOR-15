@@ -133,7 +133,6 @@ public class MonsterController : MonoBehaviour, IDamageable
         }
     }
 
-    // [버그 수정 ⭐️] 도망 상태일 때 Target이 null로 증발하여 무한 복귀하던 로직 수정
     public bool DetectPlayer()
     {
         var col = Physics2D.OverlapCircle(transform.position, data.detectRange, LayerMask.GetMask("Player"));
@@ -146,7 +145,6 @@ public class MonsterController : MonoBehaviour, IDamageable
             }
         }
 
-        // 현재 도망(FleeState) 중이라면, 플레이어가 감지 범위를 살짝 벗어났어도 Target을 유지시킵니다.
         if (fsm != null && fsm.GetCurrentStateName() == "FleeState")
         {
             return false;
@@ -161,7 +159,6 @@ public class MonsterController : MonoBehaviour, IDamageable
         if (isDead) return;
         currentHp -= damage;
 
-        // UI 체력바 실시간 업데이트
         if (hpBar != null)
         {
             hpBar.UpdateHP(currentHp);
@@ -174,7 +171,6 @@ public class MonsterController : MonoBehaviour, IDamageable
             return;
         }
 
-        // 공격구조 변경 대응: 피격 시 공격한 대상을 확고하게 타겟으로 재설정
         var col = Physics2D.OverlapCircle(transform.position, data.detectRange, LayerMask.GetMask("Player"));
         if (col != null) Target = col.transform;
 
@@ -226,16 +222,29 @@ public class MonsterController : MonoBehaviour, IDamageable
 
     public void TryDropItem()
     {
-        if (data.dropTable == null || data.dropTable.Count == 0) return;
+        if (data.defaultItemPrefab == null || data.dropTable == null || data.dropTable.Count == 0) return;
+
         foreach (var dropData in data.dropTable)
         {
+            if (dropData.itemData == null) continue;
+
             if (Random.value <= dropData.dropChance)
             {
                 int dropCount = Random.Range(dropData.minAmount, dropData.maxAmount + 1);
+
                 for (int i = 0; i < dropCount; i++)
                 {
-                    GameObject droppedItem = Instantiate(dropData.itemPrefab, transform.position, Quaternion.identity);
-                    if (droppedItem.TryGetComponent(out ItemPopUp anim)) anim.PlayDropAnimation();
+                    GameObject droppedItem = Instantiate(data.defaultItemPrefab, transform.position, Quaternion.identity);
+
+                    if (droppedItem.TryGetComponent(out ItemObject itemObj))
+                    {
+                        itemObj.SetItemData(dropData.itemData, 1);
+                    }
+
+                    if (droppedItem.TryGetComponent(out ItemPopUp anim))
+                    {
+                        anim.PlayDropAnimation();
+                    }
                 }
             }
         }

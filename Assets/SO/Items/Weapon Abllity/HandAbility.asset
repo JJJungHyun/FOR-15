@@ -17,4 +17,7 @@ MonoBehaviour:
   attackBoxSize: {x: 1.5, y: 1.2}
   damageableLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
+  costOnHitMonster: 1
+  costOnHarvest: 1
+  costOnHitMonsterWithTool: 3

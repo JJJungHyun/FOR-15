@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1268526419880985875}
   - component: {fileID: 2513315814439559065}
   - component: {fileID: 2117439526653614369}
+  - component: {fileID: 4427893007628760277}
   m_Layer: 6
   m_Name: Item
   m_TagString: Untagged
@@ -154,3 +155,18 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: bd97d3dabd051c44ab91b2eded41f781, type: 2}
   amount: 1
   spriteRenderer: {fileID: 1268526419880985875}
+--- !u!114 &4427893007628760277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5939985120356410149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a154bda0a3f2ceb4cb9064590a76e5a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemPopUp
+  _jumpPower: 2
+  _jumpDuration: 0.5
+  _dropRange: 1.5

@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 4437642515004023234}
   - component: {fileID: 5783630037796319015}
   - component: {fileID: 8351103967468043469}
+  - component: {fileID: 7518211746573000838}
   m_Layer: 0
   m_Name: 'Stone '
   m_TagString: Untagged
@@ -193,7 +194,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5830439309361106512}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2c8efdc534a362740b36a8498a270378, type: 3}
   m_Name: 
@@ -244,3 +245,21 @@ MonoBehaviour:
   shadowColor: {r: 0, g: 0, b: 0, a: 0.4}
   baseScale: {x: 1, y: 0.8}
   lengthVariation: 0.4
+--- !u!114 &7518211746573000838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5830439309361106512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bc1ca9e67d487e469e8f7853cdffa0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ResourceObject
+  _requiredTool: 3
+  _maxHp: 3
+  _currentHp: 0
+  _matchingToolDamage: 1
+  _wrongToolDamage: 0
+  _bareHandDamage: 0.5

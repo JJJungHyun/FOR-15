@@ -13,7 +13,16 @@ public class Projectile : MonoBehaviour
     private Character shooter;
     private int hitCost;
 
-    public void Setup(Vector3 dir, float spd, float rng, float dmg)
+    // 외형 변경을 위한 SpriteRenderer 컴포넌트 참조
+    private SpriteRenderer spriteRenderer;
+
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    // 🌟 파라미터에 탄환 스프라이트(bulletSprite) 추가
+    public void Setup(Vector3 dir, float spd, float rng, float dmg, Sprite bulletSprite = null)
     {
         direction = dir;
         speed = spd;
@@ -23,6 +32,12 @@ public class Projectile : MonoBehaviour
 
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+        // 🌟 전달받은 탄환 스프라이트가 있다면 투사체 이미지를 변경
+        if (spriteRenderer != null && bulletSprite != null)
+        {
+            spriteRenderer.sprite = bulletSprite;
+        }
     }
 
     public void SetWeaponSource(EquippableItem weapon, Character player, int cost)
@@ -46,7 +61,6 @@ public class Projectile : MonoBehaviour
             {
                 target.TakeDamage(damage, transform.position);
 
-                // [옵션 2] 명중했을 때만 활의 내구도를 깎음
                 if (sourceWeapon != null && shooter != null)
                 {
                     sourceWeapon.ConsumeDurability(hitCost, shooter);

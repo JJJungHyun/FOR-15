@@ -10,10 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1563fc4fd03739946a03f1ec495a021b, type: 3}
-  m_Name: coconutCrab
+  m_Name: coconutCrab_0
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
   disposition: 0
-  hurtReaction: 0
   attackStyle: 0
   maxHp: 50
   walkSpeed: 2
@@ -26,4 +25,12 @@ MonoBehaviour:
   moveTime: 2
   idleTime: 3
   attackCooldown: 0
-  dropTable: []
+  reinforcementPrefabs: []
+  reactionSequence: []
+  nextActionMap: []
+  defaultItemPrefab: {fileID: 5939985120356410149, guid: 8d834bd42be6a2f46bd3e50226d16c7c, type: 3}
+  dropTable:
+  - itemData: {fileID: 11400000, guid: f24d2e78ddd358a4f8457f8930458c31, type: 2}
+    dropChance: 0.5
+    minAmount: 1
+    maxAmount: 1

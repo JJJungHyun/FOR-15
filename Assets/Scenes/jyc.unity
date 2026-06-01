@@ -7453,8 +7453,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CraftingPanel
   allRecipes:
-  - {fileID: 11400000, guid: 1189c06bc04fd574ebf1c1bbf0a1c7a8, type: 2}
+  - {fileID: 11400000, guid: 3e540910a664e5d4f86325ba3dfe1a94, type: 2}
+  - {fileID: 11400000, guid: 41c4a036e3fab6e4e82b07bc7bcfac3b, type: 2}
   - {fileID: 11400000, guid: 711b6b76ff8a0224090d42364b80a532, type: 2}
+  - {fileID: 11400000, guid: 1886e10aefdb7174bbb0f6f103455a9b, type: 2}
+  - {fileID: 11400000, guid: aee462927198c9e4daf006db70018761, type: 2}
+  - {fileID: 11400000, guid: 0edfd07b9764e9f4b87a441992e113e8, type: 2}
+  - {fileID: 11400000, guid: 3bf808b1f8cda9143ae98cda1bc8c7f6, type: 2}
+  - {fileID: 11400000, guid: 9fe9f31138060814bafc651b5c277096, type: 2}
+  - {fileID: 11400000, guid: bf0da37eb282f3244bc95100783acd1c, type: 2}
+  - {fileID: 11400000, guid: 1189c06bc04fd574ebf1c1bbf0a1c7a8, type: 2}
   playerInventory: {fileID: 634932850}
   recipeListParent: {fileID: 2060602775}
   recipeButtonPrefab: {fileID: 7020202724386999059, guid: c3ed09997b979a444b1850f7e34b54b4, type: 3}
@@ -8508,6 +8516,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CoconutCrab_0
       objectReference: {fileID: 0}
+    - target: {fileID: 4037709229507498995, guid: 7b10d63c3cd27134f90639cb8402563f, type: 3}
+      propertyPath: data
+      value: 
+      objectReference: {fileID: 11400000, guid: 20fea6c60f714754dbef707711508604, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

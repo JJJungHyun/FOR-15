@@ -18,3 +18,8 @@ MonoBehaviour:
   maxRange: 12
   projectileSpeed: 15
   attackCooldown: 0.5
+  requiredAmmoID: Ammo_Slingshot
+  fireSound: {fileID: 0}
+  soundVolume: 1
+  consumeOnFire: 1
+  durabilityCost: 1
