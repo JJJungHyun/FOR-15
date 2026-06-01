@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Items/Smelting Recipe")]
+[CreateAssetMenu(menuName = "Recipe/Smelting Recipe")]
 public class SmeltingRecipe : ScriptableObject
 {
     public Item InputItem;   // 생고기

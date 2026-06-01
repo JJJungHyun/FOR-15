@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c353b82625f13bb4d89ead419af98f07, type: 3}
+  m_Name: Herb
+  m_EditorClassIdentifier: Assembly-CSharp::Item
+  id: 17feef9b728acb14ab9c9a40c0a747ab
+  ItemName: "\uC57D\uCD08"
+  Icon: {fileID: 1813437582866609835, guid: 141e5cd6c0ff6a341a001ab0cb94eb46, type: 3}
+  MaximumStacks: 99

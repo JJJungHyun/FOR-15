@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 5783630037796319015}
   - component: {fileID: 8351103967468043469}
   m_Layer: 0
+  m_Layer: 8
   m_Name: 'Stone '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -225,7 +226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectFader
   _fadeTime: 1
-  _itemPrefab: {fileID: 6291070261636849244, guid: d46ea5bf42db5834aa704ce10aa79cda, type: 3}
+  _itemPrefab: {fileID: 9165056121040424855, guid: 97b1590f44f03e340ab4b67f2f955c78, type: 3}
   _dropCount: 1
 --- !u!114 &8351103967468043469
 MonoBehaviour:

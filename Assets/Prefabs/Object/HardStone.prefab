@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 7288763499382172600}
   - component: {fileID: -1645997034599380423}
   m_Layer: 0
+  m_Layer: 8
   m_Name: HardStone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
