@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: coconutCrab
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
   disposition: 0
-  hurtReaction: 0
   attackStyle: 0
   maxHp: 50
   walkSpeed: 2
@@ -26,4 +25,7 @@ MonoBehaviour:
   moveTime: 2
   idleTime: 3
   attackCooldown: 0
+  reinforcementPrefabs: []
+  reactionSequence: []
+  nextActionMap: []
   dropTable: []

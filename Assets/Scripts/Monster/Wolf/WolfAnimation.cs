@@ -5,7 +5,8 @@ public enum WolfAnimState
     Idle = 0,
     MoveLeft,
     MoveUp,
-    MoveDown
+    MoveDown,
+    Die
 }
 
 public class WolfAnimation

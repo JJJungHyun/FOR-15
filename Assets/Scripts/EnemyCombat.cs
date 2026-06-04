@@ -5,21 +5,13 @@ using UnityEngine.Events;
 
 public class EnemyCombat : MonoBehaviour, IDamageable
 {
-    [SerializeField] private GameObject[] itemPool;
-    [SerializeField] private float dropChance;
-
     private Rigidbody2D rb;
     private EnemyControl movementScript;
     private bool isStunned = false;
+    [SerializeField] private MonsterData monsterData;
 
-    [Header("Stats")]
-    [SerializeField] private float maxHp = 50f;
+    private MonsterHPBar hpBar;
     private float currentHp;
-    [SerializeField] private float damage = 10f;
-    [SerializeField] private float attackCooldown = 1.5f;
-
-    [Header("Visual Debug")]
-    [SerializeField] private TextMeshPro hpText;
 
     [Header("Knockback Settings")]
     [SerializeField] private float knockbackForce = 12f;
@@ -33,39 +25,61 @@ public class EnemyCombat : MonoBehaviour, IDamageable
 
     private void Awake()
     {
-        currentHp = maxHp;
+        currentHp = monsterData.maxHp;
         rb = GetComponent<Rigidbody2D>();
         movementScript = GetComponent<EnemyControl>();
-        UpdateHPText();
-    }
-
-    private void LateUpdate()
-    {
-        if (hpText != null)
-        {
-            hpText.transform.rotation = Quaternion.identity;
-            float parentXScale = transform.lossyScale.x;
-            Vector3 currentScale = hpText.transform.localScale;
-
-            if (parentXScale < 0)
-                hpText.transform.localScale = new Vector3(-Mathf.Abs(currentScale.x), currentScale.y, currentScale.z);
-            else
-                hpText.transform.localScale = new Vector3(Mathf.Abs(currentScale.x), currentScale.y, currentScale.z);
-        }
+        hpBar = GetComponentInChildren<MonsterHPBar>();
     }
 
     public void TakeDamage(float damage, Vector2 attackerPosition)
     {
         currentHp -= damage;
-        UpdateHPText();
+
+        if (hpBar != null && monsterData != null)
+        {
+            hpBar.UpdateHP(currentHp);
+        }
 
         StopAllCoroutines();
         StartCoroutine(KnockbackRoutine(attackerPosition));
 
         if (currentHp <= 0)
         {
+            DropItems();
             Destroy(gameObject);
-            TryDropItem();
+        }
+    }
+    private void DropItems()
+    {
+        // 데이터나 드롭 테이블이 비어있다면 실행하지 않음
+        if (monsterData == null || monsterData.dropTable == null) return;
+
+        foreach (DropItemData dropData in monsterData.dropTable)
+        {
+            // 프리팹이 연결되어 있지 않다면 패스
+            if (dropData.itemPrefab == null) continue;
+
+            // 0.0 ~ 1.0 사이의 랜덤값을 뽑아 드롭 확률(dropChance)과 비교
+            float randomRoll = Random.Range(0f, 1f);
+            if (randomRoll <= dropData.dropChance)
+            {
+                // 최소(minAmount) ~ 최대(maxAmount) 사이의 랜덤 수량 결정
+                int dropAmount = Random.Range(dropData.minAmount, dropData.maxAmount + 1);
+
+                for (int i = 0; i < dropAmount; i++)
+                {
+                    // 늑대의 현재 위치에 아이템 프리팹 생성
+                    GameObject droppedItem = Instantiate(dropData.itemPrefab, transform.position, Quaternion.identity);
+
+                    ItemPopUp anim = droppedItem.GetComponent<ItemPopUp>();
+
+                    // 4. 애니메이션 실행
+                    if (anim != null)
+                    {
+                        anim.PlayDropAnimation();
+                    }
+                }
+            }
         }
     }
 
@@ -89,14 +103,6 @@ public class EnemyCombat : MonoBehaviour, IDamageable
         OnKnockbackDone?.Invoke();
     }
 
-    private void UpdateHPText()
-    {
-        if (hpText != null)
-        {
-            hpText.text = $"{currentHp} / {maxHp}";
-        }
-    }
-
     private void OnCollisionStay2D(Collision2D collision)
     {
         CheckAndAttack(collision.gameObject);
@@ -117,9 +123,9 @@ public class EnemyCombat : MonoBehaviour, IDamageable
 
     private void TryAttack(IDamageable target)
     {
-        if (Time.time >= lastAttackTime + attackCooldown)
+        if (Time.time >= lastAttackTime + monsterData.attackCooldown)
         {
-            target.TakeDamage(damage, transform.position);
+            target.TakeDamage(monsterData.attackDamage, transform.position);
             lastAttackTime = Time.time;
 
             StartCoroutine(AttackPauseRoutine());
@@ -143,30 +149,5 @@ public class EnemyCombat : MonoBehaviour, IDamageable
         }
 
         isStunned = false;
-    }
-
-    void TryDropItem()
-    {
-        if (itemPool.Length == 0) return;
-
-        // 확률 체크
-        if (Random.value <= dropChance)
-        {
-            // 1. 아이템 선택
-            int randomIndex = Random.Range(0, itemPool.Length);
-            GameObject selectedItem = itemPool[randomIndex];
-
-            // 2. 아이템 생성 (변수에 담기)
-            GameObject droppedItem = Instantiate(selectedItem, transform.position, Quaternion.identity);
-
-            // 3. 애니메이션 컴포넌트 가져오기
-            ItemPopUp anim = droppedItem.GetComponent<ItemPopUp>();
-
-            // 4. 애니메이션 실행
-            if (anim != null)
-            {
-                anim.PlayDropAnimation();
-            }
-        }
     }
 }

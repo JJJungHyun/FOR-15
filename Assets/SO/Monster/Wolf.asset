@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1563fc4fd03739946a03f1ec495a021b, type: 3}
+  m_Name: Wolf
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterData
+  disposition: 1
+  attackStyle: 1
+  maxHp: 50
+  walkSpeed: 5
+  chaseSpeed: 10
+  attackDamage: 10
+  detectRange: 5
+  attackRange: 10
+  patrolRadius: 5
+  returnRange: 30
+  moveTime: 3
+  idleTime: 2
+  attackCooldown: 3
+  reinforcementPrefabs: []
+  reactionSequence: []
+  nextActionMap: []
+  dropTable:
+  - itemPrefab: {fileID: 6291070261636849244, guid: d46ea5bf42db5834aa704ce10aa79cda, type: 3}
+    dropChance: 1
+    minAmount: 1
+    maxAmount: 1

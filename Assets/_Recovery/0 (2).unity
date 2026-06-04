@@ -1830,7 +1830,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed613f7661942224c9de125363bf4dfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatusEffectHUD
-  conditionHandler: {fileID: 1864859636}
+  conditionHandler: {fileID: 0}
   effectSlotPrefab: {fileID: 3967971042812665662, guid: 99445f376b57bb649a43a2c7dac6b9bb, type: 3}
   container: {fileID: 388504622}
 --- !u!114 &388504624
@@ -2395,10 +2395,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7603517169527121461, guid: c22a4d3c07ccb834bb6957ad4a0f30d1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c22a4d3c07ccb834bb6957ad4a0f30d1, type: 3}
 --- !u!1001 &536515480
 PrefabInstance:
@@ -32372,10 +32369,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7603517169527121461, guid: c22a4d3c07ccb834bb6957ad4a0f30d1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c22a4d3c07ccb834bb6957ad4a0f30d1, type: 3}
 --- !u!1 &627183027
 GameObject:
@@ -34208,11 +34202,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CraftingPanel
   allRecipes:
-  - {fileID: 11400000, guid: 4cddc1c1ff913ed4fb44f6e4931e552f, type: 2}
+  - {fileID: 11400000, guid: 3e540910a664e5d4f86325ba3dfe1a94, type: 2}
   - {fileID: 11400000, guid: 41c4a036e3fab6e4e82b07bc7bcfac3b, type: 2}
-  - {fileID: 11400000, guid: ef06bb9f2ae985246a6448723ecd8fbb, type: 2}
-  - {fileID: 11400000, guid: fd1109bfc474a7445b3366ddaa673556, type: 2}
-  - {fileID: 11400000, guid: 5e6d01db6cea5ed49b7400cbff85e311, type: 2}
+  - {fileID: 11400000, guid: 1886e10aefdb7174bbb0f6f103455a9b, type: 2}
+  - {fileID: 11400000, guid: aee462927198c9e4daf006db70018761, type: 2}
+  - {fileID: 11400000, guid: 0edfd07b9764e9f4b87a441992e113e8, type: 2}
   - {fileID: 11400000, guid: 3bf808b1f8cda9143ae98cda1bc8c7f6, type: 2}
   - {fileID: 11400000, guid: 9fe9f31138060814bafc651b5c277096, type: 2}
   - {fileID: 11400000, guid: bf0da37eb282f3244bc95100783acd1c, type: 2}
@@ -35162,10 +35156,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7603517169527121461, guid: c22a4d3c07ccb834bb6957ad4a0f30d1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c22a4d3c07ccb834bb6957ad4a0f30d1, type: 3}
 --- !u!1001 &1099187959
 PrefabInstance:
@@ -36131,10 +36122,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8659347992105334467, guid: 5e0a51e59fc7463478bff4dcc1b3b9e4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e0a51e59fc7463478bff4dcc1b3b9e4, type: 3}
 --- !u!1 &1374177549
 GameObject:
@@ -36696,7 +36684,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8a5d477a14154542a16afdefac227aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponChargeUI
-  playerEquipment: {fileID: 1864859639}
+  playerCombat: {fileID: 0}
   chargeBarObject: {fileID: 889429600}
   chargeFillImage: {fileID: 969554033}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -37859,10 +37847,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8659347992105334467, guid: 5e0a51e59fc7463478bff4dcc1b3b9e4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e0a51e59fc7463478bff4dcc1b3b9e4, type: 3}
 --- !u!1 &1808195535
 GameObject:
@@ -38438,28 +38423,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7bad70887923e4843b9e96cc3dc4e47d, type: 3}
---- !u!114 &1864859636 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3909435764532197176, guid: 7bad70887923e4843b9e96cc3dc4e47d, type: 3}
-  m_PrefabInstance: {fileID: 1864859635}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ae0fc9108be5ef47addf8f7e6ef9836, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharConditionHandler
---- !u!114 &1864859639 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 276159943710175170, guid: 7bad70887923e4843b9e96cc3dc4e47d, type: 3}
-  m_PrefabInstance: {fileID: 1864859635}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbd05133aa3150145bd3152ccb3d4b0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerEquipment
 --- !u!1 &1892690788
 GameObject:
   m_ObjectHideFlags: 0
@@ -41007,10 +40970,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8659347992105334467, guid: 5e0a51e59fc7463478bff4dcc1b3b9e4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e0a51e59fc7463478bff4dcc1b3b9e4, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

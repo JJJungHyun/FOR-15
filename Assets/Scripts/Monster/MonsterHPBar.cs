@@ -20,11 +20,6 @@ public class MonsterHPBar : MonoBehaviour
             // 초기는 풀피 상태 (1.0f = 100%)
             hpFillImage.fillAmount = 1f;
         }
-
-        if (hideOnFullHp)
-        {
-            gameObject.SetActive(false);
-        }
     }
 
     public void UpdateHP(float currentHp)
