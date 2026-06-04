@@ -7,10 +7,8 @@ public class CookingStation : MonoBehaviour
     [Header("Station Settings")]
     public List<CookingRecipe> AvailableRecipes;
 
-    // 완성된 결과물이 쌓여 보관되는 독립 슬롯
     public ItemSlot OutputSlot { get; private set; } = new ItemSlot();
 
-    // 현재 조리 및 예약 상태 데이터
     public CookingRecipe CurrentRecipe { get; private set; }
     public int RemainingQueueCount { get; private set; } = 0;
     public float CurrentCookTimer { get; private set; } = 0f;
@@ -36,7 +34,6 @@ public class CookingStation : MonoBehaviour
     {
         if (recipe == null || requestCount <= 0) return;
 
-        // 실제 플레이어 가방에서 예약 개수만큼의 총 재료를 뺍니다.
         if (!ConsumeIngredients(recipe, requestCount, playerInventory)) return;
 
         CurrentRecipe = recipe;
@@ -49,13 +46,11 @@ public class CookingStation : MonoBehaviour
 
     private bool ConsumeIngredients(CookingRecipe recipe, int count, Inventory inventory)
     {
-        // 1차 검증: 모든 재료가 충분히 있는지 확인
         foreach (var ing in recipe.Ingredients)
         {
             int totalNeeded = ing.RequiredAmount * count;
             int foundAmount = 0;
 
-            // 인벤토리 전체 뒤져서 개수 파악
             foreach (var slot in inventory.itemSlots)
             {
                 if (slot.Item != null && slot.Item.ID == ing.RequiredItem.ID)
@@ -64,7 +59,6 @@ public class CookingStation : MonoBehaviour
             if (foundAmount < totalNeeded) return false;
         }
 
-        // 2차 실행: 실제 재료 차감
         foreach (var ing in recipe.Ingredients)
         {
             int amountToRemove = ing.RequiredAmount * count;
@@ -97,7 +91,6 @@ public class CookingStation : MonoBehaviour
     {
         if (CurrentRecipe == null) return;
 
-        // 결과물 슬롯에 아이템 누적 가산
         if (OutputSlot.Item == null)
         {
             OutputSlot.Item = CurrentRecipe.OutputItem.GetCopy();
@@ -111,7 +104,6 @@ public class CookingStation : MonoBehaviour
         OutputSlot.UpdateSlot();
         OnOutputSlotChanged?.Invoke();
 
-        // 대기열 차감
         RemainingQueueCount--;
         CurrentCookTimer = 0f;
 
@@ -129,7 +121,6 @@ public class CookingStation : MonoBehaviour
     {
         if (!IsCooking || CurrentRecipe == null) return;
 
-        // 아직 만들어지지 않고 '대기 대기중인 예약 재료'들은 전부 플레이어 가방으로 돌려줍니다.
         if (RemainingQueueCount > 0)
         {
             foreach (var ing in CurrentRecipe.Ingredients)

@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class PlayerInputHandler : MonoBehaviour
 {
-    // 인벤토리와 제작창 통합 토글 이벤트 하나로 통일
     public static event Action OnToggleCombinedUI;
     public static event Action OnInteractPressed;
     public static event Action<int> OnQuickSlotPressed;
@@ -31,7 +30,6 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void HandleCombinedUI()
     {
-        // I, Tab, B 중 무엇을 누르든 한 번에 켜고 꺼지도록 동일한 이벤트를 날립니다.
         if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.B))
         {
             OnToggleCombinedUI?.Invoke();

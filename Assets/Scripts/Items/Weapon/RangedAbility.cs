@@ -12,7 +12,6 @@ public class RangedAbility : ScriptableObject, IWeaponAbility
     [SerializeField] private float attackCooldown = 0.5f;
 
     [Header("Ammo Settings (SO Direct Assignment)")]
-    [Tooltip("요구하는 탄환 아이템의 SO 에셋을 프로젝트 창에서 드래그해서 할당하세요.")]
     [SerializeField] private Item requiredAmmoItem;
 
     [Header("Audio Settings")]

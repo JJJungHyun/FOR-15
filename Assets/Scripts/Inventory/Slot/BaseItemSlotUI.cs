@@ -7,7 +7,6 @@ using System;
 public abstract class BaseItemSlotUI : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler, IDropHandler
 {
     [Header("UI References (Child Objects)")]
-    [Tooltip("자식 오브젝트로 분리된 아이템 아이콘 이미지 컴포넌트")]
     [SerializeField] protected Image iconImage;
     [SerializeField] protected TMP_Text amountText;
     [SerializeField] protected GameObject durabilityBarObject;
@@ -55,9 +54,9 @@ public abstract class BaseItemSlotUI : MonoBehaviour, IPointerClickHandler, IBeg
         if (iconImage != null)
         {
             iconImage.sprite = slot.Item.Icon;
-            iconImage.enabled = true; // 아이콘 활성화
+            iconImage.enabled = true;
             Color c = iconImage.color;
-            c.a = 1f; // 온전한 불투명
+            c.a = 1f; 
             iconImage.color = c;
         }
 
@@ -96,7 +95,7 @@ public abstract class BaseItemSlotUI : MonoBehaviour, IPointerClickHandler, IBeg
         if (iconImage != null)
         {
             iconImage.sprite = null;
-            iconImage.enabled = false; // 아이템이 없으면 자식 아이콘 이미지를 꺼서 부모 슬롯만 보이게 함
+            iconImage.enabled = false; 
         }
 
         if (amountText != null) amountText.enabled = false;

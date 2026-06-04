@@ -33,7 +33,6 @@ public class CategoryTabBtn : MonoBehaviour
 
         targetImage.sprite = isSelected ? selectedSprite : unselectedSprite;
 
-        // 선택된 탭은 약간 강조되도록 처리 가능
         targetImage.color = isSelected ? Color.white : new Color(0.7f, 0.7f, 0.7f, 1f);
     }
 }

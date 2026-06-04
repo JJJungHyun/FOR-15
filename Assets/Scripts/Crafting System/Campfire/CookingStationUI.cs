@@ -9,16 +9,16 @@ public class CookingStationUI : MonoBehaviour
     [SerializeField] private Inventory playerInventory;
     private CookingStation currentStation;
 
-    [Header("Left Pane - Recipe List Area")]
+    [Header(" Recipe List Area")]
     [SerializeField] private Transform recipeListParent;
     [SerializeField] private RecipeListItemUI recipeItemPrefab;
 
-    [Header("Right Pane - Selected Recipe Panel")]
+    [Header("Selected Recipe Panel")]
     [SerializeField] private GameObject detailAreaRoot;
     [SerializeField] private Image selectedItemIcon;
     [SerializeField] private TMP_Text selectedItemNameText;
 
-    [Header("Ingredient UI Area (Prefab Dynamic Spawn)")]
+    [Header("Ingredient UI Area ")]
     [SerializeField] private Transform ingredientListParent;
     [SerializeField] private IngredientItemUI ingredientPrefab;
 
@@ -28,9 +28,8 @@ public class CookingStationUI : MonoBehaviour
     [SerializeField] private Button minusButton;
     [SerializeField] private Button cookStartButton;
 
-    [Header("Cooking Status HUD Zone (Image Fill Amount)")]
+    [Header("Cooking Status HUD Zone")]
     [SerializeField] private GameObject cookingProgressRoot;
-    // 🛠️ Slider에서 Image 타입으로 변경 (인스펙터에서 Fill Method가 세팅된 Image를 연결하세요)
     [SerializeField] private Image timerFillImage;
     [SerializeField] private TMP_Text timerText;
     [SerializeField] private TMP_Text queueStatusText;
@@ -187,7 +186,7 @@ public class CookingStationUI : MonoBehaviour
         if (currentStation == null || playerInventory == null) return;
         currentStation.CancelCooking(playerInventory);
 
-        ResetTimerProgress(); // 🛠️ 취소 버튼 클릭 시 즉시 타이머 수치 강제 리셋 후 동기화
+        ResetTimerProgress(); 
         UpdateIngredientListUI();
     }
 
@@ -195,7 +194,6 @@ public class CookingStationUI : MonoBehaviour
     {
         if (currentStation == null) return;
 
-        // 요리 진행 중일 때
         if (currentStation.IsCooking && currentStation.CurrentRecipe != null)
         {
             if (cookingProgressRoot != null && !cookingProgressRoot.activeSelf)
@@ -205,11 +203,10 @@ public class CookingStationUI : MonoBehaviour
             if (plusButton != null) plusButton.interactable = false;
             if (minusButton != null) minusButton.interactable = false;
 
-            // 실시간 타이머 Fill 배율 계산
             float currentProgress = currentStation.CurrentCookTimer / currentStation.CurrentRecipe.BaseCookTime;
 
             if (timerFillImage != null)
-                timerFillImage.fillAmount = currentProgress; // 🛠️ Image.fillAmount 연동
+                timerFillImage.fillAmount = currentProgress; 
 
             if (timerText != null)
                 timerText.text = $"{(currentStation.CurrentRecipe.BaseCookTime - currentStation.CurrentCookTimer):F1} 초 남음";
@@ -217,13 +214,12 @@ public class CookingStationUI : MonoBehaviour
             if (queueStatusText != null)
                 queueStatusText.text = $"대기열: {currentStation.RemainingQueueCount}개";
         }
-        // 요리가 대기 중이거나 완전히 멈췄을 때
         else
         {
             if (cookingProgressRoot != null && cookingProgressRoot.activeSelf)
                 cookingProgressRoot.SetActive(false);
 
-            ResetTimerProgress(); // 🛠️ 상태가 꺼질 때 게이지 및 데이터 완전 초기화
+            ResetTimerProgress(); 
 
             if (plusButton != null) plusButton.interactable = true;
             if (minusButton != null) minusButton.interactable = true;
@@ -239,9 +235,7 @@ public class CookingStationUI : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 🛠️ 추가됨: 타이머 상태를 흔적 없이 0으로 초기화하는 청소 함수
-    /// </summary>
+
     private void ResetTimerProgress()
     {
         if (timerFillImage != null) timerFillImage.fillAmount = 0f;

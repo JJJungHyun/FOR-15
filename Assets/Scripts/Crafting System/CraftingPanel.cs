@@ -10,7 +10,7 @@ public class CraftingPanel : MonoBehaviour
 
     [Header("Scroll Area Links")]
     [SerializeField] private Transform recipeListParent;
-    [SerializeField] private RecipeItemUI recipeItemPrefab; // 새로 바뀐 프리팹
+    [SerializeField] private RecipeItemUI recipeItemPrefab; 
 
     [Header("Category Navigation")]
     [SerializeField] private List<CategoryTabBtn> categoryButtons;
@@ -23,7 +23,6 @@ public class CraftingPanel : MonoBehaviour
 
     private void Start()
     {
-        // 인벤토리 변경 이벤트 구독 (실시간 재료 개수 리프레시용)
         if (playerInventory != null)
         {
             playerInventory.OnItemsChanged += RefreshAllRecipesUI;
@@ -76,7 +75,6 @@ public class CraftingPanel : MonoBehaviour
 
     public void RefreshRecipeList()
     {
-        // 기존 리스트 오브젝트 풀링 없이 전부 파괴 후 재생성
         foreach (var ui in spawnedRecipeUIs) Destroy(ui.gameObject);
         spawnedRecipeUIs.Clear();
 
@@ -86,9 +84,7 @@ public class CraftingPanel : MonoBehaviour
         {
             if (recipe == null) continue;
 
-            // 카테고리 필터링 
             bool isCorrectCategory = (currentCategory == CraftingCategory.All) || (recipe.Category == currentCategory);
-            // 작업대 필터링
             bool isCorrectStation = (recipe.RequiredStation == CraftingStation.None) || (recipe.RequiredStation == currentStation);
 
             if (isCorrectCategory && isCorrectStation)
@@ -100,7 +96,6 @@ public class CraftingPanel : MonoBehaviour
         }
     }
 
-    // 아이템 제작이나 인벤토리 변동 시 호출되어 화면에 뜬 모든 레시피 재료 상황을 동기화
     public void RefreshAllRecipesUI()
     {
         foreach (var ui in spawnedRecipeUIs)
