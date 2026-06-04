@@ -16,9 +16,7 @@ GameObject:
   - component: {fileID: 3909435764532197176}
   - component: {fileID: 2845865592246385957}
   - component: {fileID: 2809477338103953616}
-  - component: {fileID: 2684961597469250752}
   - component: {fileID: 2319308538196561598}
-  - component: {fileID: 8466415693490717708}
   - component: {fileID: 865588815224599431}
   - component: {fileID: 276159943710175170}
   - component: {fileID: 5405483822864691950}
@@ -239,28 +237,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b562f7794731a84bb9f1517f31a0ffe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryController
+  combinedUIRoot: {fileID: 0}
   inventory: {fileID: 0}
   character: {fileID: 2845865592246385957}
   dragIcon: {fileID: 0}
   itemTooltip: {fileID: 0}
   statTooltip: {fileID: 0}
---- !u!114 &2684961597469250752
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 476894614341188072}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f9ca4b809262f745b56e35f24bfa7fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteraction
-  inventory: {fileID: 0}
-  detectionRadius: 3
-  itemLayer:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!114 &2319308538196561598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,25 +256,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerControl
   moveSpeed: 8
---- !u!114 &8466415693490717708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 476894614341188072}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f81fc83378d0d3a45b7a849f67c8e605, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharPanelMgr
-  mainGroup: {fileID: 0}
-  inventoryPanel: {fileID: 0}
-  craftingPanel: {fileID: 0}
-  inventoryTabImage: {fileID: 0}
-  craftingTabImage: {fileID: 0}
-  activeColor: {r: 1, g: 1, b: 1, a: 1}
-  inactiveColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!114 &865588815224599431
 MonoBehaviour:
   m_ObjectHideFlags: 0

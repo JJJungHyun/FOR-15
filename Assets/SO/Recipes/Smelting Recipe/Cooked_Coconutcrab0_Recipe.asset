@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5e868a5e0c2e284db03659e1af822c8, type: 3}
   m_Name: Cooked_Coconutcrab0_Recipe
   m_EditorClassIdentifier: Assembly-CSharp::SmeltingRecipe
-  InputItem: {fileID: 11400000, guid: f24d2e78ddd358a4f8457f8930458c31, type: 2}
-  OutputItem: {fileID: 0}
-  CookTime: 5
+  RecipeName: "\uCF54\uCF54\uB11B\uD06C\uB7A90"
+  OutputItem: {fileID: 11400000, guid: d9ca6b1b1962b9f42860e50f955b2ec2, type: 2}
+  Description: 
+  Ingredients:
+  - RequiredItem: {fileID: 11400000, guid: f24d2e78ddd358a4f8457f8930458c31, type: 2}
+    RequiredAmount: 1
+  BaseCookTime: 15

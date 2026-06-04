@@ -1,33 +1,35 @@
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 
 public class CraftingPanel : MonoBehaviour
 {
-    [Header("Data")]
+    [Header("Data References")]
     [SerializeField] private List<CraftingRecipe> allRecipes;
     [SerializeField] private Inventory playerInventory;
 
-    [Header("List UI")]
+    [Header("Scroll Area Links")]
     [SerializeField] private Transform recipeListParent;
-    [SerializeField] private RecipeResultUI recipeButtonPrefab;
+    [SerializeField] private RecipeItemUI recipeItemPrefab; // 새로 바뀐 프리팹
 
-    [Header("Detail Window")]
-    [SerializeField] private GameObject detailWindow;
-    [SerializeField] private TMP_Text resultNameText;
-    [SerializeField] private TMP_Text resultDescText;
-    [SerializeField] private Transform ingredientParent;
-    [SerializeField] private RecipeIngredientUI ingredientPrefab;
-    [SerializeField] private Button craftButton;
+    [Header("Category Navigation")]
+    [SerializeField] private List<CategoryTabBtn> categoryButtons;
 
-    private CraftingRecipe selectedRecipe;
     private CraftingStation currentStation = CraftingStation.None;
     private CraftingCategory currentCategory = CraftingCategory.All;
-    private List<RecipeResultUI> spawnedButtons = new List<RecipeResultUI>();
+    private List<RecipeItemUI> spawnedRecipeUIs = new List<RecipeItemUI>();
+
+    public CraftingStation CurrentStation => currentStation;
 
     private void Start()
     {
+        // 인벤토리 변경 이벤트 구독 (실시간 재료 개수 리프레시용)
+        if (playerInventory != null)
+        {
+            playerInventory.OnItemsChanged += RefreshAllRecipesUI;
+        }
+
+        InitCategoryTabs();
         RefreshRecipeList();
     }
 
@@ -36,63 +38,74 @@ public class CraftingPanel : MonoBehaviour
         RefreshRecipeList();
     }
 
+    private void OnDestroy()
+    {
+        if (playerInventory != null)
+        {
+            playerInventory.OnItemsChanged -= RefreshAllRecipesUI;
+        }
+    }
+
+    private void InitCategoryTabs()
+    {
+        for (int i = 0; i < categoryButtons.Count; i++)
+        {
+            if (categoryButtons[i] == null) continue;
+            categoryButtons[i].Init(this, i);
+        }
+        UpdateCategoryTabHighlights();
+    }
+
     public void SetCategory(int categoryIndex)
     {
         currentCategory = (CraftingCategory)categoryIndex;
+        UpdateCategoryTabHighlights();
         RefreshRecipeList();
+    }
+
+    private void UpdateCategoryTabHighlights()
+    {
+        for (int i = 0; i < categoryButtons.Count; i++)
+        {
+            if (categoryButtons[i] != null)
+            {
+                categoryButtons[i].SetSelectState((int)currentCategory == i);
+            }
+        }
     }
 
     public void RefreshRecipeList()
     {
-        foreach (var btn in spawnedButtons) Destroy(btn.gameObject);
-        spawnedButtons.Clear();
+        // 기존 리스트 오브젝트 풀링 없이 전부 파괴 후 재생성
+        foreach (var ui in spawnedRecipeUIs) Destroy(ui.gameObject);
+        spawnedRecipeUIs.Clear();
+
+        if (playerInventory == null || recipeItemPrefab == null) return;
 
         foreach (var recipe in allRecipes)
         {
-            // ī�װ��� ���͸� 
+            if (recipe == null) continue;
+
+            // 카테고리 필터링 
             bool isCorrectCategory = (currentCategory == CraftingCategory.All) || (recipe.Category == currentCategory);
+            // 작업대 필터링
+            bool isCorrectStation = (recipe.RequiredStation == CraftingStation.None) || (recipe.RequiredStation == currentStation);
 
-            if (isCorrectCategory)
+            if (isCorrectCategory && isCorrectStation)
             {
-                if (recipe.RequiredStation != CraftingStation.None && recipe.RequiredStation != currentStation)
-                    continue;
-
-                var btn = Instantiate(recipeButtonPrefab, recipeListParent);
-                btn.Init(recipe, this);
-                btn.UpdateAvailability(playerInventory, currentStation);
-                spawnedButtons.Add(btn);
+                var recipeUI = Instantiate(recipeItemPrefab, recipeListParent);
+                recipeUI.Init(recipe, playerInventory, this);
+                spawnedRecipeUIs.Add(recipeUI);
             }
         }
-
-        if (selectedRecipe != null) SelectRecipe(selectedRecipe);
     }
 
-    public void SelectRecipe(CraftingRecipe recipe)
+    // 아이템 제작이나 인벤토리 변동 시 호출되어 화면에 뜬 모든 레시피 재료 상황을 동기화
+    public void RefreshAllRecipesUI()
     {
-        selectedRecipe = recipe;
-        detailWindow.SetActive(true);
-
-        resultNameText.text = recipe.Result.Item.ItemName;
-        resultDescText.text = recipe.Result.Item.GetDescription();
-
-        foreach (Transform child in ingredientParent) Destroy(child.gameObject);
-
-        foreach (var material in recipe.Materials)
+        foreach (var ui in spawnedRecipeUIs)
         {
-            var slot = Instantiate(ingredientPrefab, ingredientParent);
-            int currentCount = playerInventory.ItemCount(material.Item.ID);
-            slot.SetIngredient(material.Item, currentCount, material.Amount);
-        }
-
-        craftButton.interactable = recipe.CanCraft(playerInventory, currentStation);
-    }
-
-    public void OnCraftClick()
-    {
-        if (selectedRecipe != null && selectedRecipe.CanCraft(playerInventory, currentStation))
-        {
-            selectedRecipe.Craft(playerInventory);
-            RefreshRecipeList();
+            if (ui != null) ui.UpdateRecipeUI();
         }
     }
 }

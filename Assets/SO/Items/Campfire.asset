@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a537d38720dd1b54481ec92aa9b2eee7, type: 3}
-  m_Name: Furnace
+  m_Name: Campfire
   m_EditorClassIdentifier: Assembly-CSharp::DeployableItem
   id: 715153a68c8d5bb42833a0b4ded89eb9
   ItemName: "\uD654\uB85C"
-  Icon: {fileID: 5839503353984351374, guid: f1eefe9698d3d5043a7f3f979974513b, type: 3}
+  Icon: {fileID: -3793120966785524343, guid: b079bcd891522844096b4b1c51f49c7a, type: 3}
   MaximumStacks: 1
   DeployablePrefab: {fileID: 7909735943279280631, guid: 6261f507aebde104096d7fd0ad12fb05, type: 3}
   MaxPlacementDistance: 10

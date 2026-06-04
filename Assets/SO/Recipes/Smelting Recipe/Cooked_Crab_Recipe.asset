@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5e868a5e0c2e284db03659e1af822c8, type: 3}
   m_Name: Cooked_Crab_Recipe
   m_EditorClassIdentifier: Assembly-CSharp::SmeltingRecipe
-  InputItem: {fileID: 11400000, guid: 703df624606f84947aa5c4e15dd1ee54, type: 2}
-  OutputItem: {fileID: 0}
-  CookTime: 5
+  RecipeName: "\uAC8C"
+  OutputItem: {fileID: 11400000, guid: 3a2d4e47a989f9c48b27f66780dc75fd, type: 2}
+  Description: 
+  Ingredients:
+  - RequiredItem: {fileID: 11400000, guid: 703df624606f84947aa5c4e15dd1ee54, type: 2}
+    RequiredAmount: 1
+  BaseCookTime: 3

@@ -46,6 +46,8 @@ public class InventoryController : MonoBehaviour
 
     private void OnEnable()
     {
+        // ❌ PlayerInputHandler.OnToggleCombinedUI 구독 제거 (CharPanelMgr가 전담함)
+
         BaseItemSlotUI.OnSlotRightClickEvent += HandleRightClick;
         BaseItemSlotUI.OnSlotBeginDragEvent += HandleBeginDrag;
         BaseItemSlotUI.OnSlotEndDragEvent += HandleEndDrag;
@@ -56,6 +58,8 @@ public class InventoryController : MonoBehaviour
 
     private void OnDisable()
     {
+        // ❌ PlayerInputHandler.OnToggleCombinedUI 구독 해제 제거
+
         BaseItemSlotUI.OnSlotRightClickEvent -= HandleRightClick;
         BaseItemSlotUI.OnSlotBeginDragEvent -= HandleBeginDrag;
         BaseItemSlotUI.OnSlotEndDragEvent -= HandleEndDrag;
@@ -69,34 +73,46 @@ public class InventoryController : MonoBehaviour
     #region Drag & Drop 
     private void HandleBeginDrag(BaseItemSlotUI slotUI)
     {
-        if (slotUI.Slot.Item == null) return;
+        if (slotUI.Slot == null || slotUI.Slot.Item == null) return;
 
         draggedSlot = slotUI;
         draggedSlot.SetAlpha(0.5f);
-        dragIcon.sprite = slotUI.Slot.Item.Icon;
-        dragIcon.SetNativeSize();
-        dragIcon.gameObject.SetActive(true);
-        UpdateDragIconPosition();
+
+        if (dragIcon != null)
+        {
+            dragIcon.sprite = slotUI.Slot.Item.Icon;
+            dragIcon.SetNativeSize();
+            dragIcon.gameObject.SetActive(true);
+            UpdateDragIconPosition();
+        }
     }
 
     private void HandleDrag(BaseItemSlotUI slotUI) => UpdateDragIconPosition();
 
     private void UpdateDragIconPosition()
     {
-        if (draggedSlot != null) dragIcon.transform.position = Input.mousePosition;
+        if (draggedSlot != null && dragIcon != null)
+            dragIcon.transform.position = Input.mousePosition;
     }
 
     private void HandleEndDrag(BaseItemSlotUI slotUI)
     {
-        if (draggedSlot != null) draggedSlot.SetSlot(draggedSlot.Slot);
+        if (dragIcon != null) dragIcon.gameObject.SetActive(false);
 
-        draggedSlot = null;
-        dragIcon.gameObject.SetActive(false);
+        if (draggedSlot != null)
+        {
+            if (draggedSlot.Slot != null)
+            {
+                draggedSlot.Slot.UpdateSlot();
+            }
+            draggedSlot = null;
+        }
     }
 
     private void HandleDrop(BaseItemSlotUI dropSlotUI)
     {
         if (draggedSlot == null || dropSlotUI == null) return;
+        if (draggedSlot.Slot == null || dropSlotUI.Slot == null) return;
 
         if (dropSlotUI.CanReceiveItem(draggedSlot.Slot.Item) && draggedSlot.CanReceiveItem(dropSlotUI.Slot.Item))
         {
@@ -123,6 +139,7 @@ public class InventoryController : MonoBehaviour
     #region Right Click 
     private void HandleRightClick(BaseItemSlotUI slotUI)
     {
+        if (slotUI.Slot == null) return;
         Item item = slotUI.Slot.Item;
         if (item == null) return;
 
@@ -141,7 +158,7 @@ public class InventoryController : MonoBehaviour
 
     private void RefreshTooltip(BaseItemSlotUI slotUI)
     {
-        if (slotUI != null && slotUI.Slot.Item != null)
+        if (slotUI != null && slotUI.Slot != null && slotUI.Slot.Item != null)
             ItemTooltip.Instance?.ShowTooltip(slotUI.Slot.Item);
         else
             ItemTooltip.Instance?.HideTooltip();
