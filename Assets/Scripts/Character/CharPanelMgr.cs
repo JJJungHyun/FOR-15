@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class CharPanelMgr : MonoBehaviour
@@ -8,84 +7,92 @@ public class CharPanelMgr : MonoBehaviour
 
     [Header("Panels")]
     [SerializeField] private GameObject mainGroup;
-    [SerializeField] private GameObject inventoryPanel;
-    [SerializeField] private GameObject craftingPanel;
 
-    [Header("Tab UI Visuals")]
-    [SerializeField] private Image inventoryTabImage;
-    [SerializeField] private Image craftingTabImage;
-    [SerializeField] private Color activeColor = Color.white;
-    [SerializeField] private Color inactiveColor = new Color(0.7f, 0.7f, 0.7f, 1f);
+    [Header("References in MainGroup")]
+    [SerializeField] private CraftingPanel craftingPanel;
+    [SerializeField] private InventoryController inventoryController;
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+            return;
+        }
+
         Instance = this;
 
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+    }
 
-        CloseAll();
+    private void Start()
+    {
+        if (mainGroup != null)
+        {
+            mainGroup.SetActive(false);
+        }
+        UpdateGameState(false);
     }
 
     private void OnEnable()
     {
-        PlayerInputHandler.OnInventoryPressed += ToggleInventory;
-        PlayerInputHandler.OnCraftingPressed += ToggleCrafting;
+        PlayerInputHandler.OnToggleCombinedUI += ToggleCombinedUI;
     }
 
     private void OnDisable()
     {
-        PlayerInputHandler.OnInventoryPressed -= ToggleInventory;
-        PlayerInputHandler.OnCraftingPressed -= ToggleCrafting;
+        PlayerInputHandler.OnToggleCombinedUI -= ToggleCombinedUI;
     }
 
-    public void ToggleInventory()
+    public void ToggleCombinedUI()
     {
-        if (mainGroup.activeSelf && inventoryPanel.activeSelf) CloseAll();
-        else OpenInventory();
+        if (mainGroup == null) return;
+
+        if (mainGroup.activeSelf)
+        {
+            CloseAll();
+        }
+        else
+        {
+            OpenCombinedUI();
+        }
     }
 
-    public void ToggleCrafting()
+    public void OpenCombinedUI()
     {
-        if (mainGroup.activeSelf && craftingPanel.activeSelf) CloseAll();
-        else OpenCrafting();
-    }
+        if (mainGroup == null) return;
 
-    public void OpenInventory()
-    {
         mainGroup.SetActive(true);
-        inventoryPanel.SetActive(true);
-        craftingPanel.SetActive(false);
 
-        UpdateTabVisuals(true);
-        UpdateGameState(true);
-    }
+        if (craftingPanel != null)
+        {
+            craftingPanel.RefreshRecipeList();
+        }
+        else
+        {
+            GetComponentInChildren<CraftingPanel>(true)?.RefreshRecipeList();
+        }
 
-    public void OpenCrafting()
-    {
-        mainGroup.SetActive(true);
-        inventoryPanel.SetActive(false);
-        craftingPanel.SetActive(true);
+        if (inventoryController != null)
+        {
+            inventoryController.RefreshAllSlots();
+        }
+        else
+        {
+            GetComponentInChildren<InventoryController>(true)?.RefreshAllSlots();
+        }
 
-        craftingPanel.GetComponent<CraftingPanel>()?.RefreshRecipeList();
-
-        UpdateTabVisuals(false);
         UpdateGameState(true);
     }
 
     public void CloseAll()
     {
-        mainGroup.SetActive(false);
-        inventoryPanel.SetActive(false);
-        craftingPanel.SetActive(false);
-
+        if (mainGroup != null)
+        {
+            mainGroup.SetActive(false);
+        }
         UpdateGameState(false);
-    }
-
-    private void UpdateTabVisuals(bool isInventory)
-    {
-        if (inventoryTabImage != null) inventoryTabImage.color = isInventory ? activeColor : inactiveColor;
-        if (craftingTabImage != null) craftingTabImage.color = isInventory ? inactiveColor : activeColor;
     }
 
     private void UpdateGameState(bool isOpen)

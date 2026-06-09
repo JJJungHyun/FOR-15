@@ -15,7 +15,6 @@ public class RecipeIngredientUI : MonoBehaviour
         countText.text = $"{current}/{required}";
 
         countText.color = (current >= required) ? normalColor : insufficientColor;
-
         iconImage.color = (current >= required) ? Color.white : new Color(0.5f, 0.5f, 0.5f, 1f);
     }
 }

@@ -32,6 +32,10 @@ public class MonsterData : ScriptableObject
     public List<HurtReactionStep> reactionSequence; // 피격 시 체크할 행동 리스트
     public List<StateTransition> nextActionMap; // 행동 종료 후 다음 목적지 매핑
 
+    [Header("드롭 시스템")]
+    [Tooltip("아이템 드롭에 공용으로 사용할 기본 베이스 프리팹")]
+    public GameObject defaultItemPrefab;
+
     [Header("드롭 아이템")]
     public List<DropItemData> dropTable;
 }
@@ -47,7 +51,7 @@ public struct StateTransition
 [System.Serializable]
 public struct DropItemData 
 {
-    public GameObject itemPrefab; 
+    public Item itemData;
     [Range(0, 1)] public float dropChance;
     public int minAmount;
     public int maxAmount;

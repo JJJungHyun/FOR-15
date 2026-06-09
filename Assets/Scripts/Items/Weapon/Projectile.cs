@@ -8,7 +8,18 @@ public class Projectile : MonoBehaviour
     private float damage;
     private Vector3 startPos;
 
-    public void Setup(Vector3 dir, float spd, float rng, float dmg)
+    private EquippableItem sourceWeapon;
+    private Character shooter;
+    private int hitCost;
+
+    private SpriteRenderer spriteRenderer;
+
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    public void Setup(Vector3 dir, float spd, float rng, float dmg, Sprite bulletSprite = null)
     {
         direction = dir;
         speed = spd;
@@ -18,29 +29,39 @@ public class Projectile : MonoBehaviour
 
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+        if (spriteRenderer != null && bulletSprite != null)
+        {
+            spriteRenderer.sprite = bulletSprite;
+        }
+    }
+
+    public void SetWeaponSource(EquippableItem weapon, Character player, int cost)
+    {
+        sourceWeapon = weapon;
+        shooter = player;
+        hitCost = cost;
     }
 
     private void Update()
     {
         transform.position += direction * speed * Time.deltaTime;
-
-        if (Vector3.Distance(startPos, transform.position) >= range)
-        {
-            Destroy(gameObject);
-        }
+        if (Vector3.Distance(startPos, transform.position) >= range) Destroy(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Enemy"))
         {
-            Debug.Log($"{collision.name}에게 {damage} 데미지!");
-
             if (collision.TryGetComponent(out IDamageable target))
             {
                 target.TakeDamage(damage, transform.position);
-            }
 
+                if (sourceWeapon != null && shooter != null)
+                {
+                    sourceWeapon.ConsumeDurability(hitCost, shooter);
+                }
+            }
             Destroy(gameObject);
         }
     }

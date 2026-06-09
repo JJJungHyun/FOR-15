@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1380643004927378046}
   - component: {fileID: 4279696368475333902}
-  - component: {fileID: 5064732354911609211}
   - component: {fileID: 4566053690136021843}
   - component: {fileID: 3130340577213426887}
+  - component: {fileID: 969711881205749543}
   m_Layer: 8
-  m_Name: Furnace
+  m_Name: Campfire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7.1, y: 2.09, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -84,8 +84,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.990566, g: 0.4625756, b: 0.4625756, a: 1}
+  m_Sprite: {fileID: -3793120966785524343, guid: b079bcd891522844096b4b1c51f49c7a, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -94,24 +94,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &5064732354911609211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7909735943279280631}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3780ba92f89dc464f86d9b571c409fc8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Furnace
-  itemSlots: []
-  Recipes:
-  - {fileID: 11400000, guid: 3b9f20d51f9d1a1488fca1082f98da24, type: 2}
-  - {fileID: 11400000, guid: 316335e53d0ec4148999ed666ad69ed9, type: 2}
-  - {fileID: 11400000, guid: 1f06780736cbb3640a012257191c7c78, type: 2}
-  - {fileID: 11400000, guid: f10ff9da14fd78a4fbfa08d84d283440, type: 2}
 --- !u!61 &4566053690136021843
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -150,7 +132,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 3.81, y: 4.7}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -170,3 +152,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd353966374151b4abdf4d04a2f4b2d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FurnaceInteractable
+--- !u!114 &969711881205749543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7909735943279280631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46dcc801e711ce647b3bb757969cd933, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CookingStation
+  AvailableRecipes:
+  - {fileID: 11400000, guid: 3b9f20d51f9d1a1488fca1082f98da24, type: 2}
+  - {fileID: 11400000, guid: 316335e53d0ec4148999ed666ad69ed9, type: 2}
+  - {fileID: 11400000, guid: 1f06780736cbb3640a012257191c7c78, type: 2}
+  - {fileID: 11400000, guid: f9ba657bc569ddd46942563d9d02510d, type: 2}
+  - {fileID: 11400000, guid: f10ff9da14fd78a4fbfa08d84d283440, type: 2}

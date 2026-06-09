@@ -7,7 +7,7 @@ public class PlacementManager : MonoBehaviour
     [SerializeField] private Color impossibleColor = new Color(1f, 0f, 0f, 0.4f); // 연한 빨간색
 
     [Header("Layers for Collision Check")]
-    [SerializeField] private LayerMask obstacleLayers; 
+    [SerializeField] private LayerMask obstacleLayers;
 
     private DeployableItem currentItem;
     private Transform playerTransform;
@@ -24,7 +24,7 @@ public class PlacementManager : MonoBehaviour
 
     private void Awake()
     {
-        mainCamera = Camera.main;
+        EnsureCameraReference();
     }
 
     private void Update()
@@ -36,6 +36,18 @@ public class PlacementManager : MonoBehaviour
         HandleInput();
     }
 
+    private void EnsureCameraReference()
+    {
+        if (mainCamera == null)
+        {
+            mainCamera = Camera.main;
+            if (mainCamera == null)
+            {
+                mainCamera = FindFirstObjectByType<Camera>();
+            }
+        }
+    }
+
     public void StartPlacementMode(DeployableItem item, Transform player)
     {
         CancelPlacementMode();
@@ -44,7 +56,7 @@ public class PlacementManager : MonoBehaviour
         playerTransform = player;
         isPlacementMode = true;
 
-        if (mainCamera == null) mainCamera = Camera.main;
+        EnsureCameraReference();
 
         previewInstance = new GameObject("PlacementPreview");
         previewRenderer = previewInstance.AddComponent<SpriteRenderer>();
@@ -77,14 +89,20 @@ public class PlacementManager : MonoBehaviour
 
     private void UpdatePreviewPosition()
     {
-        if (mainCamera == null) return;
+        EnsureCameraReference();
+        if (mainCamera == null || previewInstance == null) return;
 
-        Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = -mainCamera.transform.position.z;
-        Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(mousePosition);
-        mouseWorldPos.z = 0f;
+        Plane xyPlane = new Plane(Vector3.forward, Vector3.zero);
 
-        previewInstance.transform.position = mouseWorldPos;
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+        if (xyPlane.Raycast(ray, out float enter))
+        {
+            Vector3 mouseWorldPos = ray.GetPoint(enter);
+            mouseWorldPos.z = 0f; 
+
+            previewInstance.transform.position = mouseWorldPos;
+        }
 
         if (PlacementRangeIndicator.Instance != null)
         {

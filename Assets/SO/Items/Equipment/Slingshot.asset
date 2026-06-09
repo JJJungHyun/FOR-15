@@ -18,6 +18,8 @@ MonoBehaviour:
   MaximumStacks: 1
   weaponAbilityAsset: {fileID: 11400000, guid: e96f589bd0e147140a9b4845a1c512a7, type: 2}
   ToolType: 1
+  hasDurability: 1
+  maxDurability: 30
   StrengthBonus: 5
   DefenseBonus: 0
   StrengthPercentBonus: 0

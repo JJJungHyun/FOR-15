@@ -15,12 +15,8 @@ MonoBehaviour:
   Category: 0
   RequiredStation: 0
   Materials:
-  - Item: {fileID: 11400000, guid: 2cdd90f27a84d38478df43091a04f29b, type: 2}
-    Amount: 1
-  - Item: {fileID: 11400000, guid: bdc53de3709adff4f88971ad3b517db6, type: 2}
-    Amount: 1
-  - Item: {fileID: 11400000, guid: d367f87f3d569064c9c9a213216f7f97, type: 2}
-    Amount: 1
+  - Item: {fileID: 11400000, guid: 2d1121c9a3b3f2e4b8d31887434a3d29, type: 2}
+    Amount: 10
   Result:
-    Item: {fileID: 11400000, guid: 4e39fc722a1c2e442bd097f6f328d09b, type: 2}
+    Item: {fileID: 11400000, guid: bdc53de3709adff4f88971ad3b517db6, type: 2}
     Amount: 1

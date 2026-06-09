@@ -3,21 +3,19 @@ using UnityEngine;
 
 public class PlayerInputHandler : MonoBehaviour
 {
-    public static event Action OnInventoryPressed;
-    public static event Action OnCraftingPressed;
+    public static event Action OnToggleCombinedUI;
     public static event Action OnInteractPressed;
     public static event Action<int> OnQuickSlotPressed;
 
-    public static event Action OnAttackPressed;  
-    public static event Action OnAttackHeld;     
+    public static event Action OnAttackPressed;
+    public static event Action OnAttackHeld;
     public static event Action OnAttackReleased;
-    public static event Action OnFarmingPressed; 
+    public static event Action OnFarmingPressed;
 
     private void Update()
     {
         HandleAttack();
-        HandleInventory();
-        HandleCraftingPanel();
+        HandleCombinedUI();
         HandleInteract();
         HandleQuickSlot();
         HandleFarming();
@@ -26,35 +24,22 @@ public class PlayerInputHandler : MonoBehaviour
     private void HandleAttack()
     {
         if (Input.GetMouseButtonDown(0)) OnAttackPressed?.Invoke();
-
         if (Input.GetMouseButton(0)) OnAttackHeld?.Invoke();
-
         if (Input.GetMouseButtonUp(0)) OnAttackReleased?.Invoke();
     }
 
-    private void HandleInventory()
+    private void HandleCombinedUI()
     {
-        if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.B))
         {
-            OnInventoryPressed?.Invoke();
-        }
-    }
-
-    private void HandleCraftingPanel()
-    {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            OnCraftingPressed?.Invoke();
+            OnToggleCombinedUI?.Invoke();
         }
     }
 
     private void HandleInteract()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            OnInteractPressed?.Invoke();
-        }
-    }   
+        if (Input.GetKeyDown(KeyCode.E)) OnInteractPressed?.Invoke();
+    }
 
     private void HandleQuickSlot()
     {
@@ -69,9 +54,6 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void HandleFarming()
     {
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            OnFarmingPressed?.Invoke();
-        }
+        if (Input.GetKeyDown(KeyCode.F)) OnFarmingPressed?.Invoke();
     }
 }

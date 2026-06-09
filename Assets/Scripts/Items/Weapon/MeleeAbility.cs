@@ -9,9 +9,12 @@ public class MeleeAbility : ScriptableObject, IWeaponAbility
     [SerializeField] private Vector2 attackBoxSize = new Vector2(1.5f, 1.2f);
     [SerializeField] private LayerMask damageableLayer;
 
-    // PlayerCombat에서 접근할 수 있도록 오픈
-    public float AttackCooldown => attackCooldown;
+    [Header("Durability Cost Config")]
+    [SerializeField] private int costOnHitMonster = 1;      // 몬스터 타격 시 기본 소모량
+    [SerializeField] private int costOnHarvest = 1;         // 자원 파밍 시 소모량
+    [SerializeField] private int costOnHitMonsterWithTool = 3; //도구로 몬스터를 때렸을 때 패널티 소모량
 
+    public float AttackCooldown => attackCooldown;
     public bool IsAttacking => false;
     public bool IsCharging => false;
     public float ChargeRatio => 0f;
@@ -21,8 +24,7 @@ public class MeleeAbility : ScriptableObject, IWeaponAbility
         Animator animator = player.GetComponent<Animator>();
         if (animator != null)
         {
-            string triggerName = DetermineDirectionTrigger(attackDir);
-            animator.SetTrigger(triggerName);
+            animator.SetTrigger(DetermineDirectionTrigger(attackDir));
         }
 
         PerformOverlapAttack(player, attackDir);
@@ -47,14 +49,43 @@ public class MeleeAbility : ScriptableObject, IWeaponAbility
         Collider2D[] hitTargets = Physics2D.OverlapBoxAll(attackCenter, attackBoxSize, angle, damageableLayer);
         float damage = player.GetAttackDamage();
 
+        PlayerEquipment equipment = player.GetComponent<PlayerEquipment>();
+        EquippableItem currentWeapon = equipment != null ? equipment.CurrentSelectedWeapon : null;
+
+        bool hasHitAnything = false;
+
         foreach (Collider2D targetCollider in hitTargets)
         {
             if (targetCollider.gameObject == player.gameObject) continue;
 
+            if (targetCollider.TryGetComponent(out IResourceHarvestable resource))
+            {
+                hasHitAnything = true;
+                ToolType currentToolType = currentWeapon != null ? currentWeapon.ToolType : ToolType.None;
+                resource.Harvest(damage, currentToolType, player.transform.position);
+
+                if (currentWeapon != null)
+                {
+                    currentWeapon.ConsumeDurability(costOnHarvest, player);
+                }
+                break; 
+            }
+
             if (targetCollider.TryGetComponent(out IDamageable target))
             {
+                hasHitAnything = true;
                 target.TakeDamage(damage, player.transform.position);
+
+                if (currentWeapon != null)
+                {
+                    int finalCost = (currentWeapon.ToolType == ToolType.Axe || currentWeapon.ToolType == ToolType.Pickaxe)
+                        ? costOnHitMonsterWithTool
+                        : costOnHitMonster;
+
+                    currentWeapon.ConsumeDurability(finalCost, player);
+                }
             }
         }
+
     }
 }

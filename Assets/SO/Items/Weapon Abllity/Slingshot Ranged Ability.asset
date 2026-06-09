@@ -18,3 +18,8 @@ MonoBehaviour:
   maxRange: 12
   projectileSpeed: 15
   attackCooldown: 0.5
+  requiredAmmoItem: {fileID: 11400000, guid: 58671f942affe064bbc2212124ecee73, type: 2}
+  fireSound: {fileID: 0}
+  soundVolume: 1
+  consumeOnFire: 1
+  durabilityCost: 1
