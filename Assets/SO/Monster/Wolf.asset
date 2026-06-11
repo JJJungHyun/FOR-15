@@ -19,7 +19,7 @@ MonoBehaviour:
   chaseSpeed: 10
   attackDamage: 15
   detectRange: 10
-  attackRange: 20
+  attackRange: 10
   patrolRadius: 20
   returnRange: 30
   moveTime: 3

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Heal
   m_EditorClassIdentifier: Assembly-CSharp::Item
   id: a54f4d87c27a9c24a8db59ffb78b3b7d
-  ItemName: "\uC57D\uCD08"
-  Icon: {fileID: 6620131673396280705, guid: 35a7680ca5f646d429f37ed2bb0ba10c, type: 3}
-  MaximumStacks: 1
+  ItemName: "\uC78E\uD30C\uB9AC"
+  Icon: {fileID: -7491310438931249573, guid: c9e3646e34b6b0c4b8882bb2feaec92c, type: 3}
+  MaximumStacks: 999

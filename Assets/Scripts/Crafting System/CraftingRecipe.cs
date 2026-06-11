@@ -14,6 +14,7 @@ public enum CraftingCategory { All, Weapon, Armor, Food, Misc }
 public enum CraftingStation { None, Workbench, Forge }
 
 [CreateAssetMenu(menuName = "Recipe/Crafting Recipe")]
+
 public class CraftingRecipe : ScriptableObject
 {
     public CraftingCategory Category;
@@ -49,6 +50,15 @@ public class CraftingRecipe : ScriptableObject
         for (int i = 0; i < Result.Amount; i++)
         {
             container.AddItem(Result.Item.GetCopy());
+        }
+
+        if (CutSceneManager.Instance != null && Result.Item != null)
+        {
+            if (Result.Item.name == "EscapeCore" || Result.Item.ID == "EscapeCore")
+            {
+                Debug.Log($"[제작 완료 확인] 찍힌 이름: '{Result.Item.name}'");
+                CutSceneManager.Instance.StartCutscene("GuideArrowCrafted");
+            }
         }
     }
 }

@@ -13,6 +13,7 @@ public class UsableItem : Item
 
     public override void Use(Character c)
     {
+
         if (Effects == null || Effects.Count == 0)
         {
             Debug.LogWarning($"{ItemName}: 실행할 효과가 없습니다.");

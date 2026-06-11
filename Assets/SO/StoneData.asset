@@ -20,17 +20,17 @@ MonoBehaviour:
     maxScale: 0.6
     dropTable:
     - itemData: {fileID: 11400000, guid: b679ade3230ae004da49b512412cf892, type: 2}
-      dropChance: 0.7
+      dropChance: 1
       minAmount: 1
-      maxAmount: 1
+      maxAmount: 3
   - size: 1
     minScale: 1
     maxScale: 1
     dropTable:
     - itemData: {fileID: 11400000, guid: b679ade3230ae004da49b512412cf892, type: 2}
-      dropChance: 0.7
+      dropChance: 1
       minAmount: 1
-      maxAmount: 1
+      maxAmount: 3
   - size: 2
     minScale: 1.5
     maxScale: 1.5

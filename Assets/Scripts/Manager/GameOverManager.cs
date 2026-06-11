@@ -19,7 +19,18 @@ public class GameOverManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            // 씬이 바뀌어도 이 오브젝트(GameOverManager)를 파괴하지 마세요!
+            DontDestroyOnLoad(gameObject);
+        } 
+    else
+        {
+            // 씬이 전환되면서 새로 생긴 중복 매니저가 있다면 파괴합니다.
+            Destroy(gameObject);
+            return;
+        }
 
         // 처음엔 UI를 안 보이게 설정
         _gameOverCanvasGroup.alpha = 0;
