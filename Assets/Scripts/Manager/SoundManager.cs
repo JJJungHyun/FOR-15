@@ -1,13 +1,41 @@
 using UnityEngine;
-using UnityEngine.Audio; // 오디오 믹서 제어를 위해 필요
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
+// 1. 사운드 종류 목록
+public enum SFXType
+{
+    GameOver, GameClear, WoodCut, StoneMine, MapMove,
+    Eat, Campfire, Button, HerbCollect, MonsterRoar,
+    PlayerHit, WeaponSwing
+}
+
+// 2. 데이터 구조체
+[System.Serializable]
+public struct SFXData
+{
+    public SFXType type;
+    public AudioClip clip;
+}
+
+// 3. 메인 사운드 매니저
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance;
 
     [Header("오디오 믹서 연결")]
     public AudioMixer mainMixer;
+    public AudioMixerGroup sfxGroup;
+
+    [Header("BGM 설정")]
+    public AudioSource bgmSource;
+
+    [Header("SFX 풀 설정")]
+    public int sfxPoolSize = 10;
+    private AudioSource[] sfxSources;
+
+    [Header("사운드 데이터베이스")]
+    public SFXData[] sfxDatabase;
 
     void Awake()
     {
@@ -15,6 +43,7 @@ public class SoundManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            SetupSFXPool();
         }
         else
         {
@@ -24,37 +53,115 @@ public class SoundManager : MonoBehaviour
 
     void Start()
     {
-        // 게임 시작 시 저장된 볼륨 불러오기 (없으면 0.75 기본값)
         LoadVolume("MasterVol");
         LoadVolume("BGMVol");
         LoadVolume("SFXVol");
     }
 
-    // 슬라이더에서 호출할 함수 (0 ~ 1 사이의 값을 받음)
-    public void SetMasterVolume(float sliderValue) => SetMixerVolume("MasterVol", sliderValue);
-    public void SetBGMVolume(float sliderValue) => SetMixerVolume("BGMVol", sliderValue);
-    public void SetSFXVolume(float sliderValue) => SetMixerVolume("SFXVol", sliderValue);
+    void SetupSFXPool()
+    {
+        sfxSources = new AudioSource[sfxPoolSize];
+        for (int i = 0; i < sfxPoolSize; i++)
+        {
+            GameObject sfxObj = new GameObject("SFXSource_" + i);
+            sfxObj.transform.SetParent(transform);
+            AudioSource source = sfxObj.AddComponent<AudioSource>();
+            source.outputAudioMixerGroup = sfxGroup;
+            source.playOnAwake = false;
+            sfxSources[i] = source;
+        }
+    }
+
+    public void PlaySFX(SFXType type)
+    {
+        foreach (var data in sfxDatabase)
+        {
+            if (data.type == type)
+            {
+                PlayClip(data.clip);
+                return;
+            }
+        }
+    }
+
+    private void PlayClip(AudioClip clip)
+    {
+        if (clip == null) return;
+        foreach (var source in sfxSources)
+        {
+            if (!source.isPlaying)
+            {
+                source.clip = clip;
+                source.Play();
+                return;
+            }
+        }
+    }
+
+    public void ChangeBGM(AudioClip clip)
+    {
+        bgmSource.clip = clip;
+        bgmSource.Play();
+    }
+
+   public void SetMasterVolume(float v) => SetMixerVolume("MasterVol", v);
+
+    public void SetBGMVolume(float v) => SetMixerVolume("BGMVol", v);
+    public void SetSFXVolume(float v) => SetMixerVolume("SFXVol", v);
 
     private void SetMixerVolume(string parameterName, float sliderValue)
     {
-        // 믹서 볼륨은 데시벨(dB) 단위를 사용하므로 로그 계산이 필요함
-        // 0.0001f는 슬라이더가 0일 때 로그 계산 오류를 방지하기 위함
         float volume = Mathf.Log10(Mathf.Max(0.0001f, sliderValue)) * 20;
         mainMixer.SetFloat(parameterName, volume);
-
-        // 값 저장
         PlayerPrefs.SetFloat(parameterName, sliderValue);
     }
 
     private void LoadVolume(string parameterName)
     {
-        float savedValue = PlayerPrefs.GetFloat(parameterName, 0.75f);
+        float savedValue = PlayerPrefs.GetFloat(parameterName, 1.0f);
         SetMixerVolume(parameterName, savedValue);
     }
 
-    // 현재 설정된 볼륨값을 가져오는 함수 (UI 초기화용)
     public float GetSavedVolume(string parameterName)
     {
         return PlayerPrefs.GetFloat(parameterName, 0.75f);
     }
 }
+
+// 4. 개별 사운드 컴포넌트들 (메뉴에 나타나도록 설정)
+
+[AddComponentMenu("Sounds/Sound_WoodCut")]
+public class Sound_WoodCut : MonoBehaviour { public void Play() => SoundManager.Instance.PlaySFX(SFXType.WoodCut); }
+
+[AddComponentMenu("Sounds/Sound_StoneMine")]
+public class Sound_StoneMine : MonoBehaviour { public void Play() => SoundManager.Instance.PlaySFX(SFXType.StoneMine); }
+
+[AddComponentMenu("Sounds/Sound_WeaponSwing")]
+public class Sound_WeaponSwing : MonoBehaviour { public void Play() => SoundManager.Instance.PlaySFX(SFXType.WeaponSwing); }
+
+[AddComponentMenu("Sounds/Sound_PlayerHit")]
+public class Sound_PlayerHit : MonoBehaviour { public void Play() => SoundManager.Instance.PlaySFX(SFXType.PlayerHit); }
+
+[AddComponentMenu("Sounds/Sound_Eat")]
+public class Sound_Eat : MonoBehaviour { public void Play() => SoundManager.Instance.PlaySFX(SFXType.Eat); }
+
+[AddComponentMenu("Sounds/Sound_HerbCollect")]
+public class Sound_HerbCollect : MonoBehaviour { public void Play() => SoundManager.Instance.PlaySFX(SFXType.HerbCollect); }
+
+[AddComponentMenu("Sounds/Sound_MapMove")]
+public class Sound_MapMove : MonoBehaviour { public void Play() => SoundManager.Instance.PlaySFX(SFXType.MapMove); }
+
+[AddComponentMenu("Sounds/Sound_MonsterRoar")]
+public class Sound_MonsterRoar : MonoBehaviour { public void Play() => SoundManager.Instance.PlaySFX(SFXType.MonsterRoar); }
+
+[AddComponentMenu("Sounds/Sound_Campfire")]
+public class Sound_Campfire : MonoBehaviour { public void Play() => SoundManager.Instance.PlaySFX(SFXType.Campfire); }
+
+[AddComponentMenu("Sounds/Sound_GameOver")]
+public class Sound_GameOver : MonoBehaviour { public void Play() => SoundManager.Instance.PlaySFX(SFXType.GameOver); }
+
+[AddComponentMenu("Sounds/Sound_GameClear")]
+public class Sound_GameClear : MonoBehaviour { public void Play() => SoundManager.Instance.PlaySFX(SFXType.GameClear); }
+
+[AddComponentMenu("Sounds/Sound_Button")]
+public class Sound_Button : MonoBehaviour { public void Play() => SoundManager.Instance.PlaySFX(SFXType.Button); }

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9121757521757245213}
   - component: {fileID: 6281020196890705911}
+  - component: {fileID: 5053602253692195349}
   m_Layer: 0
   m_Name: GameOverManager
   m_TagString: Untagged
@@ -48,3 +49,16 @@ MonoBehaviour:
   _gameOverText: {fileID: 0}
   _titleSceneName: TitleScene
   _fadeDuration: 2
+--- !u!114 &5053602253692195349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8162111028932588848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c5016d9f4ba5754d8c83cfa1f6820a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundTrigger
+  soundType: 0
