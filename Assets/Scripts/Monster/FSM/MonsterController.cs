@@ -218,7 +218,20 @@ public class MonsterController : MonoBehaviour, IDamageable
         if (col != null) Target = col.transform;
     }
 
-    public void SetAnimation(MonsterAnimState state) => monsterAnim.SetAnimState(state);
+    public void SetAnimation(MonsterAnimState state)
+    {
+        if (state == MonsterAnimState.Attack && data.attackStyle == AttackStyle.None) return;
+        monsterAnim.SetAnimState(state);
+    }
+
+    public void PlayAttackAnimation()
+    {
+        if (data.attackStyle == AttackStyle.None || Target == null) return;
+
+        Vector3 targetDir = (Target.position - transform.position).normalized;
+
+        monsterAnim.PlayAttackAnimation(targetDir);
+    }
 
     public void TryDropItem()
     {

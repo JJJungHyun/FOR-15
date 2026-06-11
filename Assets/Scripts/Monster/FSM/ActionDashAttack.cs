@@ -24,7 +24,8 @@ public class ActionDashAttack : Node
     private IEnumerator DashRoutine()
     {
         owner.IsAttacking = true;
-        owner.SetAnimation(MonsterAnimState.Idle);
+
+        owner.PlayAttackAnimation();
         yield return new WaitForSeconds(0.7f);
 
         float elapsed = 0;
@@ -39,7 +40,10 @@ public class ActionDashAttack : Node
         }
 
         owner.Target?.GetComponent<IDamageable>()?.TakeDamage(owner.data.attackDamage, owner.transform.position);
+
         yield return new WaitForSeconds(0.8f);
+
+        owner.SetAnimation(MonsterAnimState.Idle);
         owner.IsAttacking = false;
     }
 }

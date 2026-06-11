@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public enum ObjectType { Tree, Rock }
+public enum ObjectType { Tree,Stone }
 public enum ObjectSize { Small, Medium, Large }
 
 [System.Serializable]

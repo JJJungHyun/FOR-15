@@ -4,7 +4,8 @@ public enum MonsterAnimState
 {
     Idle = 0,
     Walk = 1,
-    Die = 2
+    Die = 2,
+    Attack = 3
 }
 
 public class MonsterAnimation
@@ -25,14 +26,32 @@ public class MonsterAnimation
     {
         if (_animator == null || _currentState == MonsterAnimState.Die) return;
 
-        // 1. 멈춤 체크
+        if (_currentState == MonsterAnimState.Attack) return;
+
         if (direction.sqrMagnitude < 0.001f)
         {
             SetAnimState(MonsterAnimState.Idle);
             return;
         }
 
-        // 2. 방향성 계산 먼저 수행
+        UpdateDirection(direction);
+
+        SetAnimState(MonsterAnimState.Walk);
+    }
+
+    public void PlayAttackAnimation(Vector3 targetDirection)
+    {
+        if (_animator == null || _currentState == MonsterAnimState.Die) return;
+
+        UpdateDirection(targetDirection);
+
+        SetAnimState(MonsterAnimState.Attack);
+    }
+
+    private void UpdateDirection(Vector3 direction)
+    {
+        if (direction.sqrMagnitude < 0.001f) return;
+
         Vector2 normDir = direction.normalized;
 
         if (Mathf.Abs(normDir.y) > Mathf.Abs(normDir.x))
@@ -46,11 +65,8 @@ public class MonsterAnimation
             _renderer.flipX = (normDir.x > 0);
         }
 
-        // 3. 파라미터 전달 순서 최적화 (방향을 먼저 꽂고 상태를 변경)
         _animator.SetFloat("DirX", _lastDirection.x);
         _animator.SetFloat("DirY", _lastDirection.y);
-
-        SetAnimState(MonsterAnimState.Walk);
     }
 
     public void SetAnimState(MonsterAnimState state)
@@ -59,7 +75,6 @@ public class MonsterAnimation
 
         _currentState = state;
 
-        // 방향 값을 확실하게 먼저 먹이고 상태 인티저를 변경합니다.
         _animator.SetFloat("DirX", _lastDirection.x);
         _animator.SetFloat("DirY", _lastDirection.y);
 
