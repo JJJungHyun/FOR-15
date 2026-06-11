@@ -12,7 +12,9 @@ GameObject:
   - component: {fileID: 7461167315767275550}
   - component: {fileID: 1984948890687037630}
   - component: {fileID: 7647697145607838098}
-  m_Layer: 0
+  - component: {fileID: -6572010769058891731}
+  - component: {fileID: -4935472994640283685}
+  m_Layer: 8
   m_Name: Stone5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,3 +168,35 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-6572010769058891731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5692826876628764389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8e6159f07b7dbd48ba3420bde7928c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectFader
+  _fadeTime: 1
+--- !u!114 &-4935472994640283685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5692826876628764389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bc1ca9e67d487e469e8f7853cdffa0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ResourceObject
+  _objectData: {fileID: 11400000, guid: 7bceae8854364144785792eee5c75c5c, type: 2}
+  _requiredTool: 2
+  _maxHp: 3
+  _currentHp: 0
+  _matchingToolDamage: 1
+  _wrongToolDamage: 0
+  _bareHandDamage: 0.5

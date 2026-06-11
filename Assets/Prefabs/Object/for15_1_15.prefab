@@ -12,7 +12,9 @@ GameObject:
   - component: {fileID: 4304690951999647091}
   - component: {fileID: 1383893610016571809}
   - component: {fileID: -189565443718822217}
-  m_Layer: 0
+  - component: {fileID: -6171589899351685877}
+  - component: {fileID: 1527093649706817255}
+  m_Layer: 8
   m_Name: for15_1_15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,3 +168,35 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-6171589899351685877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3592834559869612659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bc1ca9e67d487e469e8f7853cdffa0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ResourceObject
+  _objectData: {fileID: 11400000, guid: dae679632d6401142b4cd6e09a344982, type: 2}
+  _requiredTool: 2
+  _maxHp: 2
+  _currentHp: 0
+  _matchingToolDamage: 1
+  _wrongToolDamage: 0
+  _bareHandDamage: 0.5
+--- !u!114 &1527093649706817255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3592834559869612659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8e6159f07b7dbd48ba3420bde7928c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectFader
+  _fadeTime: 1

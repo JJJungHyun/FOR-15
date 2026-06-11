@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 3716735923397123921}
   - component: {fileID: 8020506145966391793}
   - component: {fileID: 8490151173827699774}
-  - component: {fileID: 2195165080715687092}
   - component: {fileID: 5063221744271105531}
-  m_Layer: 0
+  - component: {fileID: -2008818464285675816}
+  m_Layer: 8
   m_Name: Bitch_Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -168,21 +168,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectFader
   _fadeTime: 1
-  _itemPrefab: {fileID: 6291070261636849244, guid: d46ea5bf42db5834aa704ce10aa79cda, type: 3}
-  _dropCount: 1
---- !u!114 &2195165080715687092
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4521523805069460040}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c8efdc534a362740b36a8498a270378, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TreeInteraction
-  _interactRange: 3
 --- !u!114 &5063221744271105531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,3 +183,22 @@ MonoBehaviour:
   _interactRange: 3
   _canInteractColor: {r: 0, g: 0.70980394, b: 1, a: 1}
   _cannotInteractColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &-2008818464285675816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4521523805069460040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bc1ca9e67d487e469e8f7853cdffa0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ResourceObject
+  _objectData: {fileID: 11400000, guid: 4b87cff41c9ad89499e23205c12aa3a5, type: 2}
+  _requiredTool: 2
+  _maxHp: 3
+  _currentHp: 0
+  _matchingToolDamage: 1
+  _wrongToolDamage: 0
+  _bareHandDamage: 0.5

@@ -16,8 +16,8 @@ MonoBehaviour:
   defaultItemPrefab: {fileID: 5939985120356410149, guid: 8d834bd42be6a2f46bd3e50226d16c7c, type: 3}
   sizeSettings:
   - size: 0
-    minScale: 0
-    maxScale: 0
+    minScale: 0.5
+    maxScale: 0.5
     dropTable:
     - itemData: {fileID: 11400000, guid: 2d1121c9a3b3f2e4b8d31887434a3d29, type: 2}
       dropChance: 0.5

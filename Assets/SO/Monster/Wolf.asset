@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
   disposition: 2
   attackStyle: 1
-  maxHp: 40
+  maxHp: 50
   walkSpeed: 8
-  chaseSpeed: 13
+  chaseSpeed: 10
   attackDamage: 15
   detectRange: 10
   attackRange: 20

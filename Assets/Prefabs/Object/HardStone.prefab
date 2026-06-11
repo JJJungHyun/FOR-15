@@ -12,13 +12,10 @@ GameObject:
   - component: {fileID: 7490804856321608440}
   - component: {fileID: 5086057313879883041}
   - component: {fileID: 570570220154865481}
-  - component: {fileID: 8626519942859459212}
-  - component: {fileID: 1645721035480391187}
   - component: {fileID: 4341320667290187588}
   - component: {fileID: 7288763499382172600}
   - component: {fileID: -1645997034599380423}
   - component: {fileID: -1744462089738711285}
-  m_Layer: 0
   m_Layer: 8
   m_Name: HardStone
   m_TagString: Untagged
@@ -173,32 +170,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 5.27, y: 2.83}
   m_EdgeRadius: 0
---- !u!114 &8626519942859459212
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8569376521304214182}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c8efdc534a362740b36a8498a270378, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TreeInteraction
-  _interactRange: 3
---- !u!114 &1645721035480391187
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8569376521304214182}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 583e85c16dbc68a468f32bd8e28fa714, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ObjectFaller
-  _fallTime: 1
 --- !u!114 &4341320667290187588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,8 +183,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectFader
   _fadeTime: 1
-  _itemPrefab: {fileID: 6291070261636849244, guid: d46ea5bf42db5834aa704ce10aa79cda, type: 3}
-  _dropCount: 1
 --- !u!114 &7288763499382172600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,7 +227,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bc1ca9e67d487e469e8f7853cdffa0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ResourceObject
-  _requiredTool: 3
+  _objectData: {fileID: 11400000, guid: 7bceae8854364144785792eee5c75c5c, type: 2}
+  _requiredTool: 2
   _maxHp: 3
   _currentHp: 0
   _matchingToolDamage: 1

@@ -13,11 +13,9 @@ GameObject:
   - component: {fileID: 362346052372819863}
   - component: {fileID: 4668165749030902800}
   - component: {fileID: 4100363612867245223}
-  - component: {fileID: 3994326144737782230}
-  - component: {fileID: 4437642515004023234}
-  - component: {fileID: 5783630037796319015}
   - component: {fileID: 8351103967468043469}
   - component: {fileID: 7518211746573000838}
+  - component: {fileID: -3725578551572162577}
   m_Layer: 8
   m_Name: 'Stone '
   m_TagString: Untagged
@@ -187,45 +185,6 @@ MonoBehaviour:
   _interactRange: 3
   _canInteractColor: {r: 0, g: 0.70980394, b: 1, a: 1}
   _cannotInteractColor: {r: 1, g: 0, b: 0, a: 1}
---- !u!114 &3994326144737782230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5830439309361106512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c8efdc534a362740b36a8498a270378, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TreeInteraction
-  _interactRange: 3
---- !u!114 &4437642515004023234
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5830439309361106512}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 583e85c16dbc68a468f32bd8e28fa714, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ObjectFaller
-  _fallTime: 1
---- !u!114 &5783630037796319015
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5830439309361106512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8e6159f07b7dbd48ba3420bde7928c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ObjectFader
-  _fadeTime: 1
 --- !u!114 &8351103967468043469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,3 +221,16 @@ MonoBehaviour:
   _matchingToolDamage: 1
   _wrongToolDamage: 0
   _bareHandDamage: 0.5
+--- !u!114 &-3725578551572162577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5830439309361106512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8e6159f07b7dbd48ba3420bde7928c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectFader
+  _fadeTime: 1

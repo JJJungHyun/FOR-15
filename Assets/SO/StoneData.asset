@@ -12,54 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 114db30df1dcd014ea3a6073433c128b, type: 3}
   m_Name: StoneData
   m_EditorClassIdentifier: Assembly-CSharp::ObjectData
-  objectType: 0
+  objectType: 1
   defaultItemPrefab: {fileID: 5939985120356410149, guid: 8d834bd42be6a2f46bd3e50226d16c7c, type: 3}
   sizeSettings:
   - size: 0
-    minScale: 0
-    maxScale: 0
+    minScale: 0.6
+    maxScale: 0.6
     dropTable:
-    - itemData: {fileID: 11400000, guid: 2d1121c9a3b3f2e4b8d31887434a3d29, type: 2}
-      dropChance: 0.5
-      minAmount: 1
-      maxAmount: 1
-    - itemData: {fileID: 11400000, guid: 11f97001e8b8e09499bb902f7242a95b, type: 2}
-      dropChance: 0
-      minAmount: 1
-      maxAmount: 1
-    - itemData: {fileID: 11400000, guid: 57bfe0be1b30177478c0098687715ed9, type: 2}
-      dropChance: 1
+    - itemData: {fileID: 11400000, guid: b679ade3230ae004da49b512412cf892, type: 2}
+      dropChance: 0.7
       minAmount: 1
       maxAmount: 1
   - size: 1
     minScale: 1
     maxScale: 1
     dropTable:
-    - itemData: {fileID: 11400000, guid: 2d1121c9a3b3f2e4b8d31887434a3d29, type: 2}
-      dropChance: 0.5
-      minAmount: 1
-      maxAmount: 1
-    - itemData: {fileID: 11400000, guid: 11f97001e8b8e09499bb902f7242a95b, type: 2}
-      dropChance: 0.5
-      minAmount: 1
-      maxAmount: 1
-    - itemData: {fileID: 11400000, guid: 57bfe0be1b30177478c0098687715ed9, type: 2}
-      dropChance: 1
+    - itemData: {fileID: 11400000, guid: b679ade3230ae004da49b512412cf892, type: 2}
+      dropChance: 0.7
       minAmount: 1
       maxAmount: 1
   - size: 2
     minScale: 1.5
     maxScale: 1.5
     dropTable:
-    - itemData: {fileID: 11400000, guid: 2d1121c9a3b3f2e4b8d31887434a3d29, type: 2}
+    - itemData: {fileID: 11400000, guid: b679ade3230ae004da49b512412cf892, type: 2}
       dropChance: 0.7
-      minAmount: 1
-      maxAmount: 1
-    - itemData: {fileID: 11400000, guid: 11f97001e8b8e09499bb902f7242a95b, type: 2}
-      dropChance: 0.3
-      minAmount: 1
-      maxAmount: 1
-    - itemData: {fileID: 11400000, guid: 57bfe0be1b30177478c0098687715ed9, type: 2}
-      dropChance: 1
       minAmount: 1
       maxAmount: 1
