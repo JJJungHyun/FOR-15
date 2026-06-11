@@ -2837,10 +2837,6 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7535995167094789267, guid: af2e3d49db261a749b63c77a181fa2b7, type: 3}
-      propertyPath: gameSceneName
-      value: Beach
-      objectReference: {fileID: 0}
-    - target: {fileID: 7535995167094789267, guid: af2e3d49db261a749b63c77a181fa2b7, type: 3}
       propertyPath: continueButton
       value: 
       objectReference: {fileID: 1752512161}

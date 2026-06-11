@@ -24,12 +24,15 @@ public class ActionBasicAttack : Node
     private IEnumerator AttackRoutine()
     {
         owner.IsAttacking = true;
-        owner.SetAnimation(MonsterAnimState.Idle);
+
+        owner.PlayAttackAnimation();
 
         yield return new WaitForSeconds(0.5f);
         owner.Target?.GetComponent<IDamageable>()?.TakeDamage(owner.data.attackDamage, owner.transform.position);
 
         yield return new WaitForSeconds(0.5f);
+
+        owner.SetAnimation(MonsterAnimState.Idle);
         owner.IsAttacking = false;
     }
 }

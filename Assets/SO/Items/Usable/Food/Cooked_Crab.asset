@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UsableItem
   id: 3a2d4e47a989f9c48b27f66780dc75fd
   ItemName: "\uAD6C\uC6B4 \uAC8C"
-  Icon: {fileID: -2392735074965441474, guid: af0fbbfd365f3494885f88440bdcbd65, type: 3}
+  Icon: {fileID: 2137758858445541135, guid: 0fa0c57862442a14d9b8074c531240e5, type: 3}
   MaximumStacks: 10
   IsConsumable: 1
   Effects:
