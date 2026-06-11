@@ -30,7 +30,7 @@ MonoBehaviour:
   nextActionMap: []
   defaultItemPrefab: {fileID: 5939985120356410149, guid: 8d834bd42be6a2f46bd3e50226d16c7c, type: 3}
   dropTable:
-  - itemData: {fileID: 11400000, guid: 19cd552790ef5374cb229371c1c584d9, type: 2}
+  - itemData: {fileID: 11400000, guid: d982a344bf99bba428bc644aa98fb5d3, type: 2}
     dropChance: 1
     minAmount: 1
     maxAmount: 1
