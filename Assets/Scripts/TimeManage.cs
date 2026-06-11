@@ -37,7 +37,7 @@ public class TimeManage: MonoBehaviour
 
         float targetLensSize;
 
-        if (currentTime <= 0.5f)
+        if (currentTime <= 0.7f)
         {
             sunLight.intensity = Mathf.Clamp(Mathf.Sin(currentTime * Mathf.PI * 2) * maxIntensity, minIntensity, maxIntensity);
             if (playerLight != null) playerLight.enabled = false;

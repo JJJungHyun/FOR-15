@@ -19,7 +19,6 @@ GameObject:
   - component: {fileID: 8351103967468043469}
   - component: {fileID: 7518211746573000838}
   m_Layer: 0
-  m_Layer: 8
   m_Name: 'Stone '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -195,7 +194,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5830439309361106512}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2c8efdc534a362740b36a8498a270378, type: 3}
   m_Name: 

@@ -167,6 +167,7 @@ public class MonsterController : MonoBehaviour, IDamageable
         if (currentHp <= 0)
         {
             isDead = true;
+            monsterAnim.SetAnimState(MonsterAnimState.Die);
             ChangeState(new DieState(this));
             return;
         }

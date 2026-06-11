@@ -9239,7 +9239,7 @@ MonoBehaviour:
   - {fileID: 5830439309361106512, guid: 39295a2d1f6d809469e541ea9df0af10, type: 3}
   - {fileID: 8497187951422208581, guid: 4ec69862b7971044f8a48b75a9f5fd96, type: 3}
   - {fileID: 8569376521304214182, guid: 221e6ff695f4bd74b89fa4854cd0553e, type: 3}
-  objectSpawnChance: 0.03
+  objectSpawnChance: 0.05
   objectParent: {fileID: 672483237}
 --- !u!4 &1662875845
 Transform:
@@ -10903,7 +10903,7 @@ PrefabInstance:
       objectReference: {fileID: 1170405824}
     - target: {fileID: 4959242656813865534, guid: 253ac4afb222a2441ac57c58434ff515, type: 3}
       propertyPath: totalCycleTime
-      value: 120
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 4977683787495796242, guid: 253ac4afb222a2441ac57c58434ff515, type: 3}
       propertyPath: m_LocalPosition.x
