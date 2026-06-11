@@ -303,6 +303,8 @@ GameObject:
   - component: {fileID: 6131857004394988900}
   - component: {fileID: 5886064864220216202}
   - component: {fileID: 8940549559232107511}
+  - component: {fileID: 3622990262766191390}
+  - component: {fileID: 8914814682033097680}
   m_Layer: 5
   m_Name: SceneManager
   m_TagString: Untagged
@@ -430,6 +432,48 @@ MonoBehaviour:
   wipeDelay: 0.1
   textFadeDuration: 1.5
   wipeEase: 13
+--- !u!114 &3622990262766191390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5980498806711740293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8914814682033097680}
+          m_TargetAssemblyTypeName: SoundTrigger, Assembly-CSharp
+          m_MethodName: Play
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &8914814682033097680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5980498806711740293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c5016d9f4ba5754d8c83cfa1f6820a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundTrigger
+  soundType: 4
 --- !u!1 &6001685391545858136
 GameObject:
   m_ObjectHideFlags: 0

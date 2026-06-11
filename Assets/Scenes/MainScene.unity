@@ -3435,6 +3435,10 @@ PrefabInstance:
       propertyPath: bgmClip
       value: 
       objectReference: {fileID: 8300000, guid: 8a46ee16c0980114d9407076167dd664, type: 3}
+    - target: {fileID: 8257844173142350887, guid: c28ede6ab692e5c4d927da8b93a572cc, type: 3}
+      propertyPath: bgmClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 8a46ee16c0980114d9407076167dd664, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

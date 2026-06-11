@@ -18,8 +18,9 @@ GameObject:
   - component: {fileID: 5783630037796319015}
   - component: {fileID: 8351103967468043469}
   - component: {fileID: 7518211746573000838}
+  - component: {fileID: 4035240939124710792}
+  - component: {fileID: -8599800546965996133}
   m_Layer: 0
-  m_Layer: 8
   m_Name: 'Stone '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -264,3 +265,45 @@ MonoBehaviour:
   _matchingToolDamage: 1
   _wrongToolDamage: 0
   _bareHandDamage: 0.5
+--- !u!114 &4035240939124710792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5830439309361106512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c5016d9f4ba5754d8c83cfa1f6820a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundTrigger
+  soundType: 3
+--- !u!114 &-8599800546965996133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5830439309361106512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4035240939124710792}
+          m_TargetAssemblyTypeName: SoundTrigger, Assembly-CSharp
+          m_MethodName: Play
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
