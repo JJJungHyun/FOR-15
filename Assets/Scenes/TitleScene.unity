@@ -2947,7 +2947,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5980498806711740293, guid: 6b275989a16ced147877038a8c700341, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8940549559232107511, guid: 6b275989a16ced147877038a8c700341, type: 3}
       propertyPath: wipeDelay

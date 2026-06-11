@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HandAbility
   m_EditorClassIdentifier: Assembly-CSharp::MeleeAbility
   attackCooldown: 0.4
-  attackRange: 1.2
+  attackRange: 1.7
   attackBoxSize: {x: 1.5, y: 1.2}
   damageableLayer:
     serializedVersion: 2

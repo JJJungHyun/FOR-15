@@ -15,30 +15,30 @@ MonoBehaviour:
   disposition: 2
   attackStyle: 1
   maxHp: 50
-  walkSpeed: 5
+  walkSpeed: 7
   chaseSpeed: 7
-  attackDamage: 10
-  detectRange: 5
-  attackRange: 10
-  patrolRadius: 5
+  attackDamage: 0
+  detectRange: 10
+  attackRange: 0
+  patrolRadius: 20
   returnRange: 30
   moveTime: 3
-  idleTime: 2
-  attackCooldown: 3
+  idleTime: 1.5
+  attackCooldown: 0
   reinforcementPrefabs: []
   reactionSequence: []
   nextActionMap: []
   defaultItemPrefab: {fileID: 5939985120356410149, guid: 8d834bd42be6a2f46bd3e50226d16c7c, type: 3}
   dropTable:
-  - itemData: {fileID: 11400000, guid: d982a344bf99bba428bc644aa98fb5d3, type: 2}
-    dropChance: 1
+  - itemData: {fileID: 11400000, guid: a08482246c86b00489d7fcaec53fe578, type: 2}
+    dropChance: 0.5
     minAmount: 1
     maxAmount: 1
   - itemData: {fileID: 11400000, guid: d982a344bf99bba428bc644aa98fb5d3, type: 2}
     dropChance: 0.8
     minAmount: 1
     maxAmount: 1
-  - itemData: {fileID: 11400000, guid: a08482246c86b00489d7fcaec53fe578, type: 2}
-    dropChance: 0.5
+  - itemData: {fileID: 11400000, guid: 671ba13d04b2fc64b8cbc3f8a8c1660a, type: 2}
+    dropChance: 1
     minAmount: 1
     maxAmount: 1
