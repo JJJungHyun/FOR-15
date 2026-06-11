@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 5924395051948600299}
   - component: {fileID: 1532685189071474929}
   - component: {fileID: 801105191459291280}
+  - component: {fileID: -7337941157542707108}
   m_Layer: 7
   m_Name: Rabbit
   m_TagString: Enemy
@@ -300,6 +301,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterHPBar
   hpFillImage: {fileID: 7249626508545867937}
   hideOnFullHp: 1
+--- !u!114 &-7337941157542707108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4284843250309540734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c5016d9f4ba5754d8c83cfa1f6820a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundTrigger
+  soundType: 9
 --- !u!1 &7351028741300427969
 GameObject:
   m_ObjectHideFlags: 0

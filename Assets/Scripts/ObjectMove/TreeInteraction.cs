@@ -22,6 +22,7 @@ public class TreeInteraction : MonoBehaviour
 
     void Update()
     {
+
         if (_isActionDone || _playerTransform == null) return;
 
         // 1. 플레이어와의 거리 계산 (색상 스크립트와 동일한 로직)
@@ -44,5 +45,10 @@ public class TreeInteraction : MonoBehaviour
 
         _faller.Fall();
         _fader.FadeOut(_faller.FallTime);
+    }
+
+    public void OnCutTree()
+    {
+        SoundManager.Instance.PlaySFX(SFXType.WoodCut);
     }
 }
