@@ -23,9 +23,9 @@ MonoBehaviour:
   - m_enabled: 1
     m_path: Assets/Scenes/TitleScene.unity
   - m_enabled: 1
-    m_path: Assets/Scenes/MainScene.unity
-  - m_enabled: 1
     m_path: Assets/Scenes/Mountine.unity
+  - m_enabled: 1
+    m_path: Assets/Scenes/MainScene.unity
   m_HasScriptingDefines: 0
   m_ScriptingDefines: []
   m_PlayerSettingsYaml:
