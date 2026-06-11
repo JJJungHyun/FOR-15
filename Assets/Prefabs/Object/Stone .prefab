@@ -19,7 +19,6 @@ GameObject:
   - component: {fileID: 8351103967468043469}
   - component: {fileID: 7518211746573000838}
   m_Layer: 0
-  m_Layer: 8
   m_Name: 'Stone '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -258,7 +257,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bc1ca9e67d487e469e8f7853cdffa0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ResourceObject
-  _requiredTool: 3
+  _objectData: {fileID: 11400000, guid: 4b87cff41c9ad89499e23205c12aa3a5, type: 2}
+  _requiredTool: 2
   _maxHp: 3
   _currentHp: 0
   _matchingToolDamage: 1

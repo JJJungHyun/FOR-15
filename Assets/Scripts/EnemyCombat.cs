@@ -45,11 +45,11 @@ public class EnemyCombat : MonoBehaviour, IDamageable
 
         if (currentHp <= 0)
         {
-            DropItems();
+            //DropItems();
             Destroy(gameObject);
         }
     }
-    private void DropItems()
+    /*private void DropItems()
     {
         // 데이터나 드롭 테이블이 비어있다면 실행하지 않음
         if (monsterData == null || monsterData.dropTable == null) return;
@@ -81,7 +81,7 @@ public class EnemyCombat : MonoBehaviour, IDamageable
                 }
             }
         }
-    }
+    }*/
 
     private IEnumerator KnockbackRoutine(Vector2 attackerPos)
     {

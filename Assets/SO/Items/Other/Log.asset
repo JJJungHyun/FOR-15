@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Log
   m_EditorClassIdentifier: Assembly-CSharp::Item
   id: 57bfe0be1b30177478c0098687715ed9
-  ItemName: "\uB098\uBB34 \uC6D0\uBAA9"
-  Icon: {fileID: -5034061168752090764, guid: 30ed1c63ab43a14468915882ad900d61, type: 3}
+  ItemName: "\uD1B5\uB098\uBB34"
+  Icon: {fileID: -6280710629874841987, guid: 4b42625d9b7703747b1894a421ad66ae, type: 3}
   MaximumStacks: 10

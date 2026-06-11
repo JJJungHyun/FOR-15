@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Axe
   m_EditorClassIdentifier: Assembly-CSharp::EquippableItem
   id: b61cf65bd06149648a4bd998b6ca38d8
-  ItemName: "\uB3C4\uB07C"
-  Icon: {fileID: -3960893922025492143, guid: d01f999a50e16e44c96e311f9581c7e5, type: 3}
+  ItemName: "\uB454\uAE30"
+  Icon: {fileID: 75235897296370168, guid: a861e84f3c1f5f0418eddedfd8396d51, type: 3}
   MaximumStacks: 1
   weaponAbilityAsset: {fileID: 11400000, guid: d1c728c6d4334d643b75a6f3c67b221e, type: 2}
   ToolType: 2

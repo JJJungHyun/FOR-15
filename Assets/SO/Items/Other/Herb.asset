@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Herb
   m_EditorClassIdentifier: Assembly-CSharp::Item
   id: 17feef9b728acb14ab9c9a40c0a747ab
-  ItemName: "\uC57D\uCD08"
-  Icon: {fileID: 1813437582866609835, guid: 141e5cd6c0ff6a341a001ab0cb94eb46, type: 3}
+  ItemName: "\uC78E\uD30C\uB9AC"
+  Icon: {fileID: -7491310438931249573, guid: c9e3646e34b6b0c4b8882bb2feaec92c, type: 3}
   MaximumStacks: 99
