@@ -1,9 +1,12 @@
+using Unity.AppUI.Core;
 using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
     private Character player;
     private PlayerEquipment equipment;
+    private PlayerAnimation playerAnimation;
+    private SpriteRenderer spriteRenderer;
 
     [Header("Default Settings")]
     [SerializeField] private MeleeAbility bareHandAbility;
@@ -20,6 +23,8 @@ public class PlayerCombat : MonoBehaviour
     {
         player = GetComponent<Character>();
         equipment = GetComponent<PlayerEquipment>();
+        playerAnimation = new PlayerAnimation(GetComponent<Animator>());
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void OnEnable()
@@ -61,6 +66,8 @@ public class PlayerCombat : MonoBehaviour
 
         if (Time.time < lastAttackTime + cooldown) return;
 
+        Vector3 mouseDir = GetMouseDirection();
+
         if (ability is RangedAbility rangedAbility)
         {
             if (!rangedAbility.HasAmmo(player))
@@ -78,8 +85,45 @@ public class PlayerCombat : MonoBehaviour
         {
             lastAttackTime = Time.time;
             ability.OnAttackStart(player, GetMouseDirection());
+
+            bool isBareHand = ((object)ability == bareHandAbility);
+
+            if (Mathf.Abs(mouseDir.x) > Mathf.Abs(mouseDir.y))
+            {
+                spriteRenderer.flipX = (mouseDir.x > 0f);
+
+                if (isBareHand)
+                {
+                    // 맨손 좌우 공격
+                    playerAnimation.PlayAnimState(PlayerAnimState.HandLAttack);
+                }
+                else
+                {
+                    playerAnimation.PlayAnimState(PlayerAnimState.WeaponLAttack);
+                }
+            }
+            else
+            {
+                if (mouseDir.y < 0f)
+                {
+                    // 아래(정면) 공격
+                    if (isBareHand)
+                        playerAnimation.PlayAnimState(PlayerAnimState.HandDAttack);
+                    else
+                        playerAnimation.PlayAnimState(PlayerAnimState.WeaponDAttack);
+                }
+                else
+                {
+                    // 위(뒤) 공격
+                    if (isBareHand)
+                        playerAnimation.PlayAnimState(PlayerAnimState.HandUAttack);
+                    else
+                        playerAnimation.PlayAnimState(PlayerAnimState.WeaponUAttack);
+                }
+            }
         }
     }
+
 
     private void HandleAttackHold() { }
 

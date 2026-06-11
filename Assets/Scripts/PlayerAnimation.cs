@@ -6,7 +6,13 @@ public enum PlayerAnimState
     Idle = 0,
     MoveLeft,
     MoveDown,
-    MoveUp
+    MoveUp,
+    HandDAttack,
+    HandLAttack,
+    HandUAttack,
+    WeaponDAttack,
+    WeaponLAttack,
+    WeaponUAttack
 }
 
 public class PlayerAnimation
