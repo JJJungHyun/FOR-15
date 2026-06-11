@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Leaf
   m_EditorClassIdentifier: Assembly-CSharp::Item
   id: 11f97001e8b8e09499bb902f7242a95b
-  ItemName: "\uC78E"
-  Icon: {fileID: 5781445747943558089, guid: a54b982991a5f0c4c9f4f404ff54e557, type: 3}
+  ItemName: "\uB098\uBB47\uC78E"
+  Icon: {fileID: -5264382150518922761, guid: e3d8b649e54451440b738630c1a39b62, type: 3}
   MaximumStacks: 99

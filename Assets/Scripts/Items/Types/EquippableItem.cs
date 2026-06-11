@@ -6,7 +6,7 @@ public enum EquipmentType
     Helmet, Chestplate, Gloves, Boots, Weapon, Accessory,
 }
 
-public enum ToolType { None = 0, Slingshot = 1, Axe = 2, Pickaxe = 3 }
+public enum ToolType { None = 0, Slingshot = 1, Axe = 2 }
 
 [CreateAssetMenu(menuName = "Items/Equippable Item")]
 public class EquippableItem : Item

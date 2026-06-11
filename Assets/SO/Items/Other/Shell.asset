@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Shell
   m_EditorClassIdentifier: Assembly-CSharp::Item
   id: 1fabfd2e638cdeb439cc3f447b3a2ce0
-  ItemName: "\uC870\uAC1C"
-  Icon: {fileID: -7608026318298583230, guid: ae797bb2e6bd6ce4b9771b2bfe8d7eda, type: 3}
+  ItemName: "\uC870\uAC1C\uAECD\uB370\uAE30"
+  Icon: {fileID: 6797740454953034357, guid: 9580bcab07b7bd447a53f0b7a84413a4, type: 3}
   MaximumStacks: 99

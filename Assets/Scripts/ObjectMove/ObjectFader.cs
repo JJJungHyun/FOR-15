@@ -6,8 +6,8 @@ public class ObjectFader : MonoBehaviour
     [SerializeField] private float _fadeTime = 1.0f;
     private SpriteRenderer _sprite;
 
-    [SerializeField] private GameObject _itemPrefab; // 드롭될 아이템 프리팹
-    [SerializeField] private int _dropCount = 1;      // 생성할 아이템 개수
+    // [SerializeField] private GameObject _itemPrefab; // 드롭될 아이템 프리팹
+    // [SerializeField] private int _dropCount = 1;      // 생성할 아이템 개수
 
     void Awake()
     {
@@ -25,11 +25,11 @@ public class ObjectFader : MonoBehaviour
     {
         // 쓰러지는 시간만큼 기다렸다가(delay) 투명해짐
         _sprite.DOFade(0f, _fadeTime).SetDelay(delay).OnComplete(() => {
-            DropItem();
+            //DropItem();
             Destroy(gameObject); // 완전히 사라지면 오브젝트 삭제
         });
     }
-    private void DropItem()
+   /* private void DropItem()
     {
         if (_itemPrefab != null)
         {
@@ -47,5 +47,5 @@ public class ObjectFader : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
 }

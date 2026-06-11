@@ -255,12 +255,16 @@ public class MonsterController : MonoBehaviour, IDamageable
     {
         if (data == null) return;
 
+        // 초록색: 순찰 범위 (Patrol Radius)
         Gizmos.color = Color.green;
         Vector3 center = Application.isPlaying ? SpawnPoint : transform.position;
         Gizmos.DrawWireSphere(center, data.patrolRadius);
+        
+        // 노란색: 플레이어 감지 범위 (Detect Range)
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, data.detectRange);
 
+        // 빨간색: 다른 몬스터와의 회피 범위 (Avoid Radius)
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, avoidRadius);
     }

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Potion
   m_EditorClassIdentifier: Assembly-CSharp::UsableItem
   id: 0898cce32abe4a94ab094885d842be95
-  ItemName: "\uD790 \uD3EC\uC158"
-  Icon: {fileID: 258735269523343206, guid: 61a9ac81d1cb19f4d89c48e3036f99ba, type: 3}
+  ItemName: "\uC57D\uCD08\uB354\uBBF8"
+  Icon: {fileID: 6620131673396280705, guid: 35a7680ca5f646d429f37ed2bb0ba10c, type: 3}
   MaximumStacks: 10
   IsConsumable: 1
   Effects:

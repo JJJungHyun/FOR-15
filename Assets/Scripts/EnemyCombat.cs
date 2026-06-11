@@ -45,6 +45,7 @@ public class EnemyCombat : MonoBehaviour, IDamageable
 
         if (currentHp <= 0)
         {
+            //DropItems();
             Destroy(gameObject);
         }
     }

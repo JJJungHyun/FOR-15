@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Lumber
   m_EditorClassIdentifier: Assembly-CSharp::Item
   id: b89fc9ce2c1b645479859ba17c02d566
-  ItemName: "\uBAA9\uC7AC"
-  Icon: {fileID: 3193741705861520411, guid: 6a7e15e2d5a97c94da5c46b0b3d00351, type: 3}
+  ItemName: "\uB9C9\uB300\uAE30"
+  Icon: {fileID: -7450578837393871270, guid: d0808ffab9464f941bd071f63899e6e1, type: 3}
   MaximumStacks: 99

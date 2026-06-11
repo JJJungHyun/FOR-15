@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Meat
   m_EditorClassIdentifier: Assembly-CSharp::Item
   id: d982a344bf99bba428bc644aa98fb5d3
-  ItemName: "\uACE0\uAE30"
-  Icon: {fileID: 5662019336159870309, guid: 9f123f00a0fc8c3418d08ddac20f5529, type: 3}
+  ItemName: "\uC0DD\uACE0\uAE30"
+  Icon: {fileID: 281125946195213434, guid: 20d5a527186389c47a697fbafdba0556, type: 3}
   MaximumStacks: 99

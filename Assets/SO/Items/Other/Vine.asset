@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Vine
   m_EditorClassIdentifier: Assembly-CSharp::Item
   id: 2d1121c9a3b3f2e4b8d31887434a3d29
-  ItemName: "\uC904\uAE30"
-  Icon: {fileID: 478776366029212125, guid: 97291e18510faa0419d04c0729f9a5f3, type: 3}
+  ItemName: "\uB369\uCFE8"
+  Icon: {fileID: 9185304980475109980, guid: 325b4ad91a4261e4cadca281081cdc08, type: 3}
   MaximumStacks: 99

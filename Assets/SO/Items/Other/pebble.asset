@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Pebble
   m_EditorClassIdentifier: Assembly-CSharp::Item
   id: b679ade3230ae004da49b512412cf892
-  ItemName: "\uB3CC"
-  Icon: {fileID: 8361171416893098218, guid: f824d7f11623a5e4ea2764b329e28411, type: 3}
+  ItemName: "\uB3CC\uB9F9\uC774"
+  Icon: {fileID: 6087825676747981565, guid: be5d573f25beb3547a5d2c81c4b8eac5, type: 3}
   MaximumStacks: 99

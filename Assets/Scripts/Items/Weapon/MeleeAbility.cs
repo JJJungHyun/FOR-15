@@ -78,7 +78,7 @@ public class MeleeAbility : ScriptableObject, IWeaponAbility
 
                 if (currentWeapon != null)
                 {
-                    int finalCost = (currentWeapon.ToolType == ToolType.Axe || currentWeapon.ToolType == ToolType.Pickaxe)
+                    int finalCost = (currentWeapon.ToolType == ToolType.Axe)
                         ? costOnHitMonsterWithTool
                         : costOnHitMonster;
 

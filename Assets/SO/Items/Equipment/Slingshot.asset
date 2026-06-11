@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EquippableItem
   id: bd97d3dabd051c44ab91b2eded41f781
   ItemName: "\uC0C8\uCD1D"
-  Icon: {fileID: -415446080585258355, guid: 0419deb179888774bac151d149dda380, type: 3}
+  Icon: {fileID: 8500210243095904089, guid: de8fdf995fac6ee489062296112a5331, type: 3}
   MaximumStacks: 1
   weaponAbilityAsset: {fileID: 11400000, guid: e96f589bd0e147140a9b4845a1c512a7, type: 2}
   ToolType: 1
