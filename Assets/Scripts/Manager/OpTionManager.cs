@@ -1,96 +1,257 @@
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.Audio; // 오디오 믹서 제어용
 
-public class OpTionManager : MonoBehaviour
+public class OptionManager : MonoBehaviour
 {
-    [Header("연결할 설정 창 패널")]
-    public GameObject optionPanel;
+    public static OptionManager Instance { get; private set; }
 
-    [Header("오디오 믹서 및 슬라이더 설정")]
-    public AudioMixer mainMixer; // 여기에 MainMixer 파일 연결
-    public Slider musicSlider;   // 하이어라키의 MusicSlider 연결
-    public Slider sfxSlider;
+    [Header("Option UI")]
+    [SerializeField] private GameObject optionPanel;
+    [SerializeField] private Slider musicSlider;
+    [SerializeField] private Slider sfxSlider;
+
+    [Header("Audio")]
+    [SerializeField] private AudioMixer mainMixer;
+
+    private Transform persistentCanvasTransform;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+        MoveOptionPanelToPersistentCanvas();
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+
+        if (persistentCanvasTransform != null)
+        {
+            Destroy(persistentCanvasTransform.gameObject);
+        }
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 
     private void Start()
     {
-        // 게임 시작 시 설정 창이 실수로 켜져 있다면 확실하게 꺼줍니다.
-        if (optionPanel != null)
-        {
-            optionPanel.SetActive(false);
-        }
-        if (musicSlider != null)
-        {
-            musicSlider.minValue = 0.0001f;
-            musicSlider.maxValue = 1f;
+        BindMissingReferences();
+        InitializeSliders();
+        CloseOption();
+    }
 
-            // 믹서에 설정된 BGMVolume 데시벨 값을 가져와서 슬라이더 바 위치(0~1)로 변환
-            if (mainMixer != null && mainMixer.GetFloat("BGMVolume", out float currentDb))
-            {
-                musicSlider.value = Mathf.Pow(10f, currentDb / 20f);
-            }
-        }
-
-        if (sfxSlider != null)
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            sfxSlider.minValue = 0.0001f;
-            sfxSlider.maxValue = 1f;
-
-            if (mainMixer != null && mainMixer.GetFloat("SFXVolume", out float currentSfxDb))
-            {
-                // 아까 스크린샷을 보니 SFX는 기본이 0dB 부근이었습니다.
-                // 믹서 세팅에 맞게 슬라이더 위치를 역산해 맞춥니다.
-                sfxSlider.value = Mathf.Pow(10f, currentSfxDb / 20f);
-            }
+            ToggleOption();
         }
     }
 
-    // ★ Option 버튼을 눌렀을 때 호출할 함수
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        BindMissingReferences();
+        InitializeSliders();
+    }
+
+    private void BindMissingReferences()
+    {
+        if (optionPanel == null)
+        {
+            UIOptionPanel uiOptionPanel = FindFirstObjectByType<UIOptionPanel>(FindObjectsInactive.Include);
+            if (uiOptionPanel != null)
+            {
+                optionPanel = uiOptionPanel.gameObject;
+            }
+        }
+
+        if (optionPanel == null)
+        {
+            optionPanel = GameObject.Find("Option Panel");
+        }
+
+        if (optionPanel == null) return;
+
+        MoveOptionPanelToPersistentCanvas();
+
+        if (musicSlider == null)
+        {
+            musicSlider = FindSliderInOptionPanel("BGMSlider");
+        }
+
+        if (sfxSlider == null)
+        {
+            sfxSlider = FindSliderInOptionPanel("SFXSlider");
+        }
+    }
+
+    private Slider FindSliderInOptionPanel(string sliderName)
+    {
+        Slider[] sliders = optionPanel.GetComponentsInChildren<Slider>(true);
+        foreach (Slider slider in sliders)
+        {
+            if (slider.name == sliderName)
+            {
+                return slider;
+            }
+        }
+
+        return null;
+    }
+
+    private void MoveOptionPanelToPersistentCanvas()
+    {
+        if (optionPanel == null) return;
+
+        Transform persistentCanvas = GetOrCreatePersistentCanvas();
+        if (optionPanel.transform.parent != persistentCanvas)
+        {
+            optionPanel.transform.SetParent(persistentCanvas, false);
+        }
+    }
+
+    private Transform GetOrCreatePersistentCanvas()
+    {
+        if (persistentCanvasTransform != null)
+        {
+            return persistentCanvasTransform;
+        }
+
+        GameObject canvasObject = GameObject.Find("Persistent Option Canvas");
+        if (canvasObject == null)
+        {
+            canvasObject = new GameObject("Persistent Option Canvas");
+
+            Canvas canvas = canvasObject.AddComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.sortingOrder = 100;
+
+            CanvasScaler scaler = canvasObject.AddComponent<CanvasScaler>();
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            scaler.referenceResolution = new Vector2(1920f, 1080f);
+            scaler.matchWidthOrHeight = 0.5f;
+
+            canvasObject.AddComponent<GraphicRaycaster>();
+        }
+
+        DontDestroyOnLoad(canvasObject);
+        persistentCanvasTransform = canvasObject.transform;
+        return persistentCanvasTransform;
+    }
+
+    private void InitializeSliders()
+    {
+        InitializeSlider(musicSlider, "BGMVol");
+        InitializeSlider(sfxSlider, "SFXVol");
+    }
+
+    private void InitializeSlider(Slider slider, string mixerParameter)
+    {
+        if (slider == null) return;
+
+        slider.minValue = 0.0001f;
+        slider.maxValue = 1f;
+
+        if (mainMixer != null && mainMixer.GetFloat(mixerParameter, out float currentDb))
+        {
+            slider.value = Mathf.Pow(10f, currentDb / 20f);
+        }
+    }
+
+    public void ToggleOption()
+    {
+        if (optionPanel == null)
+        {
+            BindMissingReferences();
+        }
+
+        if (optionPanel == null) return;
+
+        optionPanel.SetActive(!optionPanel.activeSelf);
+    }
+
     public void OpenOption()
     {
+        if (optionPanel == null)
+        {
+            BindMissingReferences();
+        }
+
         if (optionPanel != null)
         {
-            optionPanel.SetActive(true); // 설정 창 켜기
+            optionPanel.SetActive(true);
         }
     }
 
-    // ★ 설정 창 내부의 '닫기(Back)' 버튼을 눌렀을 때 호출할 함수
     public void CloseOption()
     {
         if (optionPanel != null)
         {
-            optionPanel.SetActive(false); // 설정 창 끄기
+            optionPanel.SetActive(false);
         }
     }
+
     public void SetBGMVolume(float sliderValue)
     {
-        if (mainMixer != null)
-        {
-            // 0~1 값을 자연스러운 청각 볼륨 데시벨(-80dB ~ 0dB)로 변환
-            float dbValue = Mathf.Log10(sliderValue) * 20f;
-
-            // 믹서의 BGMVolume 파라미터에 데시벨 적용
-            mainMixer.SetFloat("BGMVol", dbValue);
-        }
+        SetMixerVolume("BGMVol", sliderValue);
     }
+
     public void SetSFXVolume(float sliderValue)
     {
-        if (mainMixer != null)
-        {
-            // 왼쪽 끝으로 밀면 완벽히 음소거
-            if (sliderValue <= 0.001f)
-            {
-                mainMixer.SetFloat("SFXVolume", -80f);
-            }
-            else
-            {
-                // SFX의 기본 최대 수치는 오디오 믹서에서 0dB 부근이므로,
-                // 슬라이더 1일 때 0dB, 왼쪽으로 갈수록 데시벨이 줄어들도록 정석 공식 적용
-                float dbValue = Mathf.Log10(sliderValue) * 20f;
-                dbValue = Mathf.Clamp(dbValue, -80f, 0f);
+        SetMixerVolume("SFXVol", sliderValue);
+    }
 
-                mainMixer.SetFloat("SFXVol", dbValue);
-            }
+    private void SetMixerVolume(string mixerParameter, float sliderValue)
+    {
+        if (mainMixer == null) return;
+
+        float safeValue = Mathf.Max(sliderValue, 0.0001f);
+        float dbValue = Mathf.Clamp(Mathf.Log10(safeValue) * 20f, -80f, 0f);
+
+        mainMixer.SetFloat(mixerParameter, dbValue);
+    }
+
+    public void ExitToTitle()
+    {
+        CloseOption();
+
+        if (GameSaveManager.Instance != null)
+        {
+            GameSaveManager.Instance.SaveGame();
         }
+
+        Time.timeScale = 1f;
+        KeepOnLoad.DestroyPersistentPlayer();
+
+        QuitGame();
+    }
+
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 }

@@ -19,6 +19,7 @@ public class TimeManage: MonoBehaviour
     public float dayLensSize;       // 낮 렌즈 크기
     public float nightLensSize;    // 밤 렌즈 크기 (확대, 숫자가 작을수록 화면 확대)
     public float zoomSpeed;         // 확대/축소 속도
+    private CinemachineConfiner2D confiner;
 
     public static TimeManage instance;
 
@@ -27,6 +28,8 @@ public class TimeManage: MonoBehaviour
         // 중요: 이 코드가 있어야 외부에서 TimeManage.instance 로 접근이 가능
         if (instance == null) instance = this;
         if (virtualCamera == null) virtualCamera = GetComponent<CinemachineCamera>();
+        if (virtualCamera != null)
+            confiner = virtualCamera.GetComponent<CinemachineConfiner2D>();
     }
     void Start()
     {
@@ -80,19 +83,27 @@ public class TimeManage: MonoBehaviour
             sunLight.intensity = minIntensity;
             targetLensSize = nightLensSize;
         }
+
         if (virtualCamera != null)
         {
-            // 구조체 데이터를 변수에 임시 저장 (v3 규칙)
             LensSettings currentLens = virtualCamera.Lens;
 
             if (currentLens.Orthographic)
             {
-                // 2D 모드일 때 (Orthographic Size 조절)
-                currentLens.OrthographicSize = Mathf.Lerp(currentLens.OrthographicSize, targetLensSize, Time.deltaTime * zoomSpeed);
-            }
+                float oldSize = currentLens.OrthographicSize;
+                currentLens.OrthographicSize = Mathf.Lerp(
+                    currentLens.OrthographicSize,
+                    targetLensSize,
+                    Time.deltaTime * zoomSpeed
+                );
 
-            // 변경된 렌즈 구조체 값을 카메라에 다시 적용
-            virtualCamera.Lens = currentLens;
+                virtualCamera.Lens = currentLens;
+
+                if (confiner != null && !Mathf.Approximately(oldSize, currentLens.OrthographicSize))
+                {
+                    confiner.InvalidateLensCache();
+                }
+            }
         }
     }
 }
