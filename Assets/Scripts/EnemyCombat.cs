@@ -1,4 +1,4 @@
-/*using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using TMPro;
 using UnityEngine.Events;
@@ -150,4 +150,4 @@ public class EnemyCombat : MonoBehaviour, IDamageable
 
         isStunned = false;
     }
-}*/
+}

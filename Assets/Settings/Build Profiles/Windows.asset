@@ -25,7 +25,7 @@ MonoBehaviour:
   - m_enabled: 1
     m_path: Assets/Scenes/Beach.unity
   - m_enabled: 1
-    m_path: Assets/Scenes/MainScene.unity
+    m_path: Assets/Scenes/Forest.unity
   m_HasScriptingDefines: 0
   m_ScriptingDefines: []
   m_PlayerSettingsYaml:
