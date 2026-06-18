@@ -3,27 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro; // ★ TextMeshPro 사용을 위해 추가!
 
 public class CutSceneManager : MonoBehaviour
 {
     // --- 싱글톤 (Singleton) 구현 ---
     public static CutSceneManager Instance { get; private set; }
 
+    // ★ 대사 텍스트를 이미지와 1:1로 매칭시키기 위해 데이터 구조 수정
+    [System.Serializable]
+    public struct CutscenePage
+    {
+        public Sprite p_Image;       // 컷씬 한 장의 이미지
+        [TextArea(3, 5)]
+        public string dialogueText;  // 그 이미지에 매칭될 대사/자막
+    }
+
     [System.Serializable]
     public struct CutsceneData
     {
-        public string cutsceneName;       // 컷씬을 식별할 이름 (예: "Opening", "BossClear")
-        public List<Sprite> p_Images;     // 이 컷씬에 들어갈 PNG 이미지 리스트
+        public string cutsceneName;           // 컷씬을 식별할 이름 (예: "Opening", "Beach")
+        public List<CutscenePage> pages;      // 이미지와 대사가 세트로 묶인 페이지 리스트
     }
 
     [Header("UI References")]
     [SerializeField] private Image cutsceneImageTarget; // UI의 Image 컴포넌트
+    [SerializeField] private TextMeshProUGUI cutsceneTextTarget; // ★ 추가: 대사가 출력될 TextMeshPro 컴포넌트
     [SerializeField] private GameObject cutsceneCanvas; // 컷씬 캔버스 오브젝트
 
     [Header("Cutscene Databases")]
     [SerializeField] private List<CutsceneData> cutsceneDatabase; // 여러 개의 컷씬 리스트를 관리
 
-    private List<Sprite> currentPlayingImages; // 현재 재생 중인 컷씬의 이미지 리스트
+    private List<CutscenePage> currentPlayingPages; // 현재 재생 중인 컷씬의 페이지 리스트
     private int currentIndex = 0;
     private bool isCutsceneActive = false;
 
@@ -33,7 +44,7 @@ public class CutSceneManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); 
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -41,16 +52,15 @@ public class CutSceneManager : MonoBehaviour
             return;
         }
     }
+
     // --- 씬 로드 감지 이벤트 연결 ---
     private void OnEnable()
     {
-        // 유니티 시스템에 씬이 로드되었을 때 OnSceneLoaded 함수를 실행하라고 등록합니다.
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void OnDisable()
     {
-        // 메모리 누수 방지를 위해 이벤트 연결을 해제합니다.
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
@@ -72,18 +82,38 @@ public class CutSceneManager : MonoBehaviour
             NextImage();
         }
     }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // 만약 새로 로드된 씬 이름이 정확히 "Beach" 라면
+        // 아까 에러 현상을 해결하기 위해 추가한 실시간 씬 UI 재검색 함수 호출
+        // (OpTionManager와 유사하게 씬 전환 시 자동으로 UI 연결 유실을 방지합니다)
+        FindUIElementsInActiveScene();
+
         if (scene.name == "Beach")
         {
-            // 약간의 딜레이를 주어 씬 로딩 직후 화면이 안정화되면 컷씬을 틀어줍니다.
             StartCoroutine(DelayedStartCutscene("Beach", 0.1f));
         }
         else if (scene.name == "Forest")
         {
-            // 약간의 딜레이를 주어 씬 로딩 직후 화면이 안정화되면 컷씬을 틀어줍니다.
             StartCoroutine(DelayedStartCutscene("Forest", 0.1f));
+        }
+    }
+
+    // 씬이 넘어왔을 때 캔버스 및 텍스트 오브젝트를 자동 추적하는 예외 방지 함수
+    private void FindUIElementsInActiveScene()
+    {
+        Scene currentScene = SceneManager.GetActiveScene();
+        if (!currentScene.isLoaded) return;
+
+        foreach (GameObject rootObj in currentScene.GetRootGameObjects())
+        {
+            Transform[] allChildren = rootObj.GetComponentsInChildren<Transform>(true);
+            foreach (Transform child in allChildren)
+            {
+                if (child.name == "CutsceneCanvas") cutsceneCanvas = child.gameObject;
+                else if (child.name == "CutsceneImage") cutsceneImageTarget = child.GetComponent<Image>();
+                else if (child.name == "CutsceneText") cutsceneTextTarget = child.GetComponent<TextMeshProUGUI>();
+            }
         }
     }
 
@@ -93,29 +123,31 @@ public class CutSceneManager : MonoBehaviour
         StartCutscene(name);
     }
 
-    // --- 외부에서 컷씬을 시작할 때 호출하는 함수 (조건이 맞을 때 사용) ---
+    // --- 외부에서 컷씬을 시작할 때 호출하는 함수 ---
     public void StartCutscene(string name)
     {
         // 데이터베이스에서 이름이 일치하는 컷씬 찾기
         CutsceneData targetData = cutsceneDatabase.Find(data => data.cutsceneName == name);
 
-        // 예외 처리: 없는 이름을 불렀을 때
-        if (string.IsNullOrEmpty(targetData.cutsceneName) || targetData.p_Images == null || targetData.p_Images.Count == 0)
+        // 예외 처리
+        if (string.IsNullOrEmpty(targetData.cutsceneName) || targetData.pages == null || targetData.pages.Count == 0)
         {
-            Debug.LogError($"'{name}' 이름의 컷씬 데이터를 찾을 수 없거나 이미지가 없습니다!");
+            Debug.LogError($"'{name}' 이름의 컷씬 데이터를 찾을 수 없거나 페이지가 없습니다!");
             return;
         }
 
-        // 재생할 이미지 리스트 세팅 및 초기화
-        currentPlayingImages = targetData.p_Images;
+        // 혹시라도 UI 컴포넌트 유실 시 실시간 복구
+        if (cutsceneCanvas == null || cutsceneTextTarget == null) FindUIElementsInActiveScene();
+
+        // 재생할 페이지 리스트 세팅 및 초기화
+        currentPlayingPages = targetData.pages;
         currentIndex = 0;
         isCutsceneActive = true;
 
-        cutsceneCanvas.SetActive(true);
+        if (cutsceneCanvas != null) cutsceneCanvas.SetActive(true);
         UpdateCutsceneDisplay();
 
         Debug.Log($"컷씬 시작: {name}");
-        // 여기에 플레이어 조작을 멈추는 코드(예: PlayerController 끄기)를 넣으면 좋습니다.
     }
 
     private void NextImage()
@@ -123,7 +155,7 @@ public class CutSceneManager : MonoBehaviour
         currentIndex++;
 
         // 현재 재생 중인 리스트의 이미지를 다 보았으면 종료
-        if (currentIndex >= currentPlayingImages.Count)
+        if (currentIndex >= currentPlayingPages.Count)
             EndCutscene();
         else
             UpdateCutsceneDisplay();
@@ -131,19 +163,24 @@ public class CutSceneManager : MonoBehaviour
 
     private void UpdateCutsceneDisplay()
     {
-        if (currentPlayingImages != null && currentIndex < currentPlayingImages.Count)
+        if (currentPlayingPages != null && currentIndex < currentPlayingPages.Count)
         {
-            cutsceneImageTarget.sprite = currentPlayingImages[currentIndex];
+            // 이미지 출력
+            if (cutsceneImageTarget != null)
+                cutsceneImageTarget.sprite = currentPlayingPages[currentIndex].p_Image;
+
+            // ★ 텍스트 출력
+            if (cutsceneTextTarget != null)
+                cutsceneTextTarget.text = currentPlayingPages[currentIndex].dialogueText;
         }
     }
 
     private void EndCutscene()
     {
         isCutsceneActive = false;
-        cutsceneCanvas.SetActive(false);
-        currentPlayingImages = null;
+        if (cutsceneCanvas != null) cutsceneCanvas.SetActive(false);
+        currentPlayingPages = null;
 
         Debug.Log("컷씬 종료! 게임으로 돌아갑니다.");
-        // 여기에 플레이어 조작을 다시 켜는 코드를 넣으면 됩니다.
     }
 }

@@ -821,6 +821,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentSlotUI
   iconImage: {fileID: 230825536}
   amountText: {fileID: 0}
+  durabilityBarObject: {fileID: 0}
+  durabilityFillImage: {fileID: 0}
   SlotType: 0
 --- !u!114 &230825536
 MonoBehaviour:
@@ -1565,6 +1567,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentSlotUI
   iconImage: {fileID: 425118270}
   amountText: {fileID: 0}
+  durabilityBarObject: {fileID: 0}
+  durabilityFillImage: {fileID: 0}
   SlotType: 4
 --- !u!114 &425118270
 MonoBehaviour:
@@ -2472,6 +2476,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentSlotUI
   iconImage: {fileID: 577380188}
   amountText: {fileID: 0}
+  durabilityBarObject: {fileID: 0}
+  durabilityFillImage: {fileID: 0}
   SlotType: 1
 --- !u!114 &577380188
 MonoBehaviour:
@@ -2846,13 +2852,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 711b6b76ff8a0224090d42364b80a532, type: 2}
   playerInventory: {fileID: 80793779}
   recipeListParent: {fileID: 967386503}
-  recipeButtonPrefab: {fileID: 7020202724386999059, guid: c3ed09997b979a444b1850f7e34b54b4, type: 3}
-  detailWindow: {fileID: 937673528}
-  resultNameText: {fileID: 273430927}
-  resultDescText: {fileID: 536557316}
-  ingredientParent: {fileID: 598760535}
-  ingredientPrefab: {fileID: 2444034184554046381, guid: 4c34fd0c4df5eb74fba32773e8dde652, type: 3}
-  craftButton: {fileID: 783435964}
+  recipeItemPrefab: {fileID: 0}
+  categoryButtons: []
 --- !u!1 &734768705
 GameObject:
   m_ObjectHideFlags: 0
@@ -3180,6 +3181,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentSlotUI
   iconImage: {fileID: 786622158}
   amountText: {fileID: 0}
+  durabilityBarObject: {fileID: 0}
+  durabilityFillImage: {fileID: 0}
   SlotType: 3
 --- !u!114 &786622158
 MonoBehaviour:
@@ -5365,7 +5368,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1801939899
-  m_SortingLayer: -1
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: b2674c202add550489538c0eda41af9b, type: 3}
@@ -5582,6 +5585,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentSlotUI
   iconImage: {fileID: 2052235139}
   amountText: {fileID: 0}
+  durabilityBarObject: {fileID: 0}
+  durabilityFillImage: {fileID: 0}
   SlotType: 2
 --- !u!114 &2052235139
 MonoBehaviour:
