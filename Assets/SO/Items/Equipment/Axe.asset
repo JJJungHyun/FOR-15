@@ -19,7 +19,7 @@ MonoBehaviour:
   weaponAbilityAsset: {fileID: 11400000, guid: d1c728c6d4334d643b75a6f3c67b221e, type: 2}
   ToolType: 2
   hasDurability: 1
-  maxDurability: 30
+  maxDurability: 50
   StrengthBonus: 7
   DefenseBonus: 0
   StrengthPercentBonus: 0
