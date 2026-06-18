@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 983343686404175993}
   - component: {fileID: 7337106616115068067}
   - component: {fileID: 7005901388754285274}
-  - component: {fileID: -2944850433555040653}
   m_Layer: 0
   m_Name: Log
   m_TagString: Untagged
@@ -167,20 +166,3 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 6.84, y: 2.9822292}
   m_EdgeRadius: 0
---- !u!114 &-2944850433555040653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8497187951422208581}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d98005d93c551984cb63459ec6d8b83a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WorldObjectShadow
-  footOffset: {x: 0, y: 0}
-  isStatic: 1
-  shadowColor: {r: 0, g: 0, b: 0, a: 0.4}
-  baseScale: {x: 1, y: 0.8}
-  lengthVariation: 0.4

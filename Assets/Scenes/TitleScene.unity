@@ -146,15 +146,15 @@ RectTransform:
   m_GameObject: {fileID: 2015056}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2098809539}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 83, y: 0}
+  m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2015058
 MonoBehaviour:
@@ -176,9 +176,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: "\uD50C\uB808\uC774 \uB2E4 \uD558\uC168\uB098\uC694?"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9e5540806ba982d4795efc6eaf788025, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -245,7 +245,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &2015059
@@ -1069,9 +1069,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Quit
-
-'
+  m_text: Quit
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1962,9 +1960,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD655\uC778"
+  m_text: "\uC608"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1816b446fe7f7dc428f1a15ec902e1e4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9e5540806ba982d4795efc6eaf788025, type: 2}
   m_sharedMaterial: {fileID: 2090933772817190142, guid: 1816b446fe7f7dc428f1a15ec902e1e4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -2031,7 +2029,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &700722655
@@ -2282,9 +2280,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uCDE8\uC18C"
+  m_text: "\uC544\uB2C8\uC694"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1816b446fe7f7dc428f1a15ec902e1e4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9e5540806ba982d4795efc6eaf788025, type: 2}
   m_sharedMaterial: {fileID: 2090933772817190142, guid: 1816b446fe7f7dc428f1a15ec902e1e4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -2351,7 +2349,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &779298650
@@ -2489,14 +2487,14 @@ RectTransform:
   m_GameObject: {fileID: 849096550}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 218509510}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -312.6, y: -403}
+  m_AnchoredPosition: {x: -473, y: -382}
   m_SizeDelta: {x: 625.19, y: 139.57}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &929070964
@@ -3822,7 +3820,7 @@ RectTransform:
   m_GameObject: {fileID: 1403389333}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 545769294}
@@ -3852,7 +3850,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 5635008724221758654, guid: 92f4ddcbeb5dba84ea1b1580db2f3f1e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4440,23 +4438,51 @@ MonoBehaviour:
   - cutsceneName: Beach
     pages:
     - p_Image: {fileID: 1208040086343421634, guid: 74f5d41bc73b03845b4d0f5383f1895c, type: 3}
-      dialogueText: "\uB3D9\uD574\uBB3C\uACFC \uBC31\uB450\uC0B0\uC774 \uB9C8\uB974\uACE0
-        \uB2EE\uB3C4\uB85D"
+      dialogueText: "\uB9E4\uD29C\r\n\uC5EC\uAE34 \uC5B4\uB514\uC9C0...?\r\n\uBC30\uB294...
+        \uCE68\uBAB0\uD55C \uAC74\uAC00...\r\n\uC0B4\uC544\uB0A8\uC740 \uC0AC\uB78C\uC740
+        \uC5C6\uB294 \uAC74\uAC00..."
+    - p_Image: {fileID: 1208040086343421634, guid: 74f5d41bc73b03845b4d0f5383f1895c, type: 3}
+      dialogueText: "\uC8FC\uBCC0\uC744 \uC218\uC0C9\uD558\uB358 \uC911 \uAD70\uC6A9
+        \uBB34\uC804\uAE30\uB97C \uBC1C\uACAC\uD55C\uB2E4.\r\n\uD558\uC9C0\uB9CC
+        \uC2EC\uD558\uAC8C \uD30C\uC190\uB418\uC5B4 \uC791\uB3D9\uD558\uC9C0 \uC54A\uB294\uB2E4.\r\n\uADF8
+        \uC21C\uAC04."
     - p_Image: {fileID: 2596552556267567030, guid: 99dae6ed977538d40a4f54b9713876ff, type: 3}
-      dialogueText: "\uD558\uB290\uB2D8\uC774 \uBCF4\uC6B0\uD558\uC0AC"
+      dialogueText: "\uBB34\uC804\uAE30\r\n...\uC9C0\uC9C0\uC9C1...\r\n\uC751\uB2F5\uD558\uB77C...\r\n\uC0DD\uC874\uC790\uAC00
+        \uC788\uB294\uAC00..."
+    - p_Image: {fileID: 2596552556267567030, guid: 99dae6ed977538d40a4f54b9713876ff, type: 3}
+      dialogueText: "\uB9E4\uD29C\r\n\uC5EC\uAE30\uB294 \uB9E4\uD29C!\r\n\uC751\uB2F5\uD55C\uB2E4!"
+    - p_Image: {fileID: 2596552556267567030, guid: 99dae6ed977538d40a4f54b9713876ff, type: 3}
+      dialogueText: "\uBB34\uC804\uAE30\r\n\uC2E0\uD638\uAC00 \uC57D\uD558\uB2E4...\r\n\uC88C\uD45C
+        \uD655\uC778 \uBD88\uAC00..."
+    - p_Image: {fileID: 2596552556267567030, guid: 99dae6ed977538d40a4f54b9713876ff, type: 3}
+      dialogueText: "\uBB34\uC804\uC740 \uB04A\uC5B4\uC9C4\uB2E4."
   - cutsceneName: Forest
     pages:
+    - p_Image: {fileID: 5464983752086636134, guid: 6538c10f77ad40043a04078c7817bf32, type: 3}
+      dialogueText: "\uB9E4\uD29C\n\uD574\uBCC0\uC5D0\uC11C\uB294 \uC774\uC815\uB3C4\uBA74
+        \uCDA9\uBD84\uD55C\uAC70 \uAC19\uC740\uB370 \r\n\uC880\uB354 \uC548\uCABD\uC73C\uB85C
+        \uB4E4\uC5B4\uAC00\uBD10\uC57C\uACA0\uC5B4"
     - p_Image: {fileID: -6513743853152151312, guid: 987e4f467a489cc4fb3eb638b529bc56, type: 3}
-      dialogueText: "\uB3D9\uD574\uBB3C\uACFC \uBC31\uB450\uC0B0\uC774 \uB9C8\uB974\uACE0
-        \uB2EE\uB3C4\uB85D "
+      dialogueText: "\uB9E4\uD29C\n\uC800\uAC83\uB4E4\uC740 \uBB50\uC9C0...?"
   - cutsceneName: GuideArrowCrafted
     pages:
     - p_Image: {fileID: 1636318925241012259, guid: d99e70cd974b339408b3e170d7b1a7e6, type: 3}
-      dialogueText: 
+      dialogueText: "\uB9E4\uD29C\r\n\uC5EC\uAE30\uB294 \uB9E4\uD29C.\r\n\uC2E0\uD638\uAC00
+        \uB4E4\uB9AC\uB098?"
+    - p_Image: {fileID: 1636318925241012259, guid: d99e70cd974b339408b3e170d7b1a7e6, type: 3}
+      dialogueText: "\uBCF8\uBD80\r\n\uC2E0\uD638 \uD655\uC778.\r\n\uC0DD\uC874 \uC0AC\uC2E4\uC744
+        \uD655\uC778\uD588\uB2E4."
+    - p_Image: {fileID: 1636318925241012259, guid: d99e70cd974b339408b3e170d7b1a7e6, type: 3}
+      dialogueText: "\uB9E4\uD29C\r\n\uAD6C\uC870\uB97C \uC694\uCCAD\uD55C\uB2E4."
+    - p_Image: {fileID: 1636318925241012259, guid: d99e70cd974b339408b3e170d7b1a7e6, type: 3}
+      dialogueText: "\uBCF8\uBD80\r\n\uD604\uC7AC \uC704\uCE58\uAC00 \uBD88\uC548\uC815\uD558\uB2E4.\r\n\uC88C\uD45C\uB97C
+        \uC804\uC1A1\uD55C\uB2E4.\r\n\uADF8\uACF3\uC73C\uB85C \uC774\uB3D9\uD558\uB77C."
+    - p_Image: {fileID: 1636318925241012259, guid: d99e70cd974b339408b3e170d7b1a7e6, type: 3}
+      dialogueText: "\uB9E4\uD29C\r\n\uC54C\uACA0\uB2E4."
   - cutsceneName: GameClearCutscene
     pages:
     - p_Image: {fileID: 3337427645810508816, guid: 336dd01f34b170f4b920cd38ec741e2f, type: 3}
-      dialogueText: 
+      dialogueText: "\uD50C\uB808\uC774\uD574\uC8FC\uC154\uC11C \uAC10\uC0AC\uD569\uB2C8\uB2E4"
 --- !u!4 &1769711683
 Transform:
   m_ObjectHideFlags: 0

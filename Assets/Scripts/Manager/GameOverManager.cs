@@ -1,71 +1,162 @@
+using System.Collections;
+using DG.Tweening;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using DG.Tweening; // DOTween 사용
-using TMPro; // 텍스트메시프로 사용
 
 public class GameOverManager : MonoBehaviour
 {
-    // 어디서든 호출할 수 있게 싱글톤으로 설정
     public static GameOverManager Instance;
 
-    [Header("UI 연결")]
-    [SerializeField] private CanvasGroup _gameOverCanvasGroup; // 화면을 어둡게 할 패널
-    [SerializeField] private TMP_Text _gameOverText;         // "GAME OVER" 텍스트
-    [SerializeField] private string _titleSceneName = "Title"; // 타이틀 씬 이름
+    [Header("UI References")]
+    [SerializeField] private CanvasGroup _gameOverCanvasGroup;
+    [SerializeField] private TMP_Text _gameOverText;
+    [SerializeField] private string _titleSceneName = "TitleScene";
 
-    [Header("설정")]
-    [SerializeField] private float _fadeDuration = 2.0f; // 어두워지는 시간
+    [Header("Settings")]
+    [SerializeField] private float _fadeDuration = 2.0f;
+
+    private bool _isGameOverRunning;
+    private Coroutine _returnToTitleCoroutine;
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            // 씬이 바뀌어도 이 오브젝트(GameOverManager)를 파괴하지 마세요!
             DontDestroyOnLoad(gameObject);
-        } 
-    else
+        }
+        else
         {
-            // 씬이 전환되면서 새로 생긴 중복 매니저가 있다면 파괴합니다.
             Destroy(gameObject);
             return;
         }
 
-        // 처음엔 UI를 안 보이게 설정
-        _gameOverCanvasGroup.alpha = 0;
-        _gameOverCanvasGroup.blocksRaycasts = false;
-        _gameOverText.gameObject.SetActive(false);
+        ResolveReferences();
+        HideGameOverUI();
     }
 
-    // 플레이어 체력이 0일 때 호출될 메인 함수
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        _isGameOverRunning = false;
+        ResolveReferences();
+        HideGameOverUI();
+    }
+
     public void StartGameOver()
     {
-        // 중복 실행 방지
+        if (_isGameOverRunning) return;
+
+        _isGameOverRunning = true;
+        ResolveReferences();
+
+        if (_gameOverCanvasGroup == null || _gameOverText == null)
+        {
+            Debug.LogWarning("GameOver UI references were not found. Loading the title scene directly.");
+            GoToTitle();
+            return;
+        }
+
+        if (_returnToTitleCoroutine != null)
+        {
+            StopCoroutine(_returnToTitleCoroutine);
+            _returnToTitleCoroutine = null;
+        }
+
+        _gameOverCanvasGroup.DOKill();
+        _gameOverText.transform.DOKill();
+
+        _gameOverCanvasGroup.gameObject.SetActive(true);
+        _gameOverCanvasGroup.transform.localScale = Vector3.one;
+        _gameOverCanvasGroup.alpha = 0f;
+        _gameOverCanvasGroup.interactable = true;
         _gameOverCanvasGroup.blocksRaycasts = true;
 
-        // 1. 화면 점점 어둡게 (Fade In)
-        _gameOverCanvasGroup.DOFade(1f, _fadeDuration).OnComplete(() =>
-        {
-            // 2. 어두워진 후 게임 오버 텍스트 활성화 및 연출
-            ShowGameOverText();
-        });
+        _gameOverText.gameObject.SetActive(false);
+
+        _gameOverCanvasGroup
+            .DOFade(1f, _fadeDuration)
+            .SetUpdate(true)
+            .OnComplete(ShowGameOverText);
     }
 
     private void ShowGameOverText()
     {
-        _gameOverText.gameObject.SetActive(true);
-        // 텍스트가 살짝 커지면서 나타나는 연출
-        _gameOverText.transform.localScale = Vector3.zero;
-        _gameOverText.transform.DOScale(1.2f, 1f).SetEase(Ease.OutBack).OnComplete(() =>
+        if (_gameOverText == null)
         {
-            // 3. 2초 대기 후 타이틀 화면으로 이동
-            Invoke("GoToTitle", 2f);
-        });
+            GoToTitle();
+            return;
+        }
+
+        _gameOverText.gameObject.SetActive(true);
+        _gameOverText.transform.localScale = Vector3.zero;
+        _gameOverText.transform
+            .DOScale(1.2f, 1f)
+            .SetEase(Ease.OutBack)
+            .SetUpdate(true)
+            .OnComplete(() => _returnToTitleCoroutine = StartCoroutine(ReturnToTitleAfterDelay()));
+    }
+
+    private IEnumerator ReturnToTitleAfterDelay()
+    {
+        yield return new WaitForSecondsRealtime(2f);
+        GoToTitle();
     }
 
     private void GoToTitle()
     {
-        SceneManager.LoadScene(_titleSceneName);
+        Time.timeScale = 1f;
+        string targetScene = string.IsNullOrWhiteSpace(_titleSceneName) ? "TitleScene" : _titleSceneName;
+        SceneManager.LoadScene(targetScene);
+    }
+
+    private void ResolveReferences()
+    {
+        if (_gameOverCanvasGroup == null)
+        {
+            GameObject canvasObject = GameObject.Find("GameOverCanvas");
+            if (canvasObject != null)
+            {
+                _gameOverCanvasGroup = canvasObject.GetComponent<CanvasGroup>();
+            }
+        }
+
+        if (_gameOverText == null)
+        {
+            GameObject textObject = GameObject.Find("GameOverText");
+            if (textObject != null)
+            {
+                _gameOverText = textObject.GetComponent<TMP_Text>();
+            }
+        }
+    }
+
+    private void HideGameOverUI()
+    {
+        if (_gameOverCanvasGroup != null)
+        {
+            _gameOverCanvasGroup.DOKill();
+            _gameOverCanvasGroup.transform.localScale = Vector3.one;
+            _gameOverCanvasGroup.alpha = 0f;
+            _gameOverCanvasGroup.interactable = false;
+            _gameOverCanvasGroup.blocksRaycasts = false;
+        }
+
+        if (_gameOverText != null)
+        {
+            _gameOverText.transform.DOKill();
+            _gameOverText.gameObject.SetActive(false);
+            _gameOverText.transform.localScale = Vector3.one;
+        }
     }
 }

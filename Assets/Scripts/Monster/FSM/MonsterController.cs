@@ -4,26 +4,30 @@ using UnityEngine;
 public class MonsterController : MonoBehaviour, IDamageable
 {
     public MonsterData data;
+
     private StateMachine fsm;
     private Node btRoot;
     private SpriteRenderer spriteRenderer;
     private MonsterAnimation monsterAnim;
     private Rigidbody2D rb;
-
     private float currentHp;
-    private bool isDead = false;
+    private bool isDead;
     private IDetectionCondition detectionCondition;
 
     public bool IsAttacking { get; set; }
     public Transform Target { get; private set; }
     public Vector3 SpawnPoint { get; private set; }
 
-    [Header("장애물 회피 시스템 (자체 우회)")]
-    [SerializeField] private LayerMask obstacleLayer; // 회피할 바위, 나무 등의 레이어
-    [SerializeField] private float avoidDetectDistance = 1.2f; // 장애물을 미리 감지할 전방 거리
-    [SerializeField] private float avoidRadius = 0.35f; // 몬스터의 물리적 두께 반지름
+    [Header("Avoidance")]
+    [SerializeField] private LayerMask obstacleLayer;
+    [SerializeField] private float avoidDetectDistance = 1.2f;
+    [SerializeField] private float avoidRadius = 0.35f;
 
-    [Header("UI 시스템")]
+    [Header("Respawn")]
+    [SerializeField] private bool respawnEnabled = true;
+    [SerializeField] private float respawnDelay = 30f;
+
+    [Header("UI")]
     [SerializeField] private MonsterHPBar hpBar;
 
     private void Awake()
@@ -31,18 +35,25 @@ public class MonsterController : MonoBehaviour, IDamageable
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         monsterAnim = new MonsterAnimation(GetComponent<Animator>(), spriteRenderer);
+        SpawnPoint = transform.position;
+
+        if (data == null)
+        {
+            Debug.LogError($"{nameof(MonsterController)} on {name} has no MonsterData.");
+            enabled = false;
+            return;
+        }
 
         currentHp = data.maxHp;
-        SpawnPoint = transform.position;
+
+        if (hpBar == null)
+        {
+            hpBar = GetComponentInChildren<MonsterHPBar>();
+        }
 
         if (hpBar != null)
         {
             hpBar.Init(data.maxHp, transform);
-        }
-        else
-        {
-            hpBar = GetComponentInChildren<MonsterHPBar>();
-            if (hpBar != null) hpBar.Init(data.maxHp, transform);
         }
 
         SetupDetectionStrategy();
@@ -54,17 +65,26 @@ public class MonsterController : MonoBehaviour, IDamageable
 
     private void SetupDetectionStrategy()
     {
-        if (data.name.Contains("멧돼지") || data.name.Contains("Boar"))
+        if (data.disposition == MonsterDisposition.Passive || data.name.Contains("Boar"))
+        {
             detectionCondition = new FarmingCondition();
+        }
         else
+        {
             detectionCondition = new AggressiveCondition();
+        }
     }
 
     private Node SetupBT()
     {
-        Node attackNode = new ActionBasicAttack(this);
-        if (data.attackStyle == AttackStyle.Dash) attackNode = new ActionDashAttack(this);
-        else if (data.attackStyle == AttackStyle.None) return new ActionChase(this);
+        if (data.attackStyle == AttackStyle.None)
+        {
+            return new ActionChase(this);
+        }
+
+        Node attackNode = data.attackStyle == AttackStyle.Dash
+            ? new ActionDashAttack(this)
+            : new ActionBasicAttack(this);
 
         return new Selector(new List<Node>
         {
@@ -77,12 +97,25 @@ public class MonsterController : MonoBehaviour, IDamageable
         });
     }
 
-    private void Update() => fsm.Update();
-    public void ChangeState(IState newState) => fsm.ChangeState(newState);
-    public void RunBT() => btRoot.Evaluate();
+    private void Update()
+    {
+        fsm?.Update();
+    }
+
+    public void ChangeState(IState newState)
+    {
+        fsm?.ChangeState(newState);
+    }
+
+    public void RunBT()
+    {
+        btRoot?.Evaluate();
+    }
 
     public void MoveTo(Vector3 target, float speed)
     {
+        if (isDead) return;
+
         Vector2 currentPos = transform.position;
         Vector2 targetPos = target;
         Vector2 moveDirection = (targetPos - currentPos).normalized;
@@ -96,12 +129,11 @@ public class MonsterController : MonoBehaviour, IDamageable
             {
                 Vector2 alternativeDir = Vector2.zero;
                 bool foundPath = false;
-
                 float[] avoidAngles = { 30f, -30f, 60f, -60f, 90f, -90f };
 
                 foreach (float angle in avoidAngles)
                 {
-                    Vector2 rotatedDir = Quaternion.Euler(0, 0, angle) * moveDirection;
+                    Vector2 rotatedDir = Quaternion.Euler(0f, 0f, angle) * moveDirection;
                     RaycastHit2D checkHit = Physics2D.CircleCast(currentPos, avoidRadius, rotatedDir, avoidDetectDistance, obstacleLayer);
 
                     if (checkHit.collider == null)
@@ -118,10 +150,8 @@ public class MonsterController : MonoBehaviour, IDamageable
                 }
             }
         }
-
         Vector3 nextPos = (Vector3)currentPos + (Vector3)(moveDirection * speed * Time.deltaTime);
         transform.position = nextPos;
-
         monsterAnim.UpdateMoveAnimation(moveDirection);
     }
 
@@ -135,14 +165,13 @@ public class MonsterController : MonoBehaviour, IDamageable
 
     public bool DetectPlayer()
     {
-        var col = Physics2D.OverlapCircle(transform.position, data.detectRange, LayerMask.GetMask("Player"));
-        if (col != null)
+        if (isDead) return false;
+
+        Collider2D col = Physics2D.OverlapCircle(transform.position, data.detectRange, LayerMask.GetMask("Player"));
+        if (col != null && detectionCondition.IsSatisfied(this, col.transform))
         {
-            if (detectionCondition.IsSatisfied(this, col.transform))
-            {
-                Target = col.transform;
-                return true;
-            }
+            Target = col.transform;
+            return true;
         }
 
         if (fsm != null && fsm.GetCurrentStateName() == "FleeState")
@@ -157,6 +186,7 @@ public class MonsterController : MonoBehaviour, IDamageable
     public void TakeDamage(float damage, Vector2 attackerPos)
     {
         if (isDead) return;
+
         currentHp -= damage;
 
         if (hpBar != null)
@@ -164,20 +194,27 @@ public class MonsterController : MonoBehaviour, IDamageable
             hpBar.UpdateHP(currentHp);
         }
 
-        if (currentHp <= 0)
+        if (currentHp <= 0f)
         {
+            if (respawnEnabled)
+            {
+                RespawnManager.Schedule(gameObject, respawnDelay);
+            }
+
             isDead = true;
             monsterAnim.SetAnimState(MonsterAnimState.Die);
             ChangeState(new DieState(this));
             return;
         }
 
-        var col = Physics2D.OverlapCircle(transform.position, data.detectRange, LayerMask.GetMask("Player"));
+        Collider2D col = Physics2D.OverlapCircle(transform.position, data.detectRange, LayerMask.GetMask("Player"));
         if (col != null) Target = col.transform;
 
         ChangeState(new KnockbackState(this, attackerPos));
 
-        foreach (var step in data.reactionSequence)
+        if (data.reactionSequence == null) return;
+
+        foreach (HurtReactionStep step in data.reactionSequence)
         {
             if (Random.Range(0f, 100f) <= step.chance)
             {
@@ -189,23 +226,31 @@ public class MonsterController : MonoBehaviour, IDamageable
 
     public void OnActionFinished(string key)
     {
-        var transition = data.nextActionMap.Find(x => x.triggerKey == key);
-        if (transition.triggerKey != null)
+        if (data.nextActionMap != null)
         {
-            ExecuteReaction(transition.nextAction);
+            StateTransition transition = data.nextActionMap.Find(x => x.triggerKey == key);
+            if (transition.triggerKey != null)
+            {
+                ExecuteReaction(transition.nextAction);
+                return;
+            }
         }
-        else
-        {
-            ChangeState(new ReturnState(this));
-        }
+
+        ChangeState(new ReturnState(this));
     }
 
     public void ExecuteReaction(HurtReactionType type)
     {
+        if (isDead) return;
+
         switch (type)
         {
-            case HurtReactionType.Flee: ChangeState(new FleeState(this)); break;
-            case HurtReactionType.CallHelp: ChangeState(new CallHelpState(this)); break;
+            case HurtReactionType.Flee:
+                ChangeState(new FleeState(this));
+                break;
+            case HurtReactionType.CallHelp:
+                ChangeState(new CallHelpState(this));
+                break;
             case HurtReactionType.Counter:
                 SetTargetFromDetection();
                 ChangeState(new CombatState(this));
@@ -215,7 +260,7 @@ public class MonsterController : MonoBehaviour, IDamageable
 
     private void SetTargetFromDetection()
     {
-        var col = Physics2D.OverlapCircle(transform.position, data.detectRange, LayerMask.GetMask("Player"));
+        Collider2D col = Physics2D.OverlapCircle(transform.position, data.detectRange, LayerMask.GetMask("Player"));
         if (col != null) Target = col.transform;
     }
 
@@ -230,7 +275,6 @@ public class MonsterController : MonoBehaviour, IDamageable
         if (data.attackStyle == AttackStyle.None || Target == null) return;
 
         Vector3 targetDir = (Target.position - transform.position).normalized;
-
         monsterAnim.PlayAttackAnimation(targetDir);
     }
 
@@ -238,7 +282,7 @@ public class MonsterController : MonoBehaviour, IDamageable
     {
         if (data.defaultItemPrefab == null || data.dropTable == null || data.dropTable.Count == 0) return;
 
-        foreach (var dropData in data.dropTable)
+        foreach (DropItemData dropData in data.dropTable)
         {
             if (dropData.itemData == null) continue;
 
@@ -268,16 +312,13 @@ public class MonsterController : MonoBehaviour, IDamageable
     {
         if (data == null) return;
 
-        // 초록색: 순찰 범위 (Patrol Radius)
         Gizmos.color = Color.green;
         Vector3 center = Application.isPlaying ? SpawnPoint : transform.position;
         Gizmos.DrawWireSphere(center, data.patrolRadius);
-        
-        // 노란색: 플레이어 감지 범위 (Detect Range)
+
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, data.detectRange);
 
-        // 빨간색: 다른 몬스터와의 회피 범위 (Avoid Radius)
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, avoidRadius);
     }

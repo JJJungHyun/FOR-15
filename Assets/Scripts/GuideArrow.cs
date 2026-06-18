@@ -4,7 +4,7 @@ public class GuideArrow : MonoBehaviour, IActivatableDevice
 {
     public string DeviceID => "GuideArrow";
 
-    public Transform player;
+    public Transform Player;
     public Transform target;
     [SerializeField] private string targetTag = "Exit";
 
@@ -27,17 +27,21 @@ public class GuideArrow : MonoBehaviour, IActivatableDevice
 
         if (visualChild != null) visualChild.SetActive(false);
 
-        if (player == null) player = transform.root;
+        if (Player == null)
+        {
+            FindPlayerInScene();
+        }
     }
 
     private void OnEnable()
     {
+        FindPlayerInScene();
         FindTarget();
     }
 
     private void Update()
     {
-        if (!isItemUsed || player == null || target == null || visualChild == null) return;
+        if (!isItemUsed || Player == null || target == null || visualChild == null) return;
 
         bool shouldShow = !isInsideEscapeZone;
 
@@ -49,11 +53,34 @@ public class GuideArrow : MonoBehaviour, IActivatableDevice
             UpdatePositionAndRotation();
         }
     }
+    private void FindPlayerInScene()
+    {
+        if (Player != null) return; // 이미 플레이어가 잘 연결되어 있다면 패스
+
+        // 씬에서 "Player" 태그를 가진 오브젝트를 찾습니다.
+        GameObject playerObj = GameObject.FindWithTag("Player");
+
+        if (playerObj != null)
+        {
+            Player = playerObj.transform;
+            Debug.Log($"[GuideArrow] 다음 씬에서 플레이어('{playerObj.name}')를 다시 찾아 연결했습니다.");
+        }
+        else
+        {
+            // 혹시 플레이어 오브젝트 이름이 그냥 "Player" 일 경우를 대비한 2차 예외 처리
+            playerObj = GameObject.Find("Player");
+            if (playerObj != null)
+            {
+                Player = playerObj.transform;
+            }
+        }
+    }
 
     public void Activate()
     {
         isItemUsed = true;
 
+        if (Player == null) FindPlayerInScene();
         if (target == null) FindTarget();
 
         if (visualChild != null) visualChild.SetActive(true);
@@ -92,7 +119,7 @@ public class GuideArrow : MonoBehaviour, IActivatableDevice
     private void UpdatePositionAndRotation()
     {
         // 2D 탑다운/사이드뷰 기준 축 고정 계산
-        Vector3 playerCenter = player.position + playerOffset;
+        Vector3 playerCenter = Player.position + playerOffset;
         Vector3 dirToTarget = (target.position - playerCenter).normalized;
 
         dirToTarget.z = 0;

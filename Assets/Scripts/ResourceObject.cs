@@ -16,6 +16,10 @@ public class ResourceObject : MonoBehaviour, IResourceHarvestable
     [SerializeField] private float _wrongToolDamage = 0f;
     [SerializeField] private float _bareHandDamage = 0.5f;
 
+    [Header("Respawn")]
+    [SerializeField] private bool _respawnEnabled = true;
+    [SerializeField] private float _respawnDelay = 30f;
+
     private ObjectFaller _faller;
     private ObjectFader _fader;
     private bool _isDestroyed = false;
@@ -72,12 +76,20 @@ public class ResourceObject : MonoBehaviour, IResourceHarvestable
 
     private void BreakObject()
     {
+        if (_respawnEnabled)
+        {
+            RespawnManager.Schedule(gameObject, _respawnDelay);
+        }
+
         _isDestroyed = true;
 
         if (TryGetComponent<Collider2D>(out var col)) col.enabled = false;
 
         if (_faller != null) _faller.Fall();
-        if (_fader != null) _fader.FadeOut(_faller != null ? _faller.FallTime : 0f);
+
+        float destroyDelay = _faller != null ? _faller.FallTime : 0f;
+        if (_fader != null) _fader.FadeOut(destroyDelay);
+        else Destroy(gameObject, destroyDelay);
 
         DropItems();
     }

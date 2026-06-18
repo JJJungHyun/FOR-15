@@ -20,7 +20,7 @@ MonoBehaviour:
   ToolType: 2
   hasDurability: 1
   maxDurability: 30
-  StrengthBonus: 15
+  StrengthBonus: 7
   DefenseBonus: 0
   StrengthPercentBonus: 0
   DefensePercentBonus: 0

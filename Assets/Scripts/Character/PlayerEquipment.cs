@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 public class PlayerEquipment : MonoBehaviour
 {
@@ -8,6 +8,7 @@ public class PlayerEquipment : MonoBehaviour
     private InventoryController inventoryController;
 
     private EquippableItem currentSelectedWeapon;
+    private ItemSlot currentSelectedSlot;
     private int currentSlotIndex = -1;
 
     public EquippableItem CurrentSelectedWeapon => currentSelectedWeapon;
@@ -20,14 +21,13 @@ public class PlayerEquipment : MonoBehaviour
 
     private void Start()
     {
-        if (inventoryController != null)
+        if (inventoryController == null) return;
+
+        inventory = inventoryController.GetInventory();
+        if (inventory != null)
         {
-            inventory = inventoryController.GetInventory();
-            if (inventory != null)
-            {
-                inventory.EnsureInitialized();
-                StartCoroutine(InitializeDefaultSlot());
-            }
+            inventory.EnsureInitialized();
+            StartCoroutine(InitializeDefaultSlot());
         }
     }
 
@@ -37,8 +37,16 @@ public class PlayerEquipment : MonoBehaviour
         HandleQuickSlot(0);
     }
 
-    private void OnEnable() => PlayerInputHandler.OnQuickSlotPressed += HandleQuickSlot;
-    private void OnDisable() => PlayerInputHandler.OnQuickSlotPressed -= HandleQuickSlot;
+    private void OnEnable()
+    {
+        PlayerInputHandler.OnQuickSlotPressed += HandleQuickSlot;
+    }
+
+    private void OnDisable()
+    {
+        PlayerInputHandler.OnQuickSlotPressed -= HandleQuickSlot;
+        UnbindSelectedSlot();
+    }
 
     public void HandleQuickSlot(int index)
     {
@@ -47,29 +55,56 @@ public class PlayerEquipment : MonoBehaviour
 
         if (currentSlotIndex == index)
         {
-            RemoveCurrentWeaponStats();
-            currentSlotIndex = -1;
-            currentSelectedWeapon = null;
-            UpdatePlayerAnimationState(null);
+            ClearCurrentWeaponSelection();
             return;
         }
 
-        RemoveCurrentWeaponStats();
+        ClearCurrentWeaponSelection(false);
 
         currentSlotIndex = index;
         ItemSlot selectedSlot = inventory.quickSlots[index];
 
         if (selectedSlot != null && selectedSlot.Item is EquippableItem equippable && equippable.EquipmentType == EquipmentType.Weapon)
         {
+            currentSelectedSlot = selectedSlot;
+            currentSelectedSlot.OnSlotChanged += HandleSelectedSlotChanged;
+
             currentSelectedWeapon = equippable;
             currentSelectedWeapon.Equip(player);
         }
-        else
-        {
-            currentSelectedWeapon = null;
-        }
 
         UpdatePlayerAnimationState(currentSelectedWeapon);
+    }
+
+    private void HandleSelectedSlotChanged(ItemSlot changedSlot)
+    {
+        if (changedSlot != currentSelectedSlot) return;
+        if (ReferenceEquals(changedSlot.Item, currentSelectedWeapon)) return;
+
+        ClearCurrentWeaponSelection();
+    }
+
+    private void ClearCurrentWeaponSelection(bool updateAnimation = true)
+    {
+        RemoveCurrentWeaponStats();
+        UnbindSelectedSlot();
+
+        currentSlotIndex = -1;
+        currentSelectedWeapon = null;
+
+        if (updateAnimation)
+        {
+            UpdatePlayerAnimationState(null);
+        }
+    }
+
+    private void UnbindSelectedSlot()
+    {
+        if (currentSelectedSlot != null)
+        {
+            currentSelectedSlot.OnSlotChanged -= HandleSelectedSlotChanged;
+            currentSelectedSlot = null;
+        }
     }
 
     private void RemoveCurrentWeaponStats()
@@ -85,7 +120,7 @@ public class PlayerEquipment : MonoBehaviour
         Animator anim = GetComponent<Animator>();
         if (anim != null)
         {
-            int toolType = (weapon != null) ? (int)weapon.ToolType : 0;
+            int toolType = weapon != null ? (int)weapon.ToolType : 0;
             anim.SetInteger("EquippedToolType", toolType);
         }
     }

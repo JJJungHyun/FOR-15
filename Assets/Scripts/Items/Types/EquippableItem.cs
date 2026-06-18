@@ -1,6 +1,7 @@
-using UnityEngine;
-using CharacterStats;
 using System;
+using CharacterStats;
+using UnityEngine;
+
 public enum EquipmentType
 {
     Helmet, Chestplate, Gloves, Boots, Weapon, Accessory,
@@ -14,8 +15,6 @@ public class EquippableItem : Item
     [Header("Weapon Ability Configuration")]
     [SerializeField] private ScriptableObject weaponAbilityAsset;
 
-    public IWeaponAbility WeaponAbility => weaponAbilityAsset as IWeaponAbility;
-
     [Header("Animation Settings")]
     public ToolType ToolType;
 
@@ -24,10 +23,13 @@ public class EquippableItem : Item
     [SerializeField] private int maxDurability = 100;
 
     public event Action OnDurabilityChanged;
+    public event Action<EquippableItem> OnBroken;
 
-    public int MaxDurability => maxDurability;
+    public IWeaponAbility WeaponAbility => weaponAbilityAsset as IWeaponAbility;
+    public int MaxDurability => Mathf.Max(1, maxDurability);
     public int CurrentDurability { get; set; }
     public bool HasDurability => hasDurability;
+    public bool IsBroken => hasDurability && CurrentDurability <= 0;
 
     public int StrengthBonus;
     public int DefenseBonus;
@@ -37,36 +39,42 @@ public class EquippableItem : Item
     [Space]
     public EquipmentType EquipmentType;
 
+    private bool brokenNotified;
+
     public override Item GetCopy()
     {
         EquippableItem clone = Instantiate(this);
-        clone.CurrentDurability = this.maxDurability;
+        clone.CurrentDurability = clone.MaxDurability;
+        clone.brokenNotified = false;
         return clone;
     }
 
     public void Equip(Character c)
     {
+        if (c == null) return;
+
         if (StrengthBonus != 0) c.Strength.AddModifier(new StatModifier(StrengthBonus, StatModType.Flat, this));
         if (DefenseBonus != 0) c.Defense.AddModifier(new StatModifier(DefenseBonus, StatModType.Flat, this));
         if (StrengthPercentBonus != 0) c.Strength.AddModifier(new StatModifier(StrengthPercentBonus, StatModType.PercentMult, this));
-        if (DefenseBonus != 0) c.Defense.AddModifier(new StatModifier(DefensePercentBonus, StatModType.PercentMult, this));
+        if (DefensePercentBonus != 0) c.Defense.AddModifier(new StatModifier(DefensePercentBonus, StatModType.PercentMult, this));
     }
 
     public void Unequip(Character c)
     {
+        if (c == null) return;
+
         c.Strength.RemoveAllModifiersFromSource(this);
         c.Defense.RemoveAllModifiersFromSource(this);
     }
 
-    // 내구도 감소
     public void ConsumeDurability(int amount, Character owner)
     {
-        if (!hasDurability) return;
+        if (!hasDurability || amount <= 0 || brokenNotified) return;
 
         CurrentDurability = Mathf.Max(0, CurrentDurability - amount);
         OnDurabilityChanged?.Invoke();
 
-        Debug.Log($"{ItemName} 내구도 감소 (-{amount}). 현재: {CurrentDurability}/{MaxDurability}");
+        Debug.Log($"{ItemName} durability -{amount}. Current: {CurrentDurability}/{MaxDurability}");
 
         if (CurrentDurability <= 0)
         {
@@ -76,29 +84,46 @@ public class EquippableItem : Item
 
     private void HandleBroken(Character owner)
     {
-        Debug.LogWarning($"{ItemName}의 내구도가 다해 파괴되었습니다!");
+        if (brokenNotified) return;
+
+        brokenNotified = true;
+        CurrentDurability = 0;
+
+        Unequip(owner);
+        Debug.LogWarning($"{ItemName} broke and was removed.");
+        OnBroken?.Invoke(this);
     }
 
     public override string GetItemType() => EquipmentType.ToString();
+
     public override string GetDescription()
     {
         sb.Length = 0;
-        AddStatText(StrengthBonus, "힘");
-        AddStatText(DefenseBonus, "방어");
-        AddStatText(StrengthPercentBonus, "힘", isPercent: true);
-        AddStatText(DefensePercentBonus, "방어", isPercent: true);
+        AddStatText(StrengthBonus, "Strength");
+        AddStatText(DefenseBonus, "Defense");
+        AddStatText(StrengthPercentBonus, "Strength", true);
+        AddStatText(DefensePercentBonus, "Defense", true);
         return sb.ToString();
     }
 
     private void AddStatText(float value, string statName, bool isPercent = false)
     {
-        if (value != 0)
+        if (value == 0) return;
+
+        if (sb.Length > 0) sb.AppendLine();
+        if (value > 0) sb.Append("+");
+
+        if (isPercent)
         {
-            if (sb.Length > 0) sb.AppendLine();
-            if (value > 0) sb.Append("+");
-            if (isPercent) { sb.Append(value * 100); sb.Append("% "); }
-            else { sb.Append(value); sb.Append(" "); }
-            sb.Append(statName);
+            sb.Append(value * 100);
+            sb.Append("% ");
         }
+        else
+        {
+            sb.Append(value);
+            sb.Append(" ");
+        }
+
+        sb.Append(statName);
     }
 }

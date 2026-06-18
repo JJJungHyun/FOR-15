@@ -19,12 +19,20 @@ public class UIOptionPanel : MonoBehaviour
 
     private void Awake()
     {
+        if (panelRect == null)
+        {
+            panelRect = transform as RectTransform;
+        }
+
         // --- [싱글톤 & 씬 전환 시 유지 코드] ---
         if (Instance == null)
         {
             Instance = this;
             // 이 오브젝트는 씬이 바뀌어도 파괴되지 않습니다.
-            DontDestroyOnLoad(gameObject);
+            if (transform.parent == null)
+            {
+                DontDestroyOnLoad(gameObject);
+            }
         }
         else
         {
@@ -38,19 +46,25 @@ public class UIOptionPanel : MonoBehaviour
 
         if (panelRect != null)
         {
-            panelRect.anchoredPosition = new Vector2(0, hiddenYPosition);
-            panelRect.gameObject.SetActive(false);
-            isOpen = false;
+            isOpen = panelRect.gameObject.activeSelf;
+            if (!isOpen)
+            {
+                panelRect.anchoredPosition = new Vector2(0, hiddenYPosition);
+            }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
         }
     }
 
     private void Update()
     {
         // ESC 키 입력 체크
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            TogglePanel();
-        }
     }
 
     public void TogglePanel()

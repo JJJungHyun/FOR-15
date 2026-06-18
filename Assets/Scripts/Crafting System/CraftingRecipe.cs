@@ -52,12 +52,25 @@ public class CraftingRecipe : ScriptableObject
             container.AddItem(Result.Item.GetCopy());
         }
 
-        if (CutSceneManager.Instance != null && Result.Item != null)
+        if (Result.Item != null)
         {
-            if (Result.Item.name == "EscapeCore" || Result.Item.ID == "EscapeCore")
+            // 1. 제작 신호 로그
+            Debug.Log($"[제작 완료] 아이템: {Result.Item.name}");
+
+            // 2. 맵에 있는 모든 Spawner에게 제작 소식을 알립니다.
+            // 각 Spawner는 자기가 기다리던 아이템인지 스스로 판단하게 됩니다.
+            EscapeRouteSpawner[] spawners = FindObjectsOfType<EscapeRouteSpawner>();
+            foreach (var spawner in spawners)
             {
-                Debug.Log($"[제작 완료 확인] 찍힌 이름: '{Result.Item.name}'");
-                CutSceneManager.Instance.StartCutscene("GuideArrowCrafted");
+                spawner.CheckAndActivate(Result.Item);
+            }
+
+            if (CutSceneManager.Instance != null)
+            {
+                if (Result.Item.name == "EscapeCore")
+                {
+                    CutSceneManager.Instance.StartCutscene("GuideArrowCrafted", "Escape");
+                }
             }
         }
     }

@@ -108,7 +108,6 @@ public class InventoryController : MonoBehaviour
             draggedSlot = null;
         }
     }
-
     private void HandleDrop(BaseItemSlotUI dropSlotUI)
     {
         if (draggedSlot == null || dropSlotUI == null) return;
@@ -140,20 +139,9 @@ public class InventoryController : MonoBehaviour
     private void HandleRightClick(BaseItemSlotUI slotUI)
     {
         if (slotUI.Slot == null) return;
-        Item item = slotUI.Slot.Item;
-        if (item == null) return;
 
-        if (item is UsableItem usable)
-        {
-            usable.Use(character);
-            if (usable.IsConsumable)
-            {
-                slotUI.Slot.Amount--;
-                if (slotUI.Slot.Amount <= 0) slotUI.Slot.Item = null;
-                slotUI.Slot.UpdateSlot();
-                RefreshTooltip(slotUI);
-            }
-        }
+        UseSlotItem(slotUI.Slot);
+        RefreshTooltip(slotUI);
     }
 
     private void RefreshTooltip(BaseItemSlotUI slotUI)
@@ -176,9 +164,38 @@ public class InventoryController : MonoBehaviour
             if (targetSlot != null && targetSlot.Item != null)
             {
                 Debug.Log($"퀵슬롯 {slotIndex + 1}번 아이템 사용: {targetSlot.Item.ItemName}");
-                targetSlot.Item.Use(character);
+                UseSlotItem(targetSlot);
             }
         }
+    }
+
+    private void UseSlotItem(ItemSlot slot)
+    {
+        if (slot == null || slot.Item == null) return;
+
+        Item usedItem = slot.Item;
+        usedItem.Use(character);
+
+        if (usedItem is UsableItem usable && usable.IsConsumable && ReferenceEquals(slot.Item, usedItem))
+        {
+            ConsumeOneFromSlot(slot);
+        }
+    }
+
+    private void ConsumeOneFromSlot(ItemSlot slot)
+    {
+        if (slot == null || slot.Item == null) return;
+
+        slot.Amount--;
+        if (slot.Amount <= 0)
+        {
+            Item removedItem = slot.Item;
+            slot.Item = null;
+            slot.Amount = 0;
+            removedItem.Destroy();
+        }
+
+        slot.UpdateSlot();
     }
     #endregion
 }

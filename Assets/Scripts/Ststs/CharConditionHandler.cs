@@ -8,18 +8,17 @@ public class CharConditionHandler : MonoBehaviour, IDamageable
     private Rigidbody2D rb;
 
     [Header("Hunger Settings")]
-    [SerializeField] private float hungerDecayRate = 0.5f;       // 초당 허기 감소량
-    [SerializeField] private float healthRegenRate = 0.2f;      // 배부를 때 초당 회복량
-    [SerializeField] private float starvationDamageRate = 1.0f;  // 배고플 때 초당 피해량
-    [SerializeField, Range(0, 1f)] private float regenThreshold = 0.9f; // 회복 시작 허기 비율
+    [SerializeField] private float hungerDecayRate = 0.5f;
+    [SerializeField] private float healthRegenRate = 0.2f;
+    [SerializeField] private float starvationDamageRate = 1.0f;
+    [SerializeField, Range(0, 1f)] private float regenThreshold = 0.9f;
 
     [Header("Knockback Settings")]
-    [SerializeField] private float knockbackForce = 3f;      // 넉백 강도
-    [SerializeField] private float knockbackDuration = 0.1f; // 넉백 지속 시간
+    [SerializeField] private float knockbackForce = 3f;
+    [SerializeField] private float knockbackDuration = 0.1f;
 
-
-    private List<ConditionEffect> activeEffects = new List<ConditionEffect>();
-    private List<ConditionEffect> effectsToRemove = new List<ConditionEffect>();
+    private readonly List<ConditionEffect> activeEffects = new List<ConditionEffect>();
+    private readonly List<ConditionEffect> effectsToRemove = new List<ConditionEffect>();
 
     public void Init(Character _owner)
     {
@@ -29,28 +28,25 @@ public class CharConditionHandler : MonoBehaviour, IDamageable
 
     private void Update()
     {
-        if (owner == null) return;
+        if (owner == null || owner.IsDead) return;
 
         HandleBasicConditions();
         HandleStatusEffects();
+        owner.CheckDeath();
     }
 
     private void HandleBasicConditions()
     {
-        // 허기 감소
         owner.Hunger.CurrentValue -= hungerDecayRate * Time.deltaTime;
 
-        // 체력 자동 회복
         if (owner.Hunger.CurrentValue >= owner.Hunger.Value * regenThreshold)
         {
-            owner.Health.CurrentValue += healthRegenRate * Time.deltaTime;
+            owner.Heal(healthRegenRate * Time.deltaTime);
         }
 
-        // 아사 
-        if (owner.Hunger.CurrentValue <= 0)
+        if (owner.Hunger.CurrentValue <= 0f)
         {
-            owner.Health.CurrentValue -= starvationDamageRate * Time.deltaTime;
-            if (owner.Health.CurrentValue <= 0) Die();
+            owner.TakeDirectDamage(starvationDamageRate * Time.deltaTime);
         }
     }
 
@@ -69,6 +65,8 @@ public class CharConditionHandler : MonoBehaviour, IDamageable
             {
                 effectsToRemove.Add(activeEffects[i]);
             }
+
+            if (owner.IsDead) break;
         }
 
         foreach (var effect in effectsToRemove)
@@ -80,15 +78,16 @@ public class CharConditionHandler : MonoBehaviour, IDamageable
 
     public void ApplyEffect(ConditionEffect newEffect)
     {
+        if (owner == null || owner.IsDead) return;
+
         ConditionEffect existing = activeEffects.Find(e => e.Name == newEffect.Name);
 
         if (existing != null)
         {
             if (newEffect.Power >= existing.Power)
             {
-                existing.ResetDuration(newEffect.Duration); 
-                existing.SetPower(newEffect.Power);   
-
+                existing.ResetDuration(newEffect.Duration);
+                existing.SetPower(newEffect.Power);
             }
             return;
         }
@@ -99,25 +98,17 @@ public class CharConditionHandler : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage, Vector2 attackerPosition)
     {
-        if (owner == null) return;
-
-        float finalDamage = Mathf.Max(0, damage - owner.Defense.Value);
-        owner.Health.CurrentValue -= finalDamage;
-
-        ApplyKnockback(attackerPosition);
-
-        Debug.Log($"[Player] 피격됨. 남은체력: {owner.Health.CurrentValue}");
-        if (owner.Health.CurrentValue <= 0) Die();
+        if (owner == null || owner.IsDead) return;
+        owner.TakeDamage(damage, attackerPosition);
     }
 
-    private void ApplyKnockback(Vector2 attackerPos)
+    public void ApplyKnockback(Vector2 attackerPos)
     {
-        if (rb == null) return;
+        if (rb == null || owner == null || owner.IsDead) return;
 
         Vector2 knockbackDir = ((Vector2)transform.position - attackerPos).normalized;
         StartCoroutine(KnockbackRoutine(knockbackDir));
     }
-
     private IEnumerator KnockbackRoutine(Vector2 dir)
     {
         rb.linearVelocity = Vector2.zero;
@@ -131,11 +122,16 @@ public class CharConditionHandler : MonoBehaviour, IDamageable
         return activeEffects;
     }
 
-    private void Die()
+    public void ConsumeHunger(float amount)
     {
-        Debug.Log("플레이어 사망");
+        if (owner == null || owner.IsDead) return;
+        owner.Hunger.CurrentValue -= amount;
+        owner.CheckDeath();
     }
 
-    public void ConsumeHunger(float amount) => owner.Hunger.CurrentValue -= amount;
-    public void Heal(float amount) => owner.Health.CurrentValue += amount;
+    public void Heal(float amount)
+    {
+        if (owner == null) return;
+        owner.Heal(amount);
+    }
 }

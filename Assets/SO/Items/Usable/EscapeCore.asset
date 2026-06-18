@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UsableItem
   id: 4e39fc722a1c2e442bd097f6f328d09b
   ItemName: GuideArrow
-  Icon: {fileID: -7688356529983298438, guid: 05f3150a94a7fc849b00c12133d11802, type: 3}
+  Icon: {fileID: -8259959802385216476, guid: eea961fd45680b24d9b28908e32babe5, type: 3}
   MaximumStacks: 1
   IsConsumable: 1
   Effects:
-  - {fileID: 11400000, guid: 8353522bb71cd4c43939b27b34c38515, type: 2}
+  - {fileID: 0}
