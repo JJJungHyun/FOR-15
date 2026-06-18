@@ -6,7 +6,7 @@ public class GuideArrow : MonoBehaviour, IActivatableDevice
 
     public Transform player;
     public Transform target;
-    [SerializeField] private string targetTag = "Exit"; 
+    [SerializeField] private string targetTag = "Exit";
 
     public float radiusX = 1.2f;
     public float radiusY = 2.0f;
@@ -66,10 +66,16 @@ public class GuideArrow : MonoBehaviour, IActivatableDevice
         if (visualChild != null) visualChild.SetActive(false);
     }
 
-   
+    // 💡 동적 생성을 위해 새로 추가된 메서드: 런타임에 타겟을 직접 주입받음
+    public void SetTarget(Transform newTarget)
+    {
+        target = newTarget;
+        Debug.Log($"[GuideArrow] 새 타겟 주입 완료: {newTarget.name}");
+    }
+
     private void FindTarget()
     {
-        if (target != null) return; 
+        if (target != null) return;
 
         GameObject exitObj = GameObject.FindWithTag(targetTag);
         if (exitObj != null)
@@ -79,12 +85,13 @@ public class GuideArrow : MonoBehaviour, IActivatableDevice
         }
         else
         {
-            Debug.LogWarning($"[GuideArrow] '{targetTag}' 태그를 가진 오브젝트를 씬에서 찾을 수 없습니다.");
+            Debug.LogWarning($"[GuideArrow] '{targetTag}' 태그를 가진 오브젝트를 씬에서 찾을 수 없습니다. (실시간 스폰 아이템일 경우 스포너가 주입해 줄 것입니다)");
         }
     }
 
     private void UpdatePositionAndRotation()
     {
+        // 2D 탑다운/사이드뷰 기준 축 고정 계산
         Vector3 playerCenter = player.position + playerOffset;
         Vector3 dirToTarget = (target.position - playerCenter).normalized;
 

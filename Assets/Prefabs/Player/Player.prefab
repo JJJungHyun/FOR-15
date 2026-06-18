@@ -350,6 +350,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44af5c375805a7c4eade085220efa437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Character
+  playerInventory: {fileID: 0}
+  escapeMappings:
+  - TargetItemID: 
+    TargetDeviceID: 
+  - TargetItemID: 
+    TargetDeviceID: 
   baseStr: 10
   baseDef: 5
   baseHp: 100
@@ -423,12 +429,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharPanelMgr
   mainGroup: {fileID: 0}
-  inventoryPanel: {fileID: 0}
   craftingPanel: {fileID: 0}
-  inventoryTabImage: {fileID: 0}
-  craftingTabImage: {fileID: 0}
-  activeColor: {r: 1, g: 1, b: 1, a: 1}
-  inactiveColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+  inventoryController: {fileID: 0}
 --- !u!114 &865588815224599431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,6 +444,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
   bareHandAbility: {fileID: 11400000, guid: 91d847ccf76818249921d9ce41cfb1ea, type: 2}
+  handEffectPrefab: {fileID: 0}
+  slashEffectPrefab: {fileID: 0}
+  slashEffectPoint: {fileID: 0}
+  slashEffectLifeTime: 0.25
 --- !u!114 &276159943710175170
 MonoBehaviour:
   m_ObjectHideFlags: 0

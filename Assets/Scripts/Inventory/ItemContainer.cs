@@ -6,10 +6,15 @@ public abstract class ItemContainer : MonoBehaviour, IItemContainer
 {
     public List<ItemSlot> itemSlots = new List<ItemSlot>();
     public event Action OnItemsChanged;
-
+    public event Action<Item> OnItemAdded;
     public virtual bool AddItem(Item item)
     {
-        // ±‚¡∏ Ω∫≈√ø° √ﬂ∞°
+        if (item == null)
+        {
+            return false;
+        }
+
+        // Í∏∞Ï°¥ Ïä§ÌÉùÏóê Ï∂îÍ∞Ä
         foreach (var slot in itemSlots)
         {
             if (slot.Item != null && slot.Item.ID == item.ID && slot.Amount < item.MaximumStacks)
@@ -17,10 +22,11 @@ public abstract class ItemContainer : MonoBehaviour, IItemContainer
                 slot.Amount++;
                 slot.UpdateSlot();
                 OnItemsChanged?.Invoke();
+                OnItemAdded?.Invoke(slot.Item);
                 return true;
             }
         }
-        // ∫Û ΩΩ∑‘ø° √ﬂ∞°
+        // Îπà Ïä¨Î°ØÏóê Ï∂îÍ∞Ä
         foreach (var slot in itemSlots)
         {
             if (slot.Item == null)
@@ -29,6 +35,7 @@ public abstract class ItemContainer : MonoBehaviour, IItemContainer
                 slot.Amount = 1;
                 slot.UpdateSlot();
                 OnItemsChanged?.Invoke();
+                OnItemAdded?.Invoke(slot.Item);
                 return true;
             }
         }
@@ -39,7 +46,7 @@ public abstract class ItemContainer : MonoBehaviour, IItemContainer
     {
         foreach (var slot in itemSlots)
         {
-            // ID∞° ¿œƒ°«œ¥¬¡ˆ »Æ¿Œ
+            // IDÍ∞Ä ÏùºÏπòÌïòÎäîÏßÄ ÌôïÏù∏
             if (slot.Item != null && slot.Item.ID == itemID)
             {
                 slot.Amount--;

@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 
 [CreateAssetMenu(menuName = "Items/Effects/Activate Device")]
 public class ToggleObjectEffect : UsableItemEffect
@@ -28,3 +28,4 @@ public class ToggleObjectEffect : UsableItemEffect
 
     public override string GetDescription() => $"{targetDeviceID} 장치 활성화";
 }
+*/
